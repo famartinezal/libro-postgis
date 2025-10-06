@@ -8,3 +8,4 @@ _book/.deno/
 .DS_Store
 
 /.quarto/
+GUIA.md
