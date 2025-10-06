@@ -1,0 +1,90 @@
+---
+title: "Fundamentos de SQL"
+---
+
+## Sintaxis básica
+
+Comprender el patrón `SELECT ... FROM ... WHERE ...` es clave antes de trabajar con geometrías.
+
+```sql
+-- Contar veredas registradas por departamento
+SELECT departamento,
+       COUNT(*) AS total_veredas
+FROM stg.veredas_norm
+GROUP BY departamento
+ORDER BY total_veredas DESC;
+```
+
+### Filtros y ordenamiento
+
+- `WHERE` restringe filas.
+- `ORDER BY` ordena resultados; combine con `LIMIT` para obtener los primeros registros.
+- `DISTINCT` evita duplicados en columnas específicas.
+
+```sql
+-- Veredas con superficie mayor a 500 hectáreas
+SELECT vereda_nombre,
+       municipio,
+       area_ha
+FROM stg.veredas_norm
+WHERE area_ha > 500
+ORDER BY area_ha DESC
+LIMIT 20;
+```
+
+## Funciones de agregación
+
+Utilice `SUM`, `AVG`, `MIN`, `MAX` y `COUNT` junto con `GROUP BY` para consolidar información.
+
+```sql
+-- Área total por municipio
+SELECT municipio,
+       SUM(area_ha) AS area_total_ha,
+       AVG(area_ha) AS area_promedio_ha
+FROM stg.veredas_norm
+GROUP BY municipio
+ORDER BY area_total_ha DESC;
+```
+
+## Expresiones condicionales
+
+`CASE` permite codificar reglas de negocio dentro de la consulta, manteniendo trazabilidad.
+
+```sql
+SELECT vereda_nombre,
+       CASE
+         WHEN area_ha < 50 THEN 'Micro'
+         WHEN area_ha BETWEEN 50 AND 200 THEN 'Pequeña'
+         WHEN area_ha BETWEEN 200 AND 500 THEN 'Media'
+         ELSE 'Grande'
+       END AS categoria_area
+FROM stg.veredas_norm;
+```
+
+## CTE (Common Table Expressions)
+
+Las CTE facilitan pipelines claros y reusables.
+
+```sql
+WITH limites AS (
+  SELECT municipio,
+         SUM(area_ha) AS area_total_ha
+  FROM stg.veredas_norm
+  GROUP BY municipio
+),
+por_encima AS (
+  SELECT municipio
+  FROM limites
+  WHERE area_total_ha > 15000
+)
+SELECT v.vereda_nombre, v.municipio, v.area_ha
+FROM stg.veredas_norm v
+JOIN por_encima p USING (municipio)
+ORDER BY p.municipio, v.area_ha DESC;
+```
+
+## Buenas prácticas
+
+- Encapsule consultas frecuentes en vistas.
+- Ejecute scripts largos dentro de `BEGIN; ... ROLLBACK;` para validar sin afectar datos.
+- Versione su SQL con comentarios de contexto `-- Fuente: Servicio 690, corte 2024`.

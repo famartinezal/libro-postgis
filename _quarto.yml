@@ -1,0 +1,82 @@
+project:
+  type: book
+  output-dir: _book
+
+lang: es
+
+book:
+  title: "Bases de datos espaciales con Postgres, PostGIS y QGIS"
+  subtitle: "Guía práctica para análisis geoespacial"
+  author:
+    - Fredy Martínez
+    - Sandra Rodríguez
+  date: 2025-10-06
+  repo-url: https://github.com/famartinezal
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - fundamentos_sql.qmd
+    - postgis_basico.qmd
+    - modelado_espacial.qmd
+    - etl_geoespacial.qmd
+    - qgis_integracion.qmd
+    - casos_practicos.qmd
+    - ejercicios.qmd
+    - recursos.qmd
+  search: true
+  sidebar:
+    style: floating
+    background: light
+    logo: assets/logo_fedearroz.png
+  page-footer:
+    left: "© 2025 Fredy Martínez y Sandra Rodríguez"
+    right:
+      - icon: github
+        text: "GitHub"
+        href: https://github.com/famartinezal
+      - icon: globe
+        text: "Fedearroz"
+        href: https://www.fedearroz.com.co
+
+bibliography: references.bib
+
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+    toc: true
+    toc-depth: 3
+    toc-title: "Contenido"
+    number-sections: false
+    code-fold: false
+    code-summary: "Mostrar código"
+    code-tools: false
+    code-line-numbers: true
+    smooth-scroll: true
+    link-external-newwindow: true
+    page-layout: full
+    grid:
+      body-width: 1200px
+      sidebar-width: 250px
+      margin-width: 250px
+    mainfont: "Geist"
+    monofont: "FiraCode Nerd Font"
+    fontsize: 1.05em
+    linestretch: 1.7
+    backgroundcolor: "#ffffff"
+    linkcolor: "#2C5F9E"
+    urlcolor: "#2C5F9E"
+    highlight-style: github
+    css: styles.css
+    include-in-header: assets/search-offline.html
+  pdf:
+    documentclass: scrreprt
+    lang: es
+    toc: true
+    toc-title: "Contenido"
+    number-sections: false
+    colorlinks: true
+    linkcolor: blue
+    urlcolor: blue
+    citecolor: blue

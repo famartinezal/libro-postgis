@@ -1,0 +1,60 @@
+---
+title: "Integración con QGIS"
+---
+
+## Conexión a PostgreSQL
+
+1. Abra QGIS y use *Administrador de fuentes de datos*.
+2. Seleccione **PostgreSQL** y cree una conexión nueva.
+3. Complete parámetros de host, puerto, base `sig_fedearroz_fna` y active SSL si aplica.
+4. Guarde credenciales en `pg_service.conf` o `.pgpass` para evitar contraseñas en texto plano.
+
+## Cargar capas
+
+- Añada `stg.veredas_norm` y defina simbología graduada por `area_ha`.
+- Cree mapas temáticos combinando veredas con capas raster (NDVI, precipitación).
+
+## Consultas desde QGIS
+
+Utilice el panel **DB Manager** para ejecutar SQL y crear vistas materiales.
+
+```sql
+CREATE MATERIALIZED VIEW carto.v_veredas_fuente_hidrica AS
+WITH fuentes AS (
+  SELECT geom
+  FROM ref.hidrografia_principal
+),
+simplificado AS (
+  SELECT vereda_codigo,
+         vereda_nombre,
+         municipio,
+         ST_SimplifyPreserveTopology(geom, 5) AS geom
+  FROM stg.veredas_norm
+)
+SELECT s.*, ST_Distance(s.geom, f.geom) AS distancia_m
+FROM simplificado s
+CROSS JOIN LATERAL (
+  SELECT geom
+  FROM fuentes
+  ORDER BY s.geom <-> geom
+  LIMIT 1
+) AS f;
+```
+
+Recargue la vista en QGIS y configure actualizaciones automáticas tras `REFRESH MATERIALIZED VIEW`.
+
+## Salidas cartográficas
+
+- Diseñe plantillas de impresión con logotipo Fedearroz en la esquina inferior.
+- Exporte mapas en PDF y PNG, guardándolos en `reportes_cartografia/` con nomenclatura `YYYYMMDD_tema.pdf`.
+- Documente estilos QGIS (`.qml`) en la carpeta `consultas/estilos_qgis/`.
+
+## Integración con Quarto
+
+Inserte mapas renderizados como imágenes o `iframe` cuando se publique el libro.
+
+```markdown
+![](reportes_cartografia/20250315_mapa_veredas_tolima.png){fig-align="center"}
+```
+
+Mantenga activos los enlaces relativos para que GitHub Pages genere el sitio correctamente.

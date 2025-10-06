@@ -1,0 +1,42 @@
+---
+title: "Introducción"
+---
+
+## Por qué un libro sobre PostGIS
+
+PostGIS extiende PostgreSQL con funciones espaciales que permiten representar parcelas, canales de riego y coberturas agrícolas. Este libro se centra en prácticas de Fedearroz: mantener datos de veredas, producir reportes cartográficos y conectar analítica con QGIS.
+
+::: {.callout-tip}
+#### Objetivos de aprendizaje
+- Comprender cómo se estructura una base de datos espacial en PostgreSQL.
+- Preparar datos de referencia utilizando `stg.veredas_raw` como ejemplo.
+- Publicar análisis reproducibles mediante Quarto y QGIS.
+:::
+
+## Requisitos previos
+
+- PostgreSQL 15 o superior con la extensión PostGIS 3.
+- Cliente `psql` y permisos para conectarse a `sig_fedearroz_fna`.
+- QGIS 3.34 con soporte para conexiones PostGIS y plantillas de impresión.
+- Python 3.10 con librerías `geopandas`, `shapely` y `psycopg` opcionales para ETL.
+
+```sql
+-- Verificar que PostGIS esté disponible
+SELECT version();
+SELECT PostGIS_Version();
+```
+
+## Flujo de trabajo recomendado
+
+1. **Diseño**: modelar tablas y vistas en el esquema `stg` y documentarlas en `ESTRUCTURA_FINAL_BD.md`.
+2. **Carga**: importar shapefiles con `shp2pgsql` o pipelines ETL en SQL.
+3. **Normalización**: reconstruir staging con `stg_veredas_norm_build.sql` dentro de una transacción.
+4. **Publicación**: generar reportes en `consultas/` y mapas en QGIS, exportando versiones QA a `reportes_cartografia/`.
+
+## Convenciones de estilo
+
+- Palabras clave SQL en mayúsculas, identificadores en `snake_case`.
+- Geometrías con SRID declarado `geometry(MultiPolygon, 32618)`.
+- Secciones complejas documentadas con comentarios breves `--`.
+
+La guía completa mantiene estos lineamientos para asegurar consistencia con los procesos de Fedearroz.
