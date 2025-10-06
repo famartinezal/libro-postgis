@@ -1,0 +1,271 @@
+/* Estilos personalizados para un diseño elegante */
+
+/* Mejora del espaciado y márgenes */
+.quarto-title-block {
+  margin-bottom: 2.5rem;
+  padding: 2rem 0;
+  border-bottom: none;
+}
+
+/* Tipografía mejorada */
+body {
+  font-family: 'Geist', 'Manrope', 'Inter', 'Nunito Sans', 'Segoe UI', sans-serif;
+  color: #1c2633;
+  background-color: #f6f7fb;
+  line-height: 1.7;
+  letter-spacing: 0.006em;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Space Grotesk', 'Geist', 'Manrope', 'Inter', 'Segoe UI', sans-serif;
+  font-weight: 600;
+  color: #141c24;
+  margin-top: 2.1rem;
+  margin-bottom: 0.95rem;
+  letter-spacing: 0.008em;
+}
+
+h1 {
+  font-size: 2.45rem;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+h2 {
+  font-size: 1.95rem;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+h3 {
+  font-size: 1.5rem;
+  color: #1f2a77;
+}
+
+.anchored .anchorjs-link,
+.anchored .anchor-link {
+  display: none !important;
+}
+
+/* Bloques de código más elegantes */
+pre {
+  background: #0f172a;
+  color: #e2e8f0;
+  border: none;
+  border-radius: 12px;
+  padding: 1.75rem;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.25);
+  font-family: 'FiraCode Nerd Font', 'JetBrainsMono Nerd Font', 'Cascadia Code PL', 'Fira Code', 'JetBrains Mono', monospace;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+code {
+  background-color: rgba(52, 90, 218, 0.12);
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.95em;
+  color: #1e3a8a;
+  font-family: 'FiraCode Nerd Font', 'JetBrainsMono Nerd Font', 'Cascadia Code PL', 'Fira Code', 'JetBrains Mono', monospace;
+}
+
+pre code {
+  background-color: transparent;
+  padding: 0;
+  color: inherit;
+}
+
+/* Tablas elegantes */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.5rem 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+thead {
+  background: linear-gradient(135deg, #2C5F9E 0%, #3a7bc8 100%);
+  color: white;
+}
+
+th {
+  padding: 1rem;
+  font-weight: 600;
+  text-align: left;
+}
+
+td {
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+tbody tr:hover {
+  background-color: #f8f9fa;
+  transition: background-color 0.2s ease;
+}
+
+/* Enlaces mejorados */
+a {
+  color: #345ada;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-bottom 0.2s ease, color 0.2s ease;
+}
+
+a:hover {
+  border-bottom: 1px solid #5ac8fa;
+  color: #1e3a8a;
+}
+
+/* Bloques de notas/callouts */
+.callout {
+  border-radius: 14px;
+  padding: 1.5rem;
+  margin: 1.75rem 0;
+  border: none;
+  box-shadow: 0 18px 36px rgba(15, 23, 42, 0.05);
+  background: #ffffff;
+}
+
+.callout-note,
+.callout-tip,
+.callout-warning,
+.callout-important {
+  border-left: none;
+  background-image: none;
+}
+
+/* Sidebar mejorado */
+.sidebar {
+  border-right: 1px solid rgba(15, 23, 42, 0.08);
+  padding-right: 1.5rem;
+}
+
+.sidebar-item {
+  padding: 0.5rem 0;
+}
+
+/* Footer elegante */
+.page-footer {
+  border-top: 2px solid #e9ecef;
+  padding-top: 2rem;
+  margin-top: 4rem;
+  color: #6c757d;
+}
+
+/* Botones y elementos interactivos */
+.btn {
+  border-radius: 6px;
+  padding: 0.5rem 1.25rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Mejoras responsive */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .quarto-title-block {
+    padding: 1rem 0;
+  }
+}
+
+/* Animaciones suaves */
+* {
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Mejora de la barra de búsqueda */
+#quarto-search {
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+}
+
+/* Contenido principal - Ancho completo */
+#quarto-content {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 1.5rem 2rem;
+}
+
+main {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 16px 32px rgba(20, 28, 36, 0.08);
+  padding: 2.5rem 3rem;
+  margin-bottom: 3rem;
+}
+
+/* Imágenes responsivas y elegantes */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin: 1.5rem 0;
+}
+
+.map-frame {
+  width: 100%;
+  height: 620px;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 18px 35px rgba(0, 0, 0, 0.12);
+  margin: 1.5rem 0;
+}
+
+/* Citas destacadas */
+blockquote {
+  border-left: none;
+  padding-left: 1.5rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  color: #555;
+  background-color: #f8f9fa;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+}
+
+/* Ajustes específicos del libro PostGIS */
+.sidebar-logo {
+  max-width: 110px;
+}
+
+.quarto-cover-image {
+  max-width: 320px;
+  margin: 0 auto;
+  display: block;
+}
+
+
+.page-footer .quarto-list li a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 12px;
+  background-color: #eef3ff;
+  color: #1c2633;
+  font-weight: 500;
+}
+
+.page-footer .quarto-list li a:hover {
+  background-color: #dbe6ff;
+  color: #103f91;
+}
+
+.page-footer .quarto-list li a .bi {
+  font-size: 1.2rem;
+}
