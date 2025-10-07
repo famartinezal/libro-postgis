@@ -56,16 +56,3 @@ format:
     highlight-style: github
     css: styles.css
     include-in-header: assets/search-offline.html
-  pdf:
-    documentclass: scrreprt
-    lang: es
-    toc: true
-    toc-title: "Contenido"
-    number-sections: false
-    colorlinks: true
-    linkcolor: blue
-    urlcolor: blue
-    citecolor: blue
-
-  # Typst no soporta libros todavía (solo documentos individuales)
-  # Se mantiene PDF con LaTeX para el libro completo
