@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Bases de datos espaciales con Postgres, PostGIS y QGIS",
     "section": "",
-    "text": "NotaCómo usar este libro\n\n\n\nEste es un proyecto Quarto configurado como libro digital. Puede renderizarse a HTML o PDF con quarto render. Cada capítulo incluye notas prácticas para ejecutar sobre la base sig_fedearroz_fna y proyectos QGIS vinculados.\n\n\nFecha de publicación: 06 de octubre de 2025\n\n  ¿Primera vez con PostGIS? Empieza en el capítulo \"Fundamentos SQL\" y progresa capítulo a capítulo. Las secciones se diseñaron para sesiones de 90 minutos con ejercicios al final.",
+    "text": "NotaCómo usar este libro\n\n\n\nEste es un proyecto Quarto configurado como libro digital. Puede renderizarse a HTML o PDF con quarto render. Cada capítulo incluye notas prácticas para ejecutar sobre la base sig_fedearroz_fna y proyectos QGIS vinculados.\n\n\nDescargar PDF: Descargar libro completo en PDF\n\n  ¿Primera vez con PostGIS? Empieza en el capítulo \"Fundamentos SQL\" y progresa capítulo a capítulo. Las secciones se diseñaron para sesiones de 90 minutos con ejercicios al final.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Bases de datos espaciales con Postgres, PostGIS y QGIS</span>"
     ]

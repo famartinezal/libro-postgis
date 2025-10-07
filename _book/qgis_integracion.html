@@ -357,7 +357,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar floating quarto-light">
+<body class="nav-sidebar docked quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -378,7 +378,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="./index.html" class="sidebar-logo-link">
       <img src="./assets/logo_fedearroz.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
@@ -386,9 +386,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Bases de datos espaciales con Postgres, PostGIS y QGIS</a> 
-        <div class="sidebar-tools-main">
-    <a href="https://github.com/famartinezal" title="Ejecutar el código" class="quarto-navigation-tool px-1" aria-label="Ejecutar el código"><i class="bi bi-github"></i></a>
-</div>
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -509,26 +506,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="consultas-desde-qgis" class="level2">
 <h2 class="anchored" data-anchor-id="consultas-desde-qgis">Consultas desde QGIS</h2>
 <p>Utilice el panel <strong>DB Manager</strong> para ejecutar SQL y crear vistas materiales.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">CREATE</span> <span class="kw">MATERIALIZED</span> <span class="kw">VIEW</span> carto.v_veredas_fuente_hidrica <span class="kw">AS</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">WITH</span> fuentes <span class="kw">AS</span> (</span>
-<span id="cb1-3"><a href="#cb1-3"></a>  <span class="kw">SELECT</span> geom</span>
-<span id="cb1-4"><a href="#cb1-4"></a>  <span class="kw">FROM</span> <span class="fu">ref</span>.hidrografia_principal</span>
-<span id="cb1-5"><a href="#cb1-5"></a>),</span>
-<span id="cb1-6"><a href="#cb1-6"></a>simplificado <span class="kw">AS</span> (</span>
-<span id="cb1-7"><a href="#cb1-7"></a>  <span class="kw">SELECT</span> vereda_codigo,</span>
-<span id="cb1-8"><a href="#cb1-8"></a>         vereda_nombre,</span>
-<span id="cb1-9"><a href="#cb1-9"></a>         municipio,</span>
-<span id="cb1-10"><a href="#cb1-10"></a>         ST_SimplifyPreserveTopology(geom, <span class="dv">5</span>) <span class="kw">AS</span> geom</span>
-<span id="cb1-11"><a href="#cb1-11"></a>  <span class="kw">FROM</span> stg.veredas_norm</span>
-<span id="cb1-12"><a href="#cb1-12"></a>)</span>
-<span id="cb1-13"><a href="#cb1-13"></a><span class="kw">SELECT</span> s.<span class="op">*</span>, ST_Distance(s.geom, f.geom) <span class="kw">AS</span> distancia_m</span>
-<span id="cb1-14"><a href="#cb1-14"></a><span class="kw">FROM</span> simplificado s</span>
-<span id="cb1-15"><a href="#cb1-15"></a><span class="kw">CROSS</span> <span class="kw">JOIN</span> LATERAL (</span>
-<span id="cb1-16"><a href="#cb1-16"></a>  <span class="kw">SELECT</span> geom</span>
-<span id="cb1-17"><a href="#cb1-17"></a>  <span class="kw">FROM</span> fuentes</span>
-<span id="cb1-18"><a href="#cb1-18"></a>  <span class="kw">ORDER</span> <span class="kw">BY</span> s.geom <span class="op">&lt;-&gt;</span> geom</span>
-<span id="cb1-19"><a href="#cb1-19"></a>  <span class="kw">LIMIT</span> <span class="dv">1</span></span>
-<span id="cb1-20"><a href="#cb1-20"></a>) <span class="kw">AS</span> f;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">MATERIALIZED</span> <span class="kw">VIEW</span> carto.v_veredas_fuente_hidrica <span class="kw">AS</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> fuentes <span class="kw">AS</span> (</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> geom</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> <span class="fu">ref</span>.hidrografia_principal</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>simplificado <span class="kw">AS</span> (</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> vereda_codigo,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>         vereda_nombre,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>         municipio,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>         ST_SimplifyPreserveTopology(geom, <span class="dv">5</span>) <span class="kw">AS</span> geom</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> stg.veredas_norm</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> s.<span class="op">*</span>, ST_Distance(s.geom, f.geom) <span class="kw">AS</span> distancia_m</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> simplificado s</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="kw">CROSS</span> <span class="kw">JOIN</span> LATERAL (</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> geom</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> fuentes</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ORDER</span> <span class="kw">BY</span> s.geom <span class="op">&lt;-&gt;</span> geom</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="kw">LIMIT</span> <span class="dv">1</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>) <span class="kw">AS</span> f;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Recargue la vista en QGIS y configure actualizaciones automáticas tras <code>REFRESH MATERIALIZED VIEW</code>.</p>
 </section>
 <section id="salidas-cartográficas" class="level2">
@@ -542,7 +539,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="integración-con-quarto" class="level2">
 <h2 class="anchored" data-anchor-id="integración-con-quarto">Integración con Quarto</h2>
 <p>Inserte mapas renderizados como imágenes o <code>iframe</code> cuando se publique el libro.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1"></a><span class="al">![](reportes_cartografia/20250315_mapa_veredas_tolima.png)</span>{fig-align="center"}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="al">![](reportes_cartografia/20250315_mapa_veredas_tolima.png)</span>{fig-align="center"}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Mantenga activos los enlaces relativos para que GitHub Pages genere el sitio correctamente.</p>
 
 
@@ -976,19 +973,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       &nbsp;
     </div>
     <div class="nav-footer-right">
-      <ul class="footer-items list-unstyled">
-    <li class="nav-item">
-    <a class="nav-link active" href="https://github.com/famartinezal" aria-current="page">
-<p>GitHub</p>
-</a>
-  </li>  
-    <li class="nav-item">
-    <a class="nav-link" href="https://www.fedearroz.com.co">
-<p>Fedearroz</p>
-</a>
-  </li>  
-</ul>
-    </div>
+<p><a href="https://www.fedearroz.com.co/">Fedearroz-FNA</a></p>
+</div>
   </div>
 </footer>
 

@@ -323,7 +323,7 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar floating quarto-light">
+<body class="nav-sidebar docked quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -344,7 +344,7 @@ ul.task-list li input[type="checkbox"] {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="./index.html" class="sidebar-logo-link">
       <img src="./assets/logo_fedearroz.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
@@ -352,9 +352,6 @@ ul.task-list li input[type="checkbox"] {
       </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Bases de datos espaciales con Postgres, PostGIS y QGIS</a> 
-        <div class="sidebar-tools-main">
-    <a href="https://github.com/famartinezal" title="Ejecutar el código" class="quarto-navigation-tool px-1" aria-label="Ejecutar el código"><i class="bi bi-github"></i></a>
-</div>
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -428,7 +425,7 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Bases de datos espaciales con Postgres, PostGIS y QGIS</h1>
-<p class="subtitle lead">Manual introductorio para equipos técnicos de Fedearroz</p>
+<p class="subtitle lead">Manual introductorio para equipos técnicos de Fedearroz-FNA</p>
 </div>
 
 
@@ -471,7 +468,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Este es un proyecto Quarto configurado como libro digital. Puede renderizarse a HTML o PDF con <code>quarto render</code>. Cada capítulo incluye notas prácticas para ejecutar sobre la base <code>sig_fedearroz_fna</code> y proyectos QGIS vinculados.</p>
 </div>
 </div>
-<p><strong>Fecha de publicación:</strong> 06 de octubre de 2025</p>
+<p><strong>Descargar PDF:</strong> <a href="https://github.com/famartinezal/libro-postgis/blob/master/_book/Bases-de-datos-espaciales-con-Postgres%2C-PostGIS-y-QGIS.pdf" class="btn btn-primary" target="_blank">Descargar libro completo en PDF</a></p>
 <div class="hero-cta">
   <p><strong>¿Primera vez con PostGIS?</strong> Empieza en el capítulo "Fundamentos SQL" y progresa capítulo a capítulo. Las secciones se diseñaron para sesiones de 90 minutos con ejercicios al final.</p>
 </div>
@@ -492,10 +489,11 @@ ul.task-list li input[type="checkbox"] {
 .hero-cta {
   margin: 3rem auto;
   padding: 2rem 2.5rem;
-  max-width: 680px;
+  max-width: 100%;
   background: #ffffff;
   border-radius: 18px;
   box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+  box-sizing: border-box;
 }
 </style>
 
@@ -926,19 +924,8 @@ ul.task-list li input[type="checkbox"] {
       &nbsp;
     </div>
     <div class="nav-footer-right">
-      <ul class="footer-items list-unstyled">
-    <li class="nav-item">
-    <a class="nav-link active" href="https://github.com/famartinezal" aria-current="page">
-<p>GitHub</p>
-</a>
-  </li>  
-    <li class="nav-item">
-    <a class="nav-link" href="https://www.fedearroz.com.co">
-<p>Fedearroz</p>
-</a>
-  </li>  
-</ul>
-    </div>
+<p><a href="https://www.fedearroz.com.co/">Fedearroz-FNA</a></p>
+</div>
   </div>
 </footer>
 
