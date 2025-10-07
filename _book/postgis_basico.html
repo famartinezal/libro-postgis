@@ -77,7 +77,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-57ba1fa5da727bf469d7bb5bc677f88a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-fd2d6d0e24a36398551646535a4e885f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -234,7 +234,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar floating quarto-light">
+<body class="nav-sidebar docked quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -255,7 +255,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="./index.html" class="sidebar-logo-link">
       <img src="./assets/logo_fedearroz.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
@@ -263,9 +263,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Bases de datos espaciales con Postgres, PostGIS y QGIS</a> 
-        <div class="sidebar-tools-main">
-    <a href="https://github.com/famartinezal" title="Ejecutar el código" class="quarto-navigation-tool px-1" aria-label="Ejecutar el código"><i class="bi bi-github"></i></a>
-</div>
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -370,57 +367,57 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="habilitar-postgis-en-la-base-de-datos" class="level2">
 <h2 class="anchored" data-anchor-id="habilitar-postgis-en-la-base-de-datos">Habilitar PostGIS en la base de datos</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">CREATE</span> EXTENSION <span class="cf">IF</span> <span class="kw">NOT</span> <span class="kw">EXISTS</span> postgis;</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">CREATE</span> EXTENSION <span class="cf">IF</span> <span class="kw">NOT</span> <span class="kw">EXISTS</span> postgis_topology;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> EXTENSION <span class="cf">IF</span> <span class="kw">NOT</span> <span class="kw">EXISTS</span> postgis;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> EXTENSION <span class="cf">IF</span> <span class="kw">NOT</span> <span class="kw">EXISTS</span> postgis_topology;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Verifique versiones:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">SELECT</span> postgis_version(), postgis_full_version();</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> postgis_version(), postgis_full_version();</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="geometrías-y-srid" class="level2">
 <h2 class="anchored" data-anchor-id="geometrías-y-srid">Geometrías y SRID</h2>
 <p>Declare columnas geométricas con tipo explícito.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> <span class="cf">IF</span> <span class="kw">NOT</span> <span class="kw">EXISTS</span> catastro.veredas (</span>
-<span id="cb3-2"><a href="#cb3-2"></a>  vereda_id SERIAL <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
-<span id="cb3-3"><a href="#cb3-3"></a>  municipio TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
-<span id="cb3-4"><a href="#cb3-4"></a>  vereda_nombre TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
-<span id="cb3-5"><a href="#cb3-5"></a>  geom geometry(MultiPolygon, <span class="dv">32618</span>)</span>
-<span id="cb3-6"><a href="#cb3-6"></a>);</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> <span class="cf">IF</span> <span class="kw">NOT</span> <span class="kw">EXISTS</span> catastro.veredas (</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  vereda_id SERIAL <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  municipio TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  vereda_nombre TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  geom geometry(MultiPolygon, <span class="dv">32618</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <section id="cargar-geometrías-desde-shapefiles" class="level3">
 <h3 class="anchored" data-anchor-id="cargar-geometrías-desde-shapefiles">Cargar geometrías desde shapefiles</h3>
 <p>Use <code>shp2pgsql</code> dentro de una transacción.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a><span class="ex">shp2pgsql</span> <span class="at">-s</span> 32618 Servicio-690/ShapeFile/CRVeredas_2020.shp stg.veredas_raw <span class="dt">\</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>  <span class="kw">|</span> <span class="ex">psql</span> <span class="at">-d</span> sig_fedearroz_fna</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">shp2pgsql</span> <span class="at">-s</span> 32618 Servicio-690/ShapeFile/CRVeredas_2020.shp stg.veredas_raw <span class="dt">\</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">|</span> <span class="ex">psql</span> <span class="at">-d</span> sig_fedearroz_fna</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="funciones-espaciales-clave" class="level2">
 <h2 class="anchored" data-anchor-id="funciones-espaciales-clave">Funciones espaciales clave</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">-- Área en hectáreas</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="kw">SELECT</span> vereda_nombre,</span>
-<span id="cb5-3"><a href="#cb5-3"></a>       ST_Area(geom) <span class="op">/</span> <span class="dv">10000</span> <span class="kw">AS</span> area_ha</span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="kw">FROM</span> stg.veredas_norm;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb6-1"><a href="#cb6-1"></a><span class="co">-- Centroides para etiquetas</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="kw">SELECT</span> vereda_nombre,</span>
-<span id="cb6-3"><a href="#cb6-3"></a>       ST_Centroid(geom) <span class="kw">AS</span> centroide</span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="kw">FROM</span> stg.veredas_norm;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">-- Relaciones espaciales</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="kw">SELECT</span> a.vereda_nombre <span class="kw">AS</span> vereda,</span>
-<span id="cb7-3"><a href="#cb7-3"></a>       b.upa_nombre <span class="kw">AS</span> upa,</span>
-<span id="cb7-4"><a href="#cb7-4"></a>       ST_Intersects(a.geom, b.geom) <span class="kw">AS</span> intersecta</span>
-<span id="cb7-5"><a href="#cb7-5"></a><span class="kw">FROM</span> stg.veredas_norm a</span>
-<span id="cb7-6"><a href="#cb7-6"></a><span class="kw">JOIN</span> stg.upas_norm b</span>
-<span id="cb7-7"><a href="#cb7-7"></a>  <span class="kw">ON</span> ST_Intersects(a.geom, b.geom);</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Área en hectáreas</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> vereda_nombre,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>       ST_Area(geom) <span class="op">/</span> <span class="dv">10000</span> <span class="kw">AS</span> area_ha</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> stg.veredas_norm;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Centroides para etiquetas</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> vereda_nombre,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>       ST_Centroid(geom) <span class="kw">AS</span> centroide</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> stg.veredas_norm;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Relaciones espaciales</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> a.vereda_nombre <span class="kw">AS</span> vereda,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>       b.upa_nombre <span class="kw">AS</span> upa,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>       ST_Intersects(a.geom, b.geom) <span class="kw">AS</span> intersecta</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> stg.veredas_norm a</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> stg.upas_norm b</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ON</span> ST_Intersects(a.geom, b.geom);</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="validación-de-geometrías" class="level2">
 <h2 class="anchored" data-anchor-id="validación-de-geometrías">Validación de geometrías</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> geometria_invalida</span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="kw">FROM</span> stg.veredas_norm</span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="kw">WHERE</span> <span class="kw">NOT</span> ST_IsValid(geom);</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> geometria_invalida</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> stg.veredas_norm</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">NOT</span> ST_IsValid(geom);</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Corrija geometrías defectuosas con <code>ST_MakeValid</code> dentro de una CTE para evitar actualizaciones parciales.</p>
 </section>
 <section id="indexación-espacial" class="level2">
 <h2 class="anchored" data-anchor-id="indexación-espacial">Indexación espacial</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">CREATE</span> <span class="kw">INDEX</span> <span class="cf">IF</span> <span class="kw">NOT</span> <span class="kw">EXISTS</span> idx_veredas_geom</span>
-<span id="cb9-2"><a href="#cb9-2"></a>  <span class="kw">ON</span> stg.veredas_norm</span>
-<span id="cb9-3"><a href="#cb9-3"></a>  <span class="kw">USING</span> GIST (geom);</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">INDEX</span> <span class="cf">IF</span> <span class="kw">NOT</span> <span class="kw">EXISTS</span> idx_veredas_geom</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ON</span> stg.veredas_norm</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">USING</span> GIST (geom);</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Los índices <code>GiST</code> aceleran búsquedas espaciales y son imprescindibles para QGIS.</p>
 
 
@@ -854,19 +851,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       &nbsp;
     </div>
     <div class="nav-footer-right">
-      <ul class="footer-items list-unstyled">
-    <li class="nav-item">
-    <a class="nav-link active" href="https://github.com/famartinezal" aria-current="page">
-<p>GitHub</p>
-</a>
-  </li>  
-    <li class="nav-item">
-    <a class="nav-link" href="https://www.fedearroz.com.co">
-<p>Fedearroz</p>
-</a>
-  </li>  
-</ul>
-    </div>
+<p><a href="https://www.fedearroz.com.co/">Fedearroz-FNA</a></p>
+</div>
   </div>
 </footer>
 

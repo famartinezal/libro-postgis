@@ -11,7 +11,6 @@ book:
     - Fredy Martínez
     - Sandra Rodríguez
   date: 2025-10-06
-  repo-url: https://github.com/famartinezal
   chapters:
     - index.qmd
     - intro.qmd
@@ -25,48 +24,35 @@ book:
     - recursos.qmd
   search: true
   sidebar:
-    style: floating
+    style: docked
     background: light
     logo: assets/logo_fedearroz.png
+    collapse-level: 1
   page-footer:
     left: "© 2025 Fredy Martínez y Sandra Rodríguez"
-    right:
-      - icon: github
-        text: "GitHub"
-        href: https://github.com/famartinezal
-      - icon: globe
-        text: "Fedearroz"
-        href: https://www.fedearroz.com.co
+    right: "[Fedearroz-FNA](https://www.fedearroz.com.co/)"
 
 bibliography: references.bib
 
 format:
   html:
-    theme:
-      - cosmo
-      - brand
+    theme: cosmo
     toc: true
     toc-depth: 3
     toc-title: "Contenido"
     number-sections: false
     code-fold: false
-    code-summary: "Mostrar código"
-    code-tools: false
-    code-line-numbers: true
+    code-copy: true
+    code-overflow: wrap
     smooth-scroll: true
     link-external-newwindow: true
     page-layout: full
     grid:
-      body-width: 1200px
-      sidebar-width: 250px
-      margin-width: 250px
-    mainfont: "Geist"
-    monofont: "FiraCode Nerd Font"
-    fontsize: 1.05em
-    linestretch: 1.7
-    backgroundcolor: "#ffffff"
-    linkcolor: "#2C5F9E"
-    urlcolor: "#2C5F9E"
+      sidebar-width: 350px
+      body-width: 1400px
+      margin-width: 350px
+    mainfont: "Dosis"
+    monofont: "Source Code Pro"
     highlight-style: github
     css: styles.css
     include-in-header: assets/search-offline.html
@@ -80,3 +66,6 @@ format:
     linkcolor: blue
     urlcolor: blue
     citecolor: blue
+
+  # Typst no soporta libros todavía (solo documentos individuales)
+  # Se mantiene PDF con LaTeX para el libro completo
