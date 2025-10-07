@@ -11,11 +11,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: quarto-dev/quarto-actions/setup@v2
-      - name: Render HTML book
-        run: quarto render --to html
       - name: Publish to GitHub Pages
         uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
+          render: html
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
