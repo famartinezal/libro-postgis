@@ -77,7 +77,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-fd2d6d0e24a36398551646535a4e885f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-bd37c45bf7ab68de5f0118974e0cc06b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -107,128 +107,251 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 <script>
+
 (function () {
+
   if (typeof window === "undefined") {
+
     return;
+
   }
+
+
 
   function hydrateFuseFromDocs(fuse, docs) {
+
     docs.forEach(function (doc) {
+
       fuse.add(doc);
+
     });
+
     if (typeof fuseIndex !== "undefined") {
+
       fuseIndex = fuse;
+
     }
+
     return fuse;
+
   }
+
+
 
   function loadJsonWithXHR(url, fuse) {
+
     return new Promise(function (resolve, reject) {
+
       try {
+
         var xhr = new XMLHttpRequest();
+
         xhr.open("GET", url, true);
+
         xhr.overrideMimeType("application/json");
+
         xhr.onreadystatechange = function () {
+
           if (xhr.readyState === XMLHttpRequest.DONE) {
+
             if (xhr.status === 200 || xhr.status === 0) {
+
               try {
+
                 var docs = JSON.parse(xhr.responseText);
+
                 resolve(hydrateFuseFromDocs(fuse, docs));
+
               } catch (err) {
+
                 reject(err);
+
               }
+
             } else {
+
               reject(new Error("No se pudo cargar " + url));
+
             }
+
           }
+
         };
+
         xhr.onerror = function () {
+
           reject(new Error("No se pudo cargar " + url));
+
         };
+
         xhr.send();
+
       } catch (err) {
+
         reject(err);
+
       }
+
     });
+
   }
 
+
+
   function patchSearch() {
+
     if (typeof window.readSearchData !== "function") {
+
       return false;
+
     }
+
     if (typeof window.Fuse === "undefined") {
+
       return false;
+
     }
+
     if (typeof kFuseIndexOptions === "undefined") {
+
       return false;
+
     }
+
     if (window.__quartoSearchFilePatched) {
+
       return true;
+
     }
+
+
 
     var searchUrl = "search.json";
+
     if (typeof offsetURL === "function") {
+
       searchUrl = offsetURL("search.json");
+
     }
 
+
+
     window.readSearchData = async function () {
+
       if (typeof fuseIndex !== "undefined" && fuseIndex !== undefined) {
+
         return fuseIndex;
+
       }
+
+
 
       var fuse = new window.Fuse([], kFuseIndexOptions);
 
+
+
       var hydrate = function (docs) {
+
         hydrateFuseFromDocs(fuse, docs);
+
         return fuseIndex;
+
       };
 
+
+
       try {
+
         var response = await fetch(searchUrl, { cache: "no-store" });
+
         if (response && (response.ok || response.status === 0)) {
+
           var docs = await response.json();
+
           return hydrate(docs);
+
         }
+
       } catch (err) {
+
         // Continuamos con el fallback
+
       }
+
+
 
       return loadJsonWithXHR(searchUrl, fuse);
+
     };
+
+
 
     if (typeof shownWarning !== "undefined") {
+
       shownWarning = false;
+
     }
 
+
+
     var originalAlert = window.alert;
+
     window.alert = function () {
+
       if (
+
         arguments.length > 0 &&
+
         typeof arguments[0] === "string" &&
+
         arguments[0].indexOf("Search requires JavaScript features disabled when running in file://") === 0
+
       ) {
+
         return;
+
       }
+
       return originalAlert.apply(window, arguments);
+
     };
 
+
+
     window.__quartoSearchFilePatched = true;
+
     return true;
+
   }
 
+
+
   if (!patchSearch()) {
+
     document.addEventListener("DOMContentLoaded", function () {
+
       var attempts = 0;
+
       var timer = window.setInterval(function () {
+
         attempts += 1;
+
         if (patchSearch() || attempts > 40) {
+
           window.clearInterval(timer);
+
         }
+
       }, 100);
+
     });
+
   }
+
 })();
+
 </script>
+
 
 
 <link rel="stylesheet" href="styles.css">
@@ -332,7 +455,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Contenido</h2>
    
   <ul>
-  <li><a href="#conexión-a-postgresql" id="toc-conexión-a-postgresql" class="nav-link active" data-scroll-target="#conexión-a-postgresql">Conexión a PostgreSQL</a></li>
+  <li><a href="#conexión-a-postgresql-desde-qgis" id="toc-conexión-a-postgresql-desde-qgis" class="nav-link active" data-scroll-target="#conexión-a-postgresql-desde-qgis">Conexión a PostgreSQL desde QGIS</a></li>
   <li><a href="#cargar-capas" id="toc-cargar-capas" class="nav-link" data-scroll-target="#cargar-capas">Cargar capas</a></li>
   <li><a href="#consultas-desde-qgis" id="toc-consultas-desde-qgis" class="nav-link" data-scroll-target="#consultas-desde-qgis">Consultas desde QGIS</a></li>
   <li><a href="#salidas-cartográficas" id="toc-salidas-cartográficas" class="nav-link" data-scroll-target="#salidas-cartográficas">Salidas cartográficas</a></li>
@@ -362,12 +485,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="conexión-a-postgresql" class="level2">
-<h2 class="anchored" data-anchor-id="conexión-a-postgresql">Conexión a PostgreSQL</h2>
+<section id="conexión-a-postgresql-desde-qgis" class="level2">
+<h2 class="anchored" data-anchor-id="conexión-a-postgresql-desde-qgis">Conexión a PostgreSQL desde QGIS</h2>
 <ol type="1">
-<li>Abra QGIS y use <em>Administrador de fuentes de datos</em>.</li>
+<li><strong>Versión de QGIS:</strong> Verifique que QGIS esté actualizado a la versión 3.40.9 para asegurar compatibilidad con extensiones y complementos de acceso a PostgreSQL.</li>
+<li><strong>Verificación de acceso a la red:</strong> Para comprobar la conectividad al servidor y al puerto (IP del computador) donde se encuentra la base de datos PostgreSQL.</li>
+</ol>
+<ul>
+<li><p>Abrir <strong>PowerShell de Windows</strong> desde el buscador o desde el ejecutador de programas (tecla de Windows+R).<br>
+<img src="https://raw.githubusercontent.com/famartinezal/libro-postgis/Sandra/assets/Powershell.png" class="img-fluid" alt="Ventana de PowerShell"></p></li>
+<li><p>Escribir el siguiente código en Windows PowerShell:</p></li>
+</ul>
+<pre><code>Test-NetConnection &lt;IP computador&gt; -Port &lt;Puerto&gt;</code></pre>
+<ul>
+<li>El enunciado <em>TRUE</em> indica que se puede acceder al puerto desde el computador, conexión está lista para iniciar el proceso de vinculación a la base de datos.</li>
+</ul>
+<ol start="3" type="1">
 <li>Seleccione <strong>PostgreSQL</strong> y cree una conexión nueva.</li>
 <li>Complete parámetros de host, puerto, base <code>sig_fedearroz_fna</code> y active SSL si aplica.</li>
+<li></li>
 <li>Guarde credenciales en <code>pg_service.conf</code> o <code>.pgpass</code> para evitar contraseñas en texto plano.</li>
 </ol>
 </section>
@@ -381,26 +517,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="consultas-desde-qgis" class="level2">
 <h2 class="anchored" data-anchor-id="consultas-desde-qgis">Consultas desde QGIS</h2>
 <p>Utilice el panel <strong>DB Manager</strong> para ejecutar SQL y crear vistas materiales.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">MATERIALIZED</span> <span class="kw">VIEW</span> carto.v_veredas_fuente_hidrica <span class="kw">AS</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> fuentes <span class="kw">AS</span> (</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> geom</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> <span class="fu">ref</span>.hidrografia_principal</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>),</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>simplificado <span class="kw">AS</span> (</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> vereda_codigo,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>         vereda_nombre,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>         municipio,</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>         ST_SimplifyPreserveTopology(geom, <span class="dv">5</span>) <span class="kw">AS</span> geom</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> stg.veredas_norm</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> s.<span class="op">*</span>, ST_Distance(s.geom, f.geom) <span class="kw">AS</span> distancia_m</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> simplificado s</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="kw">CROSS</span> <span class="kw">JOIN</span> LATERAL (</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> geom</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> fuentes</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ORDER</span> <span class="kw">BY</span> s.geom <span class="op">&lt;-&gt;</span> geom</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="kw">LIMIT</span> <span class="dv">1</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>) <span class="kw">AS</span> f;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">MATERIALIZED</span> <span class="kw">VIEW</span> carto.v_veredas_fuente_hidrica <span class="kw">AS</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> fuentes <span class="kw">AS</span> (</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> geom</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> <span class="fu">ref</span>.hidrografia_principal</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>),</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>simplificado <span class="kw">AS</span> (</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> vereda_codigo,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>         vereda_nombre,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>         municipio,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>         ST_SimplifyPreserveTopology(geom, <span class="dv">5</span>) <span class="kw">AS</span> geom</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> stg.veredas_norm</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> s.<span class="op">*</span>, ST_Distance(s.geom, f.geom) <span class="kw">AS</span> distancia_m</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> simplificado s</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="kw">CROSS</span> <span class="kw">JOIN</span> LATERAL (</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> geom</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> fuentes</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ORDER</span> <span class="kw">BY</span> s.geom <span class="op">&lt;-&gt;</span> geom</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="kw">LIMIT</span> <span class="dv">1</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>) <span class="kw">AS</span> f;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Recargue la vista en QGIS y configure actualizaciones automáticas tras <code>REFRESH MATERIALIZED VIEW</code>.</p>
 </section>
 <section id="salidas-cartográficas" class="level2">
@@ -414,7 +550,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="integración-con-quarto" class="level2">
 <h2 class="anchored" data-anchor-id="integración-con-quarto">Integración con Quarto</h2>
 <p>Inserte mapas renderizados como imágenes o <code>iframe</code> cuando se publique el libro.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="al">![](reportes_cartografia/20250315_mapa_veredas_tolima.png)</span>{fig-align="center"}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="al">![](reportes_cartografia/20250315_mapa_veredas_tolima.png)</span>{fig-align="center"}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Mantenga activos los enlaces relativos para que GitHub Pages genere el sitio correctamente.</p>
 
 

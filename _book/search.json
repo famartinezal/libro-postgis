@@ -294,7 +294,7 @@
     "href": "qgis_integracion.html",
     "title": "Integración con QGIS",
     "section": "",
-    "text": "Conexión a PostgreSQL",
+    "text": "Conexión a PostgreSQL desde QGIS",
     "crumbs": [
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Integración con QGIS</span>"
     ]
@@ -497,6 +497,16 @@
     "text": "Próximos pasos\n\nAñadir capítulos avanzados sobre análisis raster en PostGIS.\nIncluir ejercicios de QGIS con complementos (Time Manager, Processing).\nDocumentar la arquitectura completa en docs/arquitectura/.",
     "crumbs": [
       "<span class='chapter-number'>10</span>  <span class='chapter-title'>Recursos</span>"
+    ]
+  },
+  {
+    "objectID": "qgis_integracion.html#conexión-a-postgresql-desde-qgis",
+    "href": "qgis_integracion.html#conexión-a-postgresql-desde-qgis",
+    "title": "Integración con QGIS",
+    "section": "",
+    "text": "Versión de QGIS: Verifique que QGIS esté actualizado a la versión 3.40.9 para asegurar compatibilidad con extensiones y complementos de acceso a PostgreSQL.\nVerificación de acceso a la red: Para comprobar la conectividad al servidor y al puerto (IP del computador) donde se encuentra la base de datos PostgreSQL.\n\n\nAbrir PowerShell de Windows desde el buscador o desde el ejecutador de programas (tecla de Windows+R).\n\nEscribir el siguiente código en Windows PowerShell:\n\nTest-NetConnection &lt;IP computador&gt; -Port &lt;Puerto&gt;\n\nEl enunciado TRUE indica que se puede acceder al puerto desde el computador, conexión está lista para iniciar el proceso de vinculación a la base de datos.\n\n\nSeleccione PostgreSQL y cree una conexión nueva.\nComplete parámetros de host, puerto, base sig_fedearroz_fna y active SSL si aplica.\n\nGuarde credenciales en pg_service.conf o .pgpass para evitar contraseñas en texto plano.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Integración con QGIS</span>"
     ]
   }
 ]
