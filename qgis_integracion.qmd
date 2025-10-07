@@ -1,8 +1,4 @@
 ---
-R
----
-
----
 title: "Integración con QGIS"
 ---
 
@@ -37,7 +33,7 @@ title: "Integración con QGIS"
         %APPDATA%\postgresql\
         ```
 
-        ![Comprobar carpeta postgreSQL](assets/Ruta_archivo_conf.png)
+        ![Comprobar_carpeta_postgresql](assets/Comprobar_carpeta_postgresql.png){fig-align="center"}
 
         En caso de error, cree la carpeta denominada *postgresql*, escribiendo la siguiente ruta en el explorador de archivos:
 
