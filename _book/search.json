@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Bases de datos espaciales con Postgres, PostGIS y QGIS",
     "section": "",
-    "text": "NotaCómo usar este libro\n\n\n\nEste es un proyecto Quarto configurado como libro digital. Puede renderizarse a HTML o PDF con quarto render. Cada capítulo incluye notas prácticas para ejecutar sobre la base sig_fedearroz_fna y proyectos QGIS vinculados.\n\n\nFecha de publicación: 06 de octubre de 2025\n\n  ¿Primera vez con PostGIS? Empieza en el capítulo \"Fundamentos SQL\" y progresa capítulo a capítulo. Las secciones se diseñaron para sesiones de 90 minutos con ejercicios al final.",
+    "text": "NotaCómo usar este libro\n\n\n\nEste es un proyecto Quarto configurado como libro digital. Puede renderizarse a HTML o PDF con quarto render. Cada capítulo incluye notas prácticas para ejecutar sobre la base sig_fedearroz_fna y proyectos QGIS vinculados.\n\n\nDescargar PDF: Descargar libro completo en PDF\n\n  ¿Primera vez con PostGIS? Empieza en el capítulo \"Fundamentos SQL\" y progresa capítulo a capítulo. Las secciones se diseñaron para sesiones de 90 minutos con ejercicios al final.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Bases de datos espaciales con Postgres, PostGIS y QGIS</span>"
     ]
@@ -294,7 +294,7 @@
     "href": "qgis_integracion.html",
     "title": "Integración con QGIS",
     "section": "",
-    "text": "Conexión a PostgreSQL desde QGIS",
+    "text": "Conexión a PostgreSQL",
     "crumbs": [
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Integración con QGIS</span>"
     ]
@@ -497,16 +497,6 @@
     "text": "Próximos pasos\n\nAñadir capítulos avanzados sobre análisis raster en PostGIS.\nIncluir ejercicios de QGIS con complementos (Time Manager, Processing).\nDocumentar la arquitectura completa en docs/arquitectura/.",
     "crumbs": [
       "<span class='chapter-number'>10</span>  <span class='chapter-title'>Recursos</span>"
-    ]
-  },
-  {
-    "objectID": "qgis_integracion.html#conexión-a-postgresql-desde-qgis",
-    "href": "qgis_integracion.html#conexión-a-postgresql-desde-qgis",
-    "title": "Integración con QGIS",
-    "section": "",
-    "text": "Verifica que el software QGIS esté actualizado (3.40.9), si no lo está, actualizarlo.\nAbra QGIS y use Administrador de fuentes de datos. \nSeleccione PostgreSQL y cree una conexión nueva.\nComplete parámetros de host, puerto, base sig_fedearroz_fna y active SSL si aplica.\n\nGuarde credenciales en pg_service.conf o .pgpass para evitar contraseñas en texto plano.",
-    "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Integración con QGIS</span>"
     ]
   }
 ]

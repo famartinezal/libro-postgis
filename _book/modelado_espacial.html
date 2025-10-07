@@ -77,7 +77,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-3be7f9a8f802416daec47ac3db3d24ae.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-fd2d6d0e24a36398551646535a4e885f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -107,257 +107,134 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 <script>
-
 (function () {
-
   if (typeof window === "undefined") {
-
     return;
-
   }
-
-
 
   function hydrateFuseFromDocs(fuse, docs) {
-
     docs.forEach(function (doc) {
-
       fuse.add(doc);
-
     });
-
     if (typeof fuseIndex !== "undefined") {
-
       fuseIndex = fuse;
-
     }
-
     return fuse;
-
   }
-
-
 
   function loadJsonWithXHR(url, fuse) {
-
     return new Promise(function (resolve, reject) {
-
       try {
-
         var xhr = new XMLHttpRequest();
-
         xhr.open("GET", url, true);
-
         xhr.overrideMimeType("application/json");
-
         xhr.onreadystatechange = function () {
-
           if (xhr.readyState === XMLHttpRequest.DONE) {
-
             if (xhr.status === 200 || xhr.status === 0) {
-
               try {
-
                 var docs = JSON.parse(xhr.responseText);
-
                 resolve(hydrateFuseFromDocs(fuse, docs));
-
               } catch (err) {
-
                 reject(err);
-
               }
-
             } else {
-
               reject(new Error("No se pudo cargar " + url));
-
             }
-
           }
-
         };
-
         xhr.onerror = function () {
-
           reject(new Error("No se pudo cargar " + url));
-
         };
-
         xhr.send();
-
       } catch (err) {
-
         reject(err);
-
       }
-
     });
-
   }
 
-
-
   function patchSearch() {
-
     if (typeof window.readSearchData !== "function") {
-
       return false;
-
     }
-
     if (typeof window.Fuse === "undefined") {
-
       return false;
-
     }
-
     if (typeof kFuseIndexOptions === "undefined") {
-
       return false;
-
     }
-
     if (window.__quartoSearchFilePatched) {
-
       return true;
-
     }
-
-
 
     var searchUrl = "search.json";
-
     if (typeof offsetURL === "function") {
-
       searchUrl = offsetURL("search.json");
-
     }
 
-
-
     window.readSearchData = async function () {
-
       if (typeof fuseIndex !== "undefined" && fuseIndex !== undefined) {
-
         return fuseIndex;
-
       }
-
-
 
       var fuse = new window.Fuse([], kFuseIndexOptions);
 
-
-
       var hydrate = function (docs) {
-
         hydrateFuseFromDocs(fuse, docs);
-
         return fuseIndex;
-
       };
 
-
-
       try {
-
         var response = await fetch(searchUrl, { cache: "no-store" });
-
         if (response && (response.ok || response.status === 0)) {
-
           var docs = await response.json();
-
           return hydrate(docs);
-
         }
-
       } catch (err) {
-
         // Continuamos con el fallback
-
       }
-
-
 
       return loadJsonWithXHR(searchUrl, fuse);
-
     };
-
-
 
     if (typeof shownWarning !== "undefined") {
-
       shownWarning = false;
-
     }
 
-
-
     var originalAlert = window.alert;
-
     window.alert = function () {
-
       if (
-
         arguments.length > 0 &&
-
         typeof arguments[0] === "string" &&
-
         arguments[0].indexOf("Search requires JavaScript features disabled when running in file://") === 0
-
       ) {
-
         return;
-
       }
-
       return originalAlert.apply(window, arguments);
-
     };
 
-
-
     window.__quartoSearchFilePatched = true;
-
     return true;
-
   }
-
-
 
   if (!patchSearch()) {
-
     document.addEventListener("DOMContentLoaded", function () {
-
       var attempts = 0;
-
       var timer = window.setInterval(function () {
-
         attempts += 1;
-
         if (patchSearch() || attempts > 40) {
-
           window.clearInterval(timer);
-
         }
-
       }, 100);
-
     });
-
   }
-
 })();
-
 </script>
-
 
 
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar floating quarto-light">
+<body class="nav-sidebar docked quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -378,7 +255,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="./index.html" class="sidebar-logo-link">
       <img src="./assets/logo_fedearroz.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
@@ -386,9 +263,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Bases de datos espaciales con Postgres, PostGIS y QGIS</a> 
-        <div class="sidebar-tools-main">
-    <a href="https://github.com/famartinezal" title="Ejecutar el código" class="quarto-navigation-tool px-1" aria-label="Ejecutar el código"><i class="bi bi-github"></i></a>
-</div>
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -499,24 +373,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="normalización-de-veredas" class="level2">
 <h2 class="anchored" data-anchor-id="normalización-de-veredas">Normalización de veredas</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">WITH</span> base <span class="kw">AS</span> (</span>
-<span id="cb1-2"><a href="#cb1-2"></a>  <span class="kw">SELECT</span> vereda_codigo,</span>
-<span id="cb1-3"><a href="#cb1-3"></a>         municipio,</span>
-<span id="cb1-4"><a href="#cb1-4"></a>         departamento,</span>
-<span id="cb1-5"><a href="#cb1-5"></a>         ST_Multi(ST_SnapToGrid(geom, <span class="fl">0.01</span>)) <span class="kw">AS</span> geom</span>
-<span id="cb1-6"><a href="#cb1-6"></a>  <span class="kw">FROM</span> stg.veredas_raw</span>
-<span id="cb1-7"><a href="#cb1-7"></a>),</span>
-<span id="cb1-8"><a href="#cb1-8"></a>con_area <span class="kw">AS</span> (</span>
-<span id="cb1-9"><a href="#cb1-9"></a>  <span class="kw">SELECT</span> <span class="op">*</span>,</span>
-<span id="cb1-10"><a href="#cb1-10"></a>         ST_Area(geom) <span class="op">/</span> <span class="dv">10000</span> <span class="kw">AS</span> area_ha</span>
-<span id="cb1-11"><a href="#cb1-11"></a>  <span class="kw">FROM</span> base</span>
-<span id="cb1-12"><a href="#cb1-12"></a>)</span>
-<span id="cb1-13"><a href="#cb1-13"></a><span class="kw">SELECT</span> vereda_codigo,</span>
-<span id="cb1-14"><a href="#cb1-14"></a>       municipio,</span>
-<span id="cb1-15"><a href="#cb1-15"></a>       departamento,</span>
-<span id="cb1-16"><a href="#cb1-16"></a>       area_ha,</span>
-<span id="cb1-17"><a href="#cb1-17"></a>       geom</span>
-<span id="cb1-18"><a href="#cb1-18"></a><span class="kw">FROM</span> con_area;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> base <span class="kw">AS</span> (</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> vereda_codigo,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>         municipio,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>         departamento,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>         ST_Multi(ST_SnapToGrid(geom, <span class="fl">0.01</span>)) <span class="kw">AS</span> geom</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> stg.veredas_raw</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>),</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>con_area <span class="kw">AS</span> (</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> <span class="op">*</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>         ST_Area(geom) <span class="op">/</span> <span class="dv">10000</span> <span class="kw">AS</span> area_ha</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> base</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> vereda_codigo,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>       municipio,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>       departamento,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>       area_ha,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>       geom</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> con_area;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="dimensiones-y-hechos" class="level2">
 <h2 class="anchored" data-anchor-id="dimensiones-y-hechos">Dimensiones y hechos</h2>
@@ -534,11 +408,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Registre notas de actualización (fuente, QA, responsable).</li>
 <li>Compare geometrias con <code>ST_Equals</code> y <code>ST_Difference</code> para identificar cambios.</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">SELECT</span> vereda_codigo,</span>
-<span id="cb2-2"><a href="#cb2-2"></a>       ST_Area(ST_Difference(n.geom, h.geom)) <span class="op">/</span> <span class="dv">10000</span> <span class="kw">AS</span> delta_area_ha</span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">FROM</span> stg.veredas_norm n</span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="kw">JOIN</span> hist.veredas_norm_202312 h <span class="kw">USING</span> (vereda_codigo)</span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="kw">WHERE</span> <span class="kw">NOT</span> ST_Equals(n.geom, h.geom);</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> vereda_codigo,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>       ST_Area(ST_Difference(n.geom, h.geom)) <span class="op">/</span> <span class="dv">10000</span> <span class="kw">AS</span> delta_area_ha</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> stg.veredas_norm n</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> hist.veredas_norm_202312 h <span class="kw">USING</span> (vereda_codigo)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">NOT</span> ST_Equals(n.geom, h.geom);</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="buenas-prácticas-adicionales" class="level2">
 <h2 class="anchored" data-anchor-id="buenas-prácticas-adicionales">Buenas prácticas adicionales</h2>
@@ -979,19 +853,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       &nbsp;
     </div>
     <div class="nav-footer-right">
-      <ul class="footer-items list-unstyled">
-    <li class="nav-item">
-    <a class="nav-link active" href="https://github.com/famartinezal" aria-current="page">
-<p>GitHub</p>
-</a>
-  </li>  
-    <li class="nav-item">
-    <a class="nav-link" href="https://www.fedearroz.com.co">
-<p>Fedearroz</p>
-</a>
-  </li>  
-</ul>
-    </div>
+<p><a href="https://www.fedearroz.com.co/">Fedearroz-FNA</a></p>
+</div>
   </div>
 </footer>
 

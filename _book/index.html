@@ -43,7 +43,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-3be7f9a8f802416daec47ac3db3d24ae.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-fd2d6d0e24a36398551646535a4e885f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -73,257 +73,134 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 <script>
-
 (function () {
-
   if (typeof window === "undefined") {
-
     return;
-
   }
-
-
 
   function hydrateFuseFromDocs(fuse, docs) {
-
     docs.forEach(function (doc) {
-
       fuse.add(doc);
-
     });
-
     if (typeof fuseIndex !== "undefined") {
-
       fuseIndex = fuse;
-
     }
-
     return fuse;
-
   }
-
-
 
   function loadJsonWithXHR(url, fuse) {
-
     return new Promise(function (resolve, reject) {
-
       try {
-
         var xhr = new XMLHttpRequest();
-
         xhr.open("GET", url, true);
-
         xhr.overrideMimeType("application/json");
-
         xhr.onreadystatechange = function () {
-
           if (xhr.readyState === XMLHttpRequest.DONE) {
-
             if (xhr.status === 200 || xhr.status === 0) {
-
               try {
-
                 var docs = JSON.parse(xhr.responseText);
-
                 resolve(hydrateFuseFromDocs(fuse, docs));
-
               } catch (err) {
-
                 reject(err);
-
               }
-
             } else {
-
               reject(new Error("No se pudo cargar " + url));
-
             }
-
           }
-
         };
-
         xhr.onerror = function () {
-
           reject(new Error("No se pudo cargar " + url));
-
         };
-
         xhr.send();
-
       } catch (err) {
-
         reject(err);
-
       }
-
     });
-
   }
 
-
-
   function patchSearch() {
-
     if (typeof window.readSearchData !== "function") {
-
       return false;
-
     }
-
     if (typeof window.Fuse === "undefined") {
-
       return false;
-
     }
-
     if (typeof kFuseIndexOptions === "undefined") {
-
       return false;
-
     }
-
     if (window.__quartoSearchFilePatched) {
-
       return true;
-
     }
-
-
 
     var searchUrl = "search.json";
-
     if (typeof offsetURL === "function") {
-
       searchUrl = offsetURL("search.json");
-
     }
 
-
-
     window.readSearchData = async function () {
-
       if (typeof fuseIndex !== "undefined" && fuseIndex !== undefined) {
-
         return fuseIndex;
-
       }
-
-
 
       var fuse = new window.Fuse([], kFuseIndexOptions);
 
-
-
       var hydrate = function (docs) {
-
         hydrateFuseFromDocs(fuse, docs);
-
         return fuseIndex;
-
       };
 
-
-
       try {
-
         var response = await fetch(searchUrl, { cache: "no-store" });
-
         if (response && (response.ok || response.status === 0)) {
-
           var docs = await response.json();
-
           return hydrate(docs);
-
         }
-
       } catch (err) {
-
         // Continuamos con el fallback
-
       }
-
-
 
       return loadJsonWithXHR(searchUrl, fuse);
-
     };
-
-
 
     if (typeof shownWarning !== "undefined") {
-
       shownWarning = false;
-
     }
 
-
-
     var originalAlert = window.alert;
-
     window.alert = function () {
-
       if (
-
         arguments.length > 0 &&
-
         typeof arguments[0] === "string" &&
-
         arguments[0].indexOf("Search requires JavaScript features disabled when running in file://") === 0
-
       ) {
-
         return;
-
       }
-
       return originalAlert.apply(window, arguments);
-
     };
 
-
-
     window.__quartoSearchFilePatched = true;
-
     return true;
-
   }
-
-
 
   if (!patchSearch()) {
-
     document.addEventListener("DOMContentLoaded", function () {
-
       var attempts = 0;
-
       var timer = window.setInterval(function () {
-
         attempts += 1;
-
         if (patchSearch() || attempts > 40) {
-
           window.clearInterval(timer);
-
         }
-
       }, 100);
-
     });
-
   }
-
 })();
-
 </script>
-
 
 
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar floating quarto-light">
+<body class="nav-sidebar docked quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -344,7 +221,7 @@ ul.task-list li input[type="checkbox"] {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="./index.html" class="sidebar-logo-link">
       <img src="./assets/logo_fedearroz.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
@@ -352,9 +229,6 @@ ul.task-list li input[type="checkbox"] {
       </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Bases de datos espaciales con Postgres, PostGIS y QGIS</a> 
-        <div class="sidebar-tools-main">
-    <a href="https://github.com/famartinezal" title="Ejecutar el código" class="quarto-navigation-tool px-1" aria-label="Ejecutar el código"><i class="bi bi-github"></i></a>
-</div>
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -428,7 +302,7 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Bases de datos espaciales con Postgres, PostGIS y QGIS</h1>
-<p class="subtitle lead">Manual introductorio para equipos técnicos de Fedearroz</p>
+<p class="subtitle lead">Manual introductorio para equipos técnicos de Fedearroz-FNA</p>
 </div>
 
 
@@ -471,7 +345,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Este es un proyecto Quarto configurado como libro digital. Puede renderizarse a HTML o PDF con <code>quarto render</code>. Cada capítulo incluye notas prácticas para ejecutar sobre la base <code>sig_fedearroz_fna</code> y proyectos QGIS vinculados.</p>
 </div>
 </div>
-<p><strong>Fecha de publicación:</strong> 06 de octubre de 2025</p>
+<p><strong>Descargar PDF:</strong> <a href="https://github.com/famartinezal/libro-postgis/blob/master/_book/Bases-de-datos-espaciales-con-Postgres%2C-PostGIS-y-QGIS.pdf" class="btn btn-primary" target="_blank">Descargar libro completo en PDF</a></p>
 <div class="hero-cta">
   <p><strong>¿Primera vez con PostGIS?</strong> Empieza en el capítulo "Fundamentos SQL" y progresa capítulo a capítulo. Las secciones se diseñaron para sesiones de 90 minutos con ejercicios al final.</p>
 </div>
@@ -492,10 +366,11 @@ ul.task-list li input[type="checkbox"] {
 .hero-cta {
   margin: 3rem auto;
   padding: 2rem 2.5rem;
-  max-width: 680px;
+  max-width: 100%;
   background: #ffffff;
   border-radius: 18px;
   box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+  box-sizing: border-box;
 }
 </style>
 
@@ -926,19 +801,8 @@ ul.task-list li input[type="checkbox"] {
       &nbsp;
     </div>
     <div class="nav-footer-right">
-      <ul class="footer-items list-unstyled">
-    <li class="nav-item">
-    <a class="nav-link active" href="https://github.com/famartinezal" aria-current="page">
-<p>GitHub</p>
-</a>
-  </li>  
-    <li class="nav-item">
-    <a class="nav-link" href="https://www.fedearroz.com.co">
-<p>Fedearroz</p>
-</a>
-  </li>  
-</ul>
-    </div>
+<p><a href="https://www.fedearroz.com.co/">Fedearroz-FNA</a></p>
+</div>
   </div>
 </footer>
 

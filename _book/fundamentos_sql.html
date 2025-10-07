@@ -77,7 +77,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-3be7f9a8f802416daec47ac3db3d24ae.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-fd2d6d0e24a36398551646535a4e885f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -107,257 +107,134 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 <script>
-
 (function () {
-
   if (typeof window === "undefined") {
-
     return;
-
   }
-
-
 
   function hydrateFuseFromDocs(fuse, docs) {
-
     docs.forEach(function (doc) {
-
       fuse.add(doc);
-
     });
-
     if (typeof fuseIndex !== "undefined") {
-
       fuseIndex = fuse;
-
     }
-
     return fuse;
-
   }
-
-
 
   function loadJsonWithXHR(url, fuse) {
-
     return new Promise(function (resolve, reject) {
-
       try {
-
         var xhr = new XMLHttpRequest();
-
         xhr.open("GET", url, true);
-
         xhr.overrideMimeType("application/json");
-
         xhr.onreadystatechange = function () {
-
           if (xhr.readyState === XMLHttpRequest.DONE) {
-
             if (xhr.status === 200 || xhr.status === 0) {
-
               try {
-
                 var docs = JSON.parse(xhr.responseText);
-
                 resolve(hydrateFuseFromDocs(fuse, docs));
-
               } catch (err) {
-
                 reject(err);
-
               }
-
             } else {
-
               reject(new Error("No se pudo cargar " + url));
-
             }
-
           }
-
         };
-
         xhr.onerror = function () {
-
           reject(new Error("No se pudo cargar " + url));
-
         };
-
         xhr.send();
-
       } catch (err) {
-
         reject(err);
-
       }
-
     });
-
   }
 
-
-
   function patchSearch() {
-
     if (typeof window.readSearchData !== "function") {
-
       return false;
-
     }
-
     if (typeof window.Fuse === "undefined") {
-
       return false;
-
     }
-
     if (typeof kFuseIndexOptions === "undefined") {
-
       return false;
-
     }
-
     if (window.__quartoSearchFilePatched) {
-
       return true;
-
     }
-
-
 
     var searchUrl = "search.json";
-
     if (typeof offsetURL === "function") {
-
       searchUrl = offsetURL("search.json");
-
     }
 
-
-
     window.readSearchData = async function () {
-
       if (typeof fuseIndex !== "undefined" && fuseIndex !== undefined) {
-
         return fuseIndex;
-
       }
-
-
 
       var fuse = new window.Fuse([], kFuseIndexOptions);
 
-
-
       var hydrate = function (docs) {
-
         hydrateFuseFromDocs(fuse, docs);
-
         return fuseIndex;
-
       };
 
-
-
       try {
-
         var response = await fetch(searchUrl, { cache: "no-store" });
-
         if (response && (response.ok || response.status === 0)) {
-
           var docs = await response.json();
-
           return hydrate(docs);
-
         }
-
       } catch (err) {
-
         // Continuamos con el fallback
-
       }
-
-
 
       return loadJsonWithXHR(searchUrl, fuse);
-
     };
-
-
 
     if (typeof shownWarning !== "undefined") {
-
       shownWarning = false;
-
     }
 
-
-
     var originalAlert = window.alert;
-
     window.alert = function () {
-
       if (
-
         arguments.length > 0 &&
-
         typeof arguments[0] === "string" &&
-
         arguments[0].indexOf("Search requires JavaScript features disabled when running in file://") === 0
-
       ) {
-
         return;
-
       }
-
       return originalAlert.apply(window, arguments);
-
     };
 
-
-
     window.__quartoSearchFilePatched = true;
-
     return true;
-
   }
-
-
 
   if (!patchSearch()) {
-
     document.addEventListener("DOMContentLoaded", function () {
-
       var attempts = 0;
-
       var timer = window.setInterval(function () {
-
         attempts += 1;
-
         if (patchSearch() || attempts > 40) {
-
           window.clearInterval(timer);
-
         }
-
       }, 100);
-
     });
-
   }
-
 })();
-
 </script>
-
 
 
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar floating quarto-light">
+<body class="nav-sidebar docked quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -378,7 +255,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="./index.html" class="sidebar-logo-link">
       <img src="./assets/logo_fedearroz.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
@@ -386,9 +263,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Bases de datos espaciales con Postgres, PostGIS y QGIS</a> 
-        <div class="sidebar-tools-main">
-    <a href="https://github.com/famartinezal" title="Ejecutar el código" class="quarto-navigation-tool px-1" aria-label="Ejecutar el código"><i class="bi bi-github"></i></a>
-</div>
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -494,12 +368,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="sintaxis-básica" class="level2">
 <h2 class="anchored" data-anchor-id="sintaxis-básica">Sintaxis básica</h2>
 <p>Comprender el patrón <code>SELECT ... FROM ... WHERE ...</code> es clave antes de trabajar con geometrías.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1"></a><span class="co">-- Contar veredas registradas por departamento</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">SELECT</span> departamento,</span>
-<span id="cb1-3"><a href="#cb1-3"></a>       <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> total_veredas</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">FROM</span> stg.veredas_norm</span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">GROUP</span> <span class="kw">BY</span> departamento</span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="kw">ORDER</span> <span class="kw">BY</span> total_veredas <span class="kw">DESC</span>;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Contar veredas registradas por departamento</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> departamento,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> total_veredas</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> stg.veredas_norm</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> departamento</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> total_veredas <span class="kw">DESC</span>;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <section id="filtros-y-ordenamiento" class="level3">
 <h3 class="anchored" data-anchor-id="filtros-y-ordenamiento">Filtros y ordenamiento</h3>
 <ul>
@@ -507,57 +381,57 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>ORDER BY</code> ordena resultados; combine con <code>LIMIT</code> para obtener los primeros registros.</li>
 <li><code>DISTINCT</code> evita duplicados en columnas específicas.</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">-- Veredas con superficie mayor a 500 hectáreas</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">SELECT</span> vereda_nombre,</span>
-<span id="cb2-3"><a href="#cb2-3"></a>       municipio,</span>
-<span id="cb2-4"><a href="#cb2-4"></a>       area_ha</span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="kw">FROM</span> stg.veredas_norm</span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="kw">WHERE</span> area_ha <span class="op">&gt;</span> <span class="dv">500</span></span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="kw">ORDER</span> <span class="kw">BY</span> area_ha <span class="kw">DESC</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a><span class="kw">LIMIT</span> <span class="dv">20</span>;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Veredas con superficie mayor a 500 hectáreas</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> vereda_nombre,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>       municipio,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>       area_ha</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> stg.veredas_norm</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> area_ha <span class="op">&gt;</span> <span class="dv">500</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> area_ha <span class="kw">DESC</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">20</span>;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="funciones-de-agregación" class="level2">
 <h2 class="anchored" data-anchor-id="funciones-de-agregación">Funciones de agregación</h2>
 <p>Utilice <code>SUM</code>, <code>AVG</code>, <code>MIN</code>, <code>MAX</code> y <code>COUNT</code> junto con <code>GROUP BY</code> para consolidar información.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">-- Área total por municipio</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="kw">SELECT</span> municipio,</span>
-<span id="cb3-3"><a href="#cb3-3"></a>       <span class="fu">SUM</span>(area_ha) <span class="kw">AS</span> area_total_ha,</span>
-<span id="cb3-4"><a href="#cb3-4"></a>       <span class="fu">AVG</span>(area_ha) <span class="kw">AS</span> area_promedio_ha</span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="kw">FROM</span> stg.veredas_norm</span>
-<span id="cb3-6"><a href="#cb3-6"></a><span class="kw">GROUP</span> <span class="kw">BY</span> municipio</span>
-<span id="cb3-7"><a href="#cb3-7"></a><span class="kw">ORDER</span> <span class="kw">BY</span> area_total_ha <span class="kw">DESC</span>;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Área total por municipio</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> municipio,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">SUM</span>(area_ha) <span class="kw">AS</span> area_total_ha,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>       <span class="fu">AVG</span>(area_ha) <span class="kw">AS</span> area_promedio_ha</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> stg.veredas_norm</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> municipio</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> area_total_ha <span class="kw">DESC</span>;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="expresiones-condicionales" class="level2">
 <h2 class="anchored" data-anchor-id="expresiones-condicionales">Expresiones condicionales</h2>
 <p><code>CASE</code> permite codificar reglas de negocio dentro de la consulta, manteniendo trazabilidad.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">SELECT</span> vereda_nombre,</span>
-<span id="cb4-2"><a href="#cb4-2"></a>       <span class="cf">CASE</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a>         <span class="cf">WHEN</span> area_ha <span class="op">&lt;</span> <span class="dv">50</span> <span class="cf">THEN</span> <span class="st">'Micro'</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a>         <span class="cf">WHEN</span> area_ha <span class="kw">BETWEEN</span> <span class="dv">50</span> <span class="kw">AND</span> <span class="dv">200</span> <span class="cf">THEN</span> <span class="st">'Pequeña'</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a>         <span class="cf">WHEN</span> area_ha <span class="kw">BETWEEN</span> <span class="dv">200</span> <span class="kw">AND</span> <span class="dv">500</span> <span class="cf">THEN</span> <span class="st">'Media'</span></span>
-<span id="cb4-6"><a href="#cb4-6"></a>         <span class="cf">ELSE</span> <span class="st">'Grande'</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a>       <span class="cf">END</span> <span class="kw">AS</span> categoria_area</span>
-<span id="cb4-8"><a href="#cb4-8"></a><span class="kw">FROM</span> stg.veredas_norm;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> vereda_nombre,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>       <span class="cf">CASE</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>         <span class="cf">WHEN</span> area_ha <span class="op">&lt;</span> <span class="dv">50</span> <span class="cf">THEN</span> <span class="st">'Micro'</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>         <span class="cf">WHEN</span> area_ha <span class="kw">BETWEEN</span> <span class="dv">50</span> <span class="kw">AND</span> <span class="dv">200</span> <span class="cf">THEN</span> <span class="st">'Pequeña'</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>         <span class="cf">WHEN</span> area_ha <span class="kw">BETWEEN</span> <span class="dv">200</span> <span class="kw">AND</span> <span class="dv">500</span> <span class="cf">THEN</span> <span class="st">'Media'</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>         <span class="cf">ELSE</span> <span class="st">'Grande'</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>       <span class="cf">END</span> <span class="kw">AS</span> categoria_area</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> stg.veredas_norm;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="cte-common-table-expressions" class="level2">
 <h2 class="anchored" data-anchor-id="cte-common-table-expressions">CTE (Common Table Expressions)</h2>
 <p>Las CTE facilitan pipelines claros y reusables.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">WITH</span> limites <span class="kw">AS</span> (</span>
-<span id="cb5-2"><a href="#cb5-2"></a>  <span class="kw">SELECT</span> municipio,</span>
-<span id="cb5-3"><a href="#cb5-3"></a>         <span class="fu">SUM</span>(area_ha) <span class="kw">AS</span> area_total_ha</span>
-<span id="cb5-4"><a href="#cb5-4"></a>  <span class="kw">FROM</span> stg.veredas_norm</span>
-<span id="cb5-5"><a href="#cb5-5"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> municipio</span>
-<span id="cb5-6"><a href="#cb5-6"></a>),</span>
-<span id="cb5-7"><a href="#cb5-7"></a>por_encima <span class="kw">AS</span> (</span>
-<span id="cb5-8"><a href="#cb5-8"></a>  <span class="kw">SELECT</span> municipio</span>
-<span id="cb5-9"><a href="#cb5-9"></a>  <span class="kw">FROM</span> limites</span>
-<span id="cb5-10"><a href="#cb5-10"></a>  <span class="kw">WHERE</span> area_total_ha <span class="op">&gt;</span> <span class="dv">15000</span></span>
-<span id="cb5-11"><a href="#cb5-11"></a>)</span>
-<span id="cb5-12"><a href="#cb5-12"></a><span class="kw">SELECT</span> v.vereda_nombre, v.municipio, v.area_ha</span>
-<span id="cb5-13"><a href="#cb5-13"></a><span class="kw">FROM</span> stg.veredas_norm v</span>
-<span id="cb5-14"><a href="#cb5-14"></a><span class="kw">JOIN</span> por_encima p <span class="kw">USING</span> (municipio)</span>
-<span id="cb5-15"><a href="#cb5-15"></a><span class="kw">ORDER</span> <span class="kw">BY</span> p.municipio, v.area_ha <span class="kw">DESC</span>;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> limites <span class="kw">AS</span> (</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> municipio,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>         <span class="fu">SUM</span>(area_ha) <span class="kw">AS</span> area_total_ha</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> stg.veredas_norm</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> municipio</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>),</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>por_encima <span class="kw">AS</span> (</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> municipio</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> limites</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> area_total_ha <span class="op">&gt;</span> <span class="dv">15000</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> v.vereda_nombre, v.municipio, v.area_ha</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> stg.veredas_norm v</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> por_encima p <span class="kw">USING</span> (municipio)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> p.municipio, v.area_ha <span class="kw">DESC</span>;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="buenas-prácticas" class="level2">
 <h2 class="anchored" data-anchor-id="buenas-prácticas">Buenas prácticas</h2>
@@ -998,19 +872,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       &nbsp;
     </div>
     <div class="nav-footer-right">
-      <ul class="footer-items list-unstyled">
-    <li class="nav-item">
-    <a class="nav-link active" href="https://github.com/famartinezal" aria-current="page">
-<p>GitHub</p>
-</a>
-  </li>  
-    <li class="nav-item">
-    <a class="nav-link" href="https://www.fedearroz.com.co">
-<p>Fedearroz</p>
-</a>
-  </li>  
-</ul>
-    </div>
+<p><a href="https://www.fedearroz.com.co/">Fedearroz-FNA</a></p>
+</div>
   </div>
 </footer>
 
