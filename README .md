@@ -1,9 +1,5 @@
 # Bases de datos espaciales con Postgres, PostGIS y QGIS
 
-📖 **[Ver el libro en línea →](https://famartinezal.github.io/libro-postgis)**
-
----
-
 Repositorio preparado como libro interactivo en Quarto, inspirado en la plantilla `GEEMAP`. Incluye portada con el logo de Fedearroz y capítulos sobre SQL, PostGIS y QGIS.
 
 ## Requisitos
