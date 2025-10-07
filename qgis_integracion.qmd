@@ -2,12 +2,14 @@
 title: "Integración con QGIS"
 ---
 
-## Conexión a PostgreSQL
-
-1. Abra QGIS y use *Administrador de fuentes de datos*.
-2. Seleccione **PostgreSQL** y cree una conexión nueva.
+## Conexión a PostgreSQL desde QGIS
+1. Verifica que el software QGIS esté actualizado (3.40.9), si no lo está, actualizarlo. 
+2. Abra QGIS y use *Administrador de fuentes de datos*.
+![Administrador fuente de datos](C:/Users/econo9/Documents/GitHub/A LIB TUTORIALS/imagenes/Administrador.png)
+3. Seleccione **PostgreSQL** y cree una conexión nueva.
 3. Complete parámetros de host, puerto, base `sig_fedearroz_fna` y active SSL si aplica.
-4. Guarde credenciales en `pg_service.conf` o `.pgpass` para evitar contraseñas en texto plano.
+4. 
+5. Guarde credenciales en `pg_service.conf` o `.pgpass` para evitar contraseñas en texto plano.
 
 ## Cargar capas
 
