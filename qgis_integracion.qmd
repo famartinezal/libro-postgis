@@ -3,24 +3,38 @@ title: "Integración con QGIS"
 ---
 
 ## Conexión a PostgreSQL desde QGIS
-1. Verifica que el software QGIS esté actualizado (3.40.9), si no lo está, actualizarlo.
-2. Abra QGIS y use *Administrador de fuentes de datos*.
 
-3. Seleccione **PostgreSQL** y cree una conexión nueva.
-4. Complete parámetros de host, puerto, base `sig_fedearroz_fna` y active SSL si aplica.
-5.
-6. Guarde credenciales en `pg_service.conf` o `.pgpass` para evitar contraseñas en texto plano.
+1.  **Versión de QGIS:** Verifique que QGIS esté actualizado a la versión 3.40.9 para asegurar compatibilidad con extensiones y complementos de acceso a PostgreSQL.
+2.  **Verificación de acceso a la red:** Para comprobar la conectividad al servidor y al puerto (IP del computador) donde se encuentra la base de datos PostgreSQL.
+
+-   Abrir **PowerShell de Windows** desde el buscador o desde el ejecutador de programas (tecla de Windows+R).\
+    ![Ventana de PowerShell](https://raw.githubusercontent.com/famartinezal/libro-postgis/Sandra/assets/Powershell1.png)
+
+-   Escribir el siguiente código en Windows PowerShell + Enter:
+
+```         
+Test-NetConnection <IP computador> -Port <Puerto>
+```
+
+-   El enunciado *TRUE* indica que se puede acceder al puerto desde el computador, conexión está lista para iniciar el proceso de vinculación a la base de datos.
+
+![Conectividad](C:\Users\econo9\Documents\GitHub\libro_postgis\libro-postgis\assets\Conectividad2.png)
+
+3.  Seleccione **PostgreSQL** y cree una conexión nueva.
+4.  Complete parámetros de host, puerto, base `sig_fedearroz_fna` y active SSL si aplica.
+5.  
+6.  Guarde credenciales en `pg_service.conf` o `.pgpass` para evitar contraseñas en texto plano.
 
 ## Cargar capas
 
-- Añada `stg.veredas_norm` y defina simbología graduada por `area_ha`.
-- Cree mapas temáticos combinando veredas con capas raster (NDVI, precipitación).
+-   Añada `stg.veredas_norm` y defina simbología graduada por `area_ha`.
+-   Cree mapas temáticos combinando veredas con capas raster (NDVI, precipitación).
 
 ## Consultas desde QGIS
 
 Utilice el panel **DB Manager** para ejecutar SQL y crear vistas materiales.
 
-```sql
+``` sql
 CREATE MATERIALIZED VIEW carto.v_veredas_fuente_hidrica AS
 WITH fuentes AS (
   SELECT geom
@@ -47,15 +61,15 @@ Recargue la vista en QGIS y configure actualizaciones automáticas tras `REFRESH
 
 ## Salidas cartográficas
 
-- Diseñe plantillas de impresión con logotipo Fedearroz en la esquina inferior.
-- Exporte mapas en PDF y PNG, guardándolos en `reportes_cartografia/` con nomenclatura `YYYYMMDD_tema.pdf`.
-- Documente estilos QGIS (`.qml`) en la carpeta `consultas/estilos_qgis/`.
+-   Diseñe plantillas de impresión con logotipo Fedearroz en la esquina inferior.
+-   Exporte mapas en PDF y PNG, guardándolos en `reportes_cartografia/` con nomenclatura `YYYYMMDD_tema.pdf`.
+-   Documente estilos QGIS (`.qml`) en la carpeta `consultas/estilos_qgis/`.
 
 ## Integración con Quarto
 
 Inserte mapas renderizados como imágenes o `iframe` cuando se publique el libro.
 
-```markdown
+``` markdown
 ![](reportes_cartografia/20250315_mapa_veredas_tolima.png){fig-align="center"}
 ```
 
