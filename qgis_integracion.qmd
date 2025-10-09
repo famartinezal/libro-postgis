@@ -33,7 +33,7 @@ title: "Integración con QGIS"
         %APPDATA%\postgresql\
         ```
 
-        ![Comprobar_carpeta_postgresql](assets/Comprobar_carpeta_postgresql.png){fig-align="center"}
+        ![Comprobar la existencia de la carpeta postgresql](assets/Comprobar_carpeta_postgresql.png){fig-align="center"}
 
         En caso de error, cree la carpeta denominada *postgresql*, escribiendo la siguiente ruta en el explorador de archivos:
 
@@ -41,9 +41,11 @@ title: "Integración con QGIS"
         %APPDATA%
         ```
 
-        ![Crear_carpeta_postgresql](assets/Crear_carpeta_postgresql.png)
+        ![](assets/Crear_carpeta_postgresql.png){width="488"}
 
-    -   En la carpeta creada, guarde el archivo .conf enviado desde la oficina principal, este contiene información acerca del lugar donde se encuentra la base de datos:
+    -   En la carpeta creada, guarde el archivo .conf enviado desde la oficina principal. Este contiene información acerca del lugar donde se encuentra la base de datos:
+
+        ![Comprobar la existencia de la carpeta postgresql](assets/Comprobar_carpeta_postgresql.png){fig-align="center"}
 
         ```         
         [Base de datos] 
@@ -53,9 +55,17 @@ title: "Integración con QGIS"
         sslmode=prefer - Conexión. 
         ```
 
-    -   
+4.  **Activación de la contraseña maestra y creación de credenciales cifradas**
 
-4.  
+    Abra QGIS, en la barra de herramientas, vaya a *Configuración* y seleccione *Opciones*.
+
+    ![](assets/Ruta%20Autenticación.png)
+
+    En la ventana desplegada busque *Autenticación,* le solicitará la contraseña maestra, una clave única implementada por el software QGIS para proteger las credenciales de conexiones como a la base de datos postgreSQL, acuérdese de ella porque en caso de pérdida, no se puede recuperar. Vale aclarar que la contraseña maestra y la solicitada para el acceso directamente a la base de datos, son diferentes.
+
+    ![](assets/Contraseña maestra.png)
+
+    , digítela y dele click en Aceptar. Se resalta que
 
 5.  Seleccione **PostgreSQL** y cree una conexión nueva.
 
