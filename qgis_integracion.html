@@ -384,26 +384,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="assets/Comprobar_carpeta_postgresql.png" class="img-fluid figure-img"></p>
-<figcaption>Comprobar_carpeta_postgresql</figcaption>
+<figcaption>Comprobar la existencia de la carpeta postgresql</figcaption>
 </figure>
 </div>
 <p>En caso de error, cree la carpeta denominada <em>postgresql</em>, escribiendo la siguiente ruta en el explorador de archivos:</p>
 <pre><code>%APPDATA%</code></pre>
+<p><img src="assets/Crear_carpeta_postgresql.png" class="img-fluid" width="488"></p></li>
+<li><p>En la carpeta creada, guarde el archivo .conf enviado desde la oficina principal. Este contiene información acerca del lugar donde se encuentra la base de datos:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="assets/Crear_carpeta_postgresql.png" class="img-fluid figure-img"></p>
-<figcaption>Crear_carpeta_postgresql</figcaption>
+<p><img src="assets/Comprobar_carpeta_postgresql.png" class="img-fluid figure-img"></p>
+<figcaption>Comprobar la existencia de la carpeta postgresql</figcaption>
 </figure>
-</div></li>
-<li><p>En la carpeta creada, guarde el archivo .conf enviado desde la oficina principal, este contiene información acerca del lugar donde se encuentra la base de datos:</p>
+</div>
 <pre><code>[Base de datos] 
 host=Dirección del servidor al que se conectará el sistema (IP o dirección del dominio).
 port=Puerto de conexión al servicio (base de datos o servidor).
 dbname=Nombre de la base de datos a la que el sistema se conectará. 
 sslmode=prefer - Conexión. </code></pre></li>
-<li></li>
 </ul></li>
-<li></li>
+<li><p><strong>Activación de la contraseña maestra y creación de credenciales cifradas</strong></p>
+<p>Abra QGIS, en la barra de herramientas, vaya a <em>Configuración</em> y seleccione <em>Opciones</em>.</p>
+<p><img src="assets/Ruta Autenticación.png" class="img-fluid"></p>
+<p>En la ventana desplegada busque <em>Autenticación,</em> le solicitará la contraseña maestra, una clave única implementada por el software QGIS para proteger las credenciales de conexiones como a la base de datos postgreSQL, acuérdese de ella porque en caso de pérdida, no se puede recuperar. Vale aclarar que la contraseña maestra y la solicitada para el acceso directamente a la base de datos, son diferentes.</p>
+<p><img src="assets/Contraseña maestra.png" class="img-fluid"></p>
+<p>, digítela y dele click en Aceptar. Se resalta que</p></li>
 <li><p>Seleccione <strong>PostgreSQL</strong> y cree una conexión nueva.</p></li>
 <li><p>Complete parámetros de host, puerto, base <code>sig_fedearroz_fna</code> y active SSL si aplica.</p></li>
 <li></li>
