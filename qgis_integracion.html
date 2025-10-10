@@ -406,10 +406,22 @@ sslmode=prefer - Conexión. </code></pre></li>
 <li><p><strong>Activación de la contraseña maestra y creación de credenciales cifradas</strong></p>
 <p>Abra QGIS, en la barra de herramientas, vaya a <em>Configuración</em> y seleccione <em>Opciones</em>.</p>
 <p><img src="assets/Ruta Autenticación.png" class="img-fluid"></p>
-<p>En la ventana desplegada busque <em>Autenticación,</em> le solicitará la contraseña maestra, una clave única implementada por el software QGIS para proteger las credenciales de conexiones como a la base de datos postgreSQL, acuérdese de ella porque en caso de pérdida, no se puede recuperar. Vale aclarar que la contraseña maestra y la solicitada para el acceso directamente a la base de datos, son diferentes.</p>
+<p>En la ventana desplegada busque <em>Autenticación,</em> le solicitará la contraseña maestra, una clave única implementada por el software QGIS para proteger las credenciales de conexiones como a la base de datos postgreSQL, acuérdese de ella porque en caso de pérdida, no se puede recuperar. Digítela y dele click en Aceptar. Vale aclarar que la contraseña maestra y la solicitada para el acceso directamente a la base de datos, son diferentes.</p>
 <p><img src="assets/Contraseña maestra.png" class="img-fluid"></p>
-<p>, digítela y dele click en Aceptar. Se resalta que</p></li>
-<li><p>Seleccione <strong>PostgreSQL</strong> y cree una conexión nueva.</p></li>
+<p>Posteriormente, en la ventana de <em>Autenticación</em>, vaya a <em>Añadir nueva configuración de autenticación</em> y complete los datos solicitados en la ventana desplegada:</p>
+<ul>
+<li><p>Nombre: Asigne un nombre referente a la base de datos que tendrá acceso.</p></li>
+<li><p>Seleccione <em>Basic authenthication.</em></p></li>
+<li><p>Nombre de usuario: El que fue asignado acorde a la zona encargada.</p></li>
+<li><p>Contraseña: La asignada para el ingreso a la base de datos.</p>
+<p>Los campos restantes se dejan sin información.</p></li>
+</ul>
+<p><img src="assets/Autenticación.png" class="img-fluid"></p></li>
+<li><p>Creación de la conexión a PostgreSQL</p>
+<p>Ahora se ingresarán los datos para crear la conexión PostgreSQL y así poder tener acceso a la base de datos.</p>
+<p>En la barra de herramientas busque <em>Administrador de fuentes de datos</em>, en la nueva ventana vaya a <em>Navegador</em> y Click derecho en <em>PostgreSQL</em>. En el menú desplegado, seleccione <em>Conexión nueva</em>.</p>
+<p><img src="assets/Administrador fuente de datos.png" class="img-fluid"></p>
+<p>Dirección del servidor al que se conectará el sistema (IP o dirección del dominio).</p></li>
 <li><p>Complete parámetros de host, puerto, base <code>sig_fedearroz_fna</code> y active SSL si aplica.</p></li>
 <li></li>
 <li><p>Guarde credenciales en <code>pg_service.conf</code> o <code>.pgpass</code> para evitar contraseñas en texto plano.</p></li>
