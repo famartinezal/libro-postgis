@@ -61,13 +61,33 @@ title: "Integración con QGIS"
 
     ![](assets/Ruta%20Autenticación.png)
 
-    En la ventana desplegada busque *Autenticación,* le solicitará la contraseña maestra, una clave única implementada por el software QGIS para proteger las credenciales de conexiones como a la base de datos postgreSQL, acuérdese de ella porque en caso de pérdida, no se puede recuperar. Vale aclarar que la contraseña maestra y la solicitada para el acceso directamente a la base de datos, son diferentes.
+    En la ventana desplegada busque *Autenticación,* le solicitará la contraseña maestra, una clave única implementada por el software QGIS para proteger las credenciales de conexiones como a la base de datos postgreSQL, acuérdese de ella porque en caso de pérdida, no se puede recuperar. Digítela y dele click en Aceptar. Vale aclarar que la contraseña maestra y la solicitada para el acceso directamente a la base de datos, son diferentes.
 
-    ![](assets/Contraseña maestra.png)
+    ![](assets/Contraseña%20maestra.png)
 
-    , digítela y dele click en Aceptar. Se resalta que
+    Posteriormente, en la ventana de *Autenticación*, vaya a *Añadir nueva configuración de autenticación* y complete los datos solicitados en la ventana desplegada:
 
-5.  Seleccione **PostgreSQL** y cree una conexión nueva.
+    -   Nombre: Asigne un nombre referente a la base de datos que tendrá acceso.
+
+    -   Seleccione *Basic authenthication.*
+
+    -   Nombre de usuario: El que fue asignado acorde a la zona encargada.
+
+    -   Contraseña: La asignada para el ingreso a la base de datos.
+
+        Los campos restantes se dejan sin información.
+
+    ![](assets/Autenticación.png)
+
+5.  Creación de la conexión a PostgreSQL
+
+    Ahora se ingresarán los datos para crear la conexión PostgreSQL y así poder tener acceso a la base de datos.
+
+    En la barra de herramientas busque *Administrador de fuentes de datos*, en la nueva ventana vaya a *Navegador* y Click derecho en *PostgreSQL*. En el menú desplegado, seleccione *Conexión nueva*.
+
+    ![](assets/Administrador fuente de datos.png)
+
+    Dirección del servidor al que se conectará el sistema (IP o dirección del dominio).
 
 6.  Complete parámetros de host, puerto, base `sig_fedearroz_fna` y active SSL si aplica.
 
