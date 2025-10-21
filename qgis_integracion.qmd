@@ -109,7 +109,7 @@ title: "Integración con QGIS"
 
     En el apartado de *Autenticación,* click en *Crear una nueva configuración de autenticación* y en el menú desplegable seleccionar el nombre que asignó previamente en el diligenciamiento de la autenticación (Numeral 4).
 
-    Finalmente Click en *Probar conexión*, en caso de ser exitosa, podrá observar el enunciado del éxito de la conexión (ver imagen EXITO) y enseguida diríjase al numeral 7, en caso contrario, continúe en esta sección.
+    Finalmente Click en *Probar conexión*, en caso de ser exitosa, podrá observar el enunciado del éxito de la conexión (ver imagen EXITO) y enseguida diríjase a la sección **Ingreso a la base de datos**, en caso contrario, continúe en esta sección.
 
     ![](assets/Conexión%20exitosa.png){#gfhfghfghfg}
 
@@ -163,17 +163,29 @@ title: "Integración con QGIS"
 
     Digite la contraseña que le solicitan, en algunos casos no se ve la escritura de la misma, pero sí se está digitando. Si es exitoso, observará el cuadro de la parte inferior izquierda con los datos de su usuario e IP de su computador.
 
-    Repita nuevamente el proceso para crear la conexión a PostgreSQL desde QGIS, al inicio del numeral cinco.
+    Repita nuevamente el proceso para crear la conexión a PostgreSQL desde QGIS e ingrese a la base de datos.
 
-6.  **Ingrese a la base de datos**
+    ## Ingreso a la base de datos
 
-    Una vez se haya establecido la conexión con éxito, ingrese a la base de datos de la siguiente manera: en la *Barra de* *Herramientas* busque *Base de datos,* y en el menú desplegado, seleccione *Administrador de bases de datos:*
+    Una vez se haya establecido la conexión con éxito, ingrese a la base de datos de la siguiente manera: en la *Barra de* *Herramientas* busque *Base de datos,* y en el menú desplegado, seleccione *Administrador de bases de datos,* una herramienta muy útil para conectarse, explorar (ver tablas, esquemas o capas espaciales) y administrar (ejecutar consultas SQL e importar o exportar datos) diferentes bases de datos espaciales como PostGIS*:*
 
     ![](images/paste-4.png)
 
-7.  
+    Se abrirá una nueva ventana denominada *Administrador de BBDD,* en el cual se encuentra una barra de menús conformada por *Base de datos, Esquema, Tabla* y *Schema*. La barra de herramientas cuenta con la opción de *Actualizar*, *Ventana SQL*, *Importar capa/archivo* e *Exportar a archivo*. En el panel lateral derecho se encuentra *Proveedores* con el listado de los distintos tipos de bases de datos que QGIS puede manejar, seleccione *PostGIS* y en el menú desplegado observe las bases de datos y los esquemas que las conforman. Un esquema es considerado como una "carpeta" en la que se encuentran las tablas (.CSV, .XLSX, .XLS) y capas que conforman las bases de datos, permitiendo la administración de esta de una manera organizada. Asimismo, en el panel derecho encontrará la pestaña *Info*, donde se encuentra la información referente a la conexión, base de datos, esquema o capa seleccionada; *Tabla* para visualizar los datos de la tabla o capa seleccionada en formato tabular (como una hoja de Excel); y *Vista preliminar* para previsualizar espacialmente el contenido en caso de tener geometrías.
 
-8.  
+    ![](assets/Ingreso Base de datos.png)
+
+    Vaya a *PostGIS* y seleccione la base de datos en la que se estableció la conexión.
+
+<!-- -->
+
+1.  f
+
+2.  f
+
+3.  
+
+4.  Dato compartido para poder hacer las uniones y diferentes anaálisis.
 
 ## Cargar capas
 
