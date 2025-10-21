@@ -213,11 +213,11 @@ Para subir a la base de datos PostgreSQL/PostGIS una capa vectorial o una tabla 
 
     -   Columna de geometría: Define el nombre del campo donde se guardará la geometría espacial (coordenadas de los vectores). Usualmente se denomina *geom*.
 
-    -   SRID de origen: Sistema de Referencia de Coordenadas -SRC- que tiene la capa de origen.
+    -   SRID de origen: Sistema de Referencia de Coordenadas -SRC- que tiene la capa de origen. QGIS puede reconocer el SRC de la capa automáticamente sin necesidad de especificarlo en este apartado.
 
     -   SRID de destino: SRC que tendrá la capa una vez importada. Se puede conservar el de origen si es EPSG:32618 - WGS / UTM zone 18N, o reproyectarlo a este. Es indispensable que las capas importadas estén proyectadas en el SRC anteriormente mencionado, con el fin de que los resultados de los análisis sean correctos y estandarizar procesos en los que las mediciones estén en metros.
 
-    -   Codificación:
+    -   Codificación: Puede definir la codificación del texto, es decir como se guardan los caracteres. Seleccione UFT-8 para asegurar que compatibilidad con tildes y caracteres especiales como la "ñ".
 
     -   Sustituir las capas de destino (si existe):
 
