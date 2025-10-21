@@ -1,0 +1,62 @@
+---
+title: "Modelado espacial"
+---
+
+## Esquemas y gobernanza
+
+- `stg`: staging y cargas temporales.
+- `dm`: modelos depurados para análisis.
+- `carto`: vistas optimizadas para consumo en QGIS.
+
+Documente relaciones en `ESTRUCTURA_FINAL_BD.md` y mantenga versiones con etiquetas por corte de Servicio 690.
+
+## Normalización de veredas
+
+```sql
+WITH base AS (
+  SELECT vereda_codigo,
+         municipio,
+         departamento,
+         ST_Multi(ST_SnapToGrid(geom, 0.01)) AS geom
+  FROM stg.veredas_raw
+),
+con_area AS (
+  SELECT *,
+         ST_Area(geom) / 10000 AS area_ha
+  FROM base
+)
+SELECT vereda_codigo,
+       municipio,
+       departamento,
+       area_ha,
+       geom
+FROM con_area;
+```
+
+## Dimensiones y hechos
+
+- **Dimensión vereda**: atributos geográficos y administrativos.
+- **Dimensión cultivo**: especie, ciclo, fecha de siembra.
+- **Hecho producción**: superficie cosechada, rendimiento, campaña.
+
+Use claves sustitutas numéricas y mantenga integridad referencial.
+
+## Versionamiento de datos espaciales
+
+- Almacene cortes en tablas históricas `hist.veredas_norm_202412`.
+- Registre notas de actualización (fuente, QA, responsable).
+- Compare geometrias con `ST_Equals` y `ST_Difference` para identificar cambios.
+
+```sql
+SELECT vereda_codigo,
+       ST_Area(ST_Difference(n.geom, h.geom)) / 10000 AS delta_area_ha
+FROM stg.veredas_norm n
+JOIN hist.veredas_norm_202312 h USING (vereda_codigo)
+WHERE NOT ST_Equals(n.geom, h.geom);
+```
+
+## Buenas prácticas adicionales
+
+- Mantener SRID consistente en todo el pipeline (`32618`).
+- Evitar geometrías mixtas; convierta a `MultiPolygon`.
+- Validar topología cuando se integran coberturas departamentales.

@@ -1,0 +1,123 @@
+<script>
+(function () {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  function hydrateFuseFromDocs(fuse, docs) {
+    docs.forEach(function (doc) {
+      fuse.add(doc);
+    });
+    if (typeof fuseIndex !== "undefined") {
+      fuseIndex = fuse;
+    }
+    return fuse;
+  }
+
+  function loadJsonWithXHR(url, fuse) {
+    return new Promise(function (resolve, reject) {
+      try {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", url, true);
+        xhr.overrideMimeType("application/json");
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200 || xhr.status === 0) {
+              try {
+                var docs = JSON.parse(xhr.responseText);
+                resolve(hydrateFuseFromDocs(fuse, docs));
+              } catch (err) {
+                reject(err);
+              }
+            } else {
+              reject(new Error("No se pudo cargar " + url));
+            }
+          }
+        };
+        xhr.onerror = function () {
+          reject(new Error("No se pudo cargar " + url));
+        };
+        xhr.send();
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
+
+  function patchSearch() {
+    if (typeof window.readSearchData !== "function") {
+      return false;
+    }
+    if (typeof window.Fuse === "undefined") {
+      return false;
+    }
+    if (typeof kFuseIndexOptions === "undefined") {
+      return false;
+    }
+    if (window.__quartoSearchFilePatched) {
+      return true;
+    }
+
+    var searchUrl = "search.json";
+    if (typeof offsetURL === "function") {
+      searchUrl = offsetURL("search.json");
+    }
+
+    window.readSearchData = async function () {
+      if (typeof fuseIndex !== "undefined" && fuseIndex !== undefined) {
+        return fuseIndex;
+      }
+
+      var fuse = new window.Fuse([], kFuseIndexOptions);
+
+      var hydrate = function (docs) {
+        hydrateFuseFromDocs(fuse, docs);
+        return fuseIndex;
+      };
+
+      try {
+        var response = await fetch(searchUrl, { cache: "no-store" });
+        if (response && (response.ok || response.status === 0)) {
+          var docs = await response.json();
+          return hydrate(docs);
+        }
+      } catch (err) {
+        // Continuamos con el fallback
+      }
+
+      return loadJsonWithXHR(searchUrl, fuse);
+    };
+
+    if (typeof shownWarning !== "undefined") {
+      shownWarning = false;
+    }
+
+    var originalAlert = window.alert;
+    window.alert = function () {
+      if (
+        arguments.length > 0 &&
+        typeof arguments[0] === "string" &&
+        arguments[0].indexOf("Search requires JavaScript features disabled when running in file://") === 0
+      ) {
+        return;
+      }
+      return originalAlert.apply(window, arguments);
+    };
+
+    window.__quartoSearchFilePatched = true;
+    return true;
+  }
+
+  if (!patchSearch()) {
+    document.addEventListener("DOMContentLoaded", function () {
+      var attempts = 0;
+      var timer = window.setInterval(function () {
+        attempts += 1;
+        if (patchSearch() || attempts > 40) {
+          window.clearInterval(timer);
+        }
+      }, 100);
+    });
+  }
+})();
+</script>

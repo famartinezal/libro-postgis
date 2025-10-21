@@ -1,0 +1,58 @@
+project:
+  type: book
+  output-dir: _book
+
+lang: es
+
+book:
+  title: "Bases de datos espaciales con Postgres, PostGIS y QGIS"
+  subtitle: "Guía práctica para análisis geoespacial"
+  author:
+    - Fredy Martínez
+    - Sandra Rodríguez
+  date: 2025-10-06
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - fundamentos_sql.qmd
+    - postgis_basico.qmd
+    - modelado_espacial.qmd
+    - etl_geoespacial.qmd
+    - qgis_integracion.qmd
+    - casos_practicos.qmd
+    - ejercicios.qmd
+    - recursos.qmd
+  search: true
+  sidebar:
+    style: docked
+    background: light
+    logo: assets/logo_fedearroz.png
+    collapse-level: 1
+  page-footer:
+    left: "© 2025 Fredy Martínez y Sandra Rodríguez"
+    right: "[Fedearroz-FNA](https://www.fedearroz.com.co/)"
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    toc-title: "Contenido"
+    number-sections: false
+    code-fold: false
+    code-copy: true
+    code-overflow: wrap
+    smooth-scroll: true
+    link-external-newwindow: true
+    page-layout: full
+    grid:
+      sidebar-width: 350px
+      body-width: 1400px
+      margin-width: 350px
+    mainfont: "Dosis"
+    monofont: "Source Code Pro"
+    highlight-style: github
+    css: styles.css
+    include-in-header: assets/search-offline.html
