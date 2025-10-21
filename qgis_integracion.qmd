@@ -23,7 +23,7 @@ title: "Integración con QGIS"
 
     -   El enunciado *TRUE* indica que sí puede acceder desde su computadora al puerto en el que se encuentra ubicada la base de datos. La conexión está lista para iniciar el proceso de vinculación a la base de datos.
 
-        ![](assets/Probar conexión al servidor.png)
+        ![](assets/Probar%20conexión%20al%20servidor.png)
 
         Si no puede conectarse, revise la configuración de los datos del IP del computador o servidor, del puerto, así como la red desde la que está intentando acceder.
 
@@ -45,9 +45,11 @@ title: "Integración con QGIS"
 
         ![](assets/Crear_carpeta_postgresql.png){width="488"}
 
-    -   En la carpeta creada, guarde el archivo *pg_service.conf* enviado desde la oficina principal. Este contiene información referente a la base de datos y reconocerá los datos consignados durante la creación e ingreso a esta:
+    -   En la carpeta creada, guarde el archivo *pg_service.conf* enviado desde la oficina principal, el cual contiene la configuración de conexión a la base de datos y reconocerá la información consignada durante la creación de la conexión e ingreso:
 
-        ![](assets/Carpeta postgresql con el archivo conf.png)
+        ![](assets/Carpeta%20postgresql%20con%20el%20archivo%20conf.png)
+
+        La estructura del archivo pg_service.conf es la siguiente:
 
         ```         
         [Base de datos] = Nombre del servicio, el cual tendrá el mismo nombre de la base de datos.
@@ -59,21 +61,23 @@ title: "Integración con QGIS"
 
 4.  **Activación de la contraseña maestra y creación de credenciales cifradas**
 
-    Abra QGIS, en la barra de herramientas, vaya a *Configuración* y seleccione *Opciones*.
+    Este paso es fundamental para proporcionar seguridad a la información que se está visualizando.
+
+    Abra QGIS, en el menú diríjase a *Configuración* y seleccione *Opciones*.
 
     ![](assets/Ruta%20Autenticación.png)
 
-    En la ventana desplegada busque *Autenticación,* le solicitará la contraseña maestra, una clave única implementada por el software QGIS para proteger las credenciales de conexiones como a la base de datos postgreSQL, acuérdese de ella porque en caso de pérdida, no se puede recuperar. Digítela y dele click en Aceptar. Vale aclarar que la contraseña maestra y la solicitada para el acceso directamente a la base de datos, son diferentes.
+    En la ventana desplegada busque *Autenticación,* le solicitará la contraseña maestra, una clave única implementada por el software QGIS para proteger las credenciales de conexiones como a la base de datos postgreSQL, acuérdese de ella porque en caso de pérdida no se podrá recuperar. Digítela y de click en *Aceptar*. Vale aclarar que la contraseña maestra y la solicitada para el acceso directamente a la base de datos, son diferentes.
 
     ![](assets/Contraseña%20maestra.png)
 
     Posteriormente, en la ventana de *Autenticación*, vaya a *Añadir nueva configuración de autenticación* y complete los datos solicitados en la ventana desplegada:
 
-    -   Nombre: Asigne un nombre a la conexión dentro de QGIS. Sirve como identificador para usted, no afecta la base de datos.
+    -   Nombre: Asigne un nombre a la conexión dentro de QGIS. Sirve como identificador para usted y no afecta la base de datos.
 
     -   Seleccione *Basic authenthication.*
 
-    -   Nombre de usuario: El que fue asignado acorde a la zona encargada.
+    -   Nombre de usuario: El asignado acorde a la/s zona/s que trabaja.
 
     -   Contraseña: La asignada para el ingreso a la base de datos.
 
@@ -83,9 +87,9 @@ title: "Integración con QGIS"
 
 5.  **Creación de la conexión a PostgreSQL**
 
-    Ahora se ingresarán los datos para crear la conexión PostgreSQL y así poder tener acceso a la base de datos.
+    En esta sección se establecerá la conexión a PostgreSQL para tener acceso a la base de datos.
 
-    En la barra de herramientas busque *Administrador de fuentes de datos*, en la nueva ventana vaya a *Navegador* y Click derecho en *PostgreSQL*. En el menú desplegado, seleccione *Conexión nueva*.
+    En la barra de herramientas busque *Administrador de fuentes de datos*, en la nueva ventana vaya a *Navegador* y de click derecho en *PostgreSQL*. En el menú desplegado, seleccione *Conexión nueva*.
 
     ![](assets/Administrador%20fuente%20de%20datos.png)
 
@@ -107,15 +111,15 @@ title: "Integración con QGIS"
 
     -   Modo SSL: Seleccionar *Preferir.*
 
-    En el apartado de *Autenticación,* click en *Crear una nueva configuración de autenticación* y en el menú desplegable seleccionar el nombre que asignó previamente en el diligenciamiento de la autenticación (Numeral 4).
+    En el apartado de *Autenticación,* de click en *Crear una nueva configuración de autenticación* y en el menú desplegable seleccione el nombre que asignó previamente en el diligenciamiento de la autenticación (Numeral 4).
 
-    Finalmente Click en *Probar conexión*, en caso de ser exitosa, podrá observar el enunciado del éxito de la conexión (ver imagen EXITO) y enseguida diríjase a la sección **Ingreso a la base de datos**, en caso contrario, continúe en esta sección.
+    Finalmente, click en *Probar conexión*, en caso de ser exitosa, podrá observar el enunciado del éxito de la conexión y enseguida diríjase al apartado ***Ingreso a la base de datos***, en caso contrario, continúe en esta sección.
 
     ![](assets/Conexión%20exitosa.png){#gfhfghfghfg width="461" height="117"}
 
-    ***Problema de conexión a PostgreSQL desde QGIS:***
+    **Problema de conexión a PostgreSQL desde QGIS:**
 
-    Si no es posible establecer la conexión, diríjase a *Windows Powershell* y digite el siguiente código para verificar si la conexión entre el equipo desde el que estoy intentando acceder a la base de datos y el servidor PostgreSQL, es exitosa o no:
+    Si no es posible establecer la conexión, diríjase a *Windows Powershell* y digite el siguiente código para verificar si la conexión entre el equipo desde el que está intentando acceder a la base de datos y el servidor PostgreSQL, es exitosa o no:
 
     ```         
     Test-NetConnection <IP computador o servidor > -Port 5432
@@ -123,33 +127,33 @@ title: "Integración con QGIS"
 
     ![](assets/Conectividad2.png)
 
+    El usuario es el referente al de Windows (su cuenta), IP del computador o servidor donde se encuentra ubicada la base de datos y el ´puerto normalmente es 5432 por defecto, si es necesario modifíquelo.
+
     *TcpTestSucceeded:* *True* incica que la configuración es correcta para aceptar conexiones.
 
     ![](assets/Probar%20conexión%20al%20servidor.png)
 
-    A continuación, en Windows PowerShell digite el siguiente código:
+    A continuación, en Windows PowerShell digite el código que se encuentra en la parte inferior. Este le permite configurar una variable de entorno en Windows, le indica a QGIS y PostgreSQL la ruta en la que se encuentra guardado el archivo pg_service.conf, debido a que no siempre reconoce dónde encontrar el archivo.
 
     ```         
     setx PGSERVICEFILE "$Env:APPDATA\postgresql\pg_service.conf"
     ```
 
-    Este le permite configurar una variable de entorno en Windows y le indica a QGIS y PostgreSQL la ruta en la que se encuentra guardado el archivo pg_service.conf, debido a que no siempre reconoce dónde encontrar el archivo.
-
     ![](assets/Fijar%20archivo%20conf.png)
 
-    -   setx: Comando en PowerShell que permite crear o modificar variables de entorno permanentes y estos cambios se guardan incluso después de reinicar el equipo.
+    -   setx: Comando en PowerShell que le permite crear o modificar variables de entorno permanentes, esos cambios se guardan incluso después de reinicar el equipo.
 
-    -   PGSERVICEFILE: Nombre de la varaible de entorno que se está creando y es reconocido automáticamente por PostgreSQL (y QGIS, que lo usa). Asimismo permite indicar la ubicación del archivo pg_service.conf el cual guarda las configuraciones de conexión a la base de datos.
+    -   PGSERVICEFILE: Nombre de la varaible de entorno que se está creando y es reconocida automáticamente por PostgreSQL (y QGIS, que lo usa). Asimismo, permite indicar la ubicación del archivo pg_service.conf.
 
     -   \$ENV:APPDATA: Define el valor de la variable, que corresponde a la ruta de acceso al archivo pg_service.conf.
 
     -   *CORRECTO: se guardó el valor especificado*: Variable creada correctamente en el sistema.
 
-    Ahora, diríjase a *Inicio* y busque *QGIS*, en la sección de carpetas en el menú, seleccione *Abrir* y de click en *OSGeo4W Shell*:
+    Ahora, diríjase a *Inicio* y busque *QGIS*, en la sección de *Carpetas* en el menú, seleccione *Abrir* y de click en *OSGeo4W Shell*:
 
     ![](assets/QGIS%20Shell.png)
 
-    En la consola copie el código que servirá para probar una conexión a la pase de datos PostgreSQL y verificar quién se conecta y desde qué dirección IP:
+    El siguiente código le servirá para probar una conexión a la base de datos PostgreSQL y verificar el usuario que se conectará y la dirección IP, cópielo en la consola de OSGeo4W:
 
     ```         
     psql -h <IP computador o servidor> -p 5432 -U <nombre de usuario> -d <nombre base de datos> -c "SELECT current_user, inet_client_addr();"
@@ -157,27 +161,29 @@ title: "Integración con QGIS"
 
     ![](assets/OSGEO%20Shell%201.png)
 
-    h: host (IP del computador o del servidor); p: puerto; U: usuario de postgreSQL para acceder a la base de datos; d: nombre de la base de datos.
+    El código está conformado por caracteres y la información asociada a estos, puede cambiar acorde a la base de datos y repositorio donde se encuentra almacenada. h: host (IP del computador o del servidor); p: puerto; U: usuario de postgreSQL para acceder a la base de datos; d: nombre de la base de datos. Digite la contraseña que le solicitan, en algunos casos no se ve la escritura de la misma, pero sí se está digitando. Si es exitoso, observará el cuadro de la parte inferior izquierda con los datos de su usuario e IP de su computador.
 
     ![](assets/OSGEO%20Shell%202.png)
-
-    Digite la contraseña que le solicitan, en algunos casos no se ve la escritura de la misma, pero sí se está digitando. Si es exitoso, observará el cuadro de la parte inferior izquierda con los datos de su usuario e IP de su computador.
 
     Repita nuevamente el proceso para crear la conexión a PostgreSQL desde QGIS e ingrese a la base de datos.
 
     ## Ingreso a la base de datos
 
-    Una vez se haya establecido la conexión a la base de datos con éxito, ingrese a la base de datos de la siguiente manera: en la *Barra de* *Herramientas* busque *Base de datos,* y en el menú desplegado, seleccione *Administrador de bases de datos,* una herramienta muy útil para conectarse, explorar (ver tablas, esquemas o capas espaciales) y administrar (ejecutar consultas SQL e importar o exportar datos) diferentes bases de datos espaciales como PostGIS*:*
+    Una vez haya establecido la conexión a la base de datos con éxito, ingrese de la siguiente manera: en la barra de herramientas busque *Base de datos* y en el menú desplegado, seleccione *Administrador de bases de datos,* herramienta útil para conectarse, explorar (ver tablas, esquemas o capas espaciales) y administrar (ejecutar consultas SQL e importar o exportar datos) diferentes bases de datos espaciales como PostGIS*:*
 
     ![](images/paste-4.png)
 
-    Se abrirá una nueva ventana denominada *Administrador de BBDD,* en el cual se encuentra una barra de menús conformada por *Base de datos, Esquema, Tabla* y *Schema*. La barra de herramientas cuenta con la opción de *Actualizar*, *Ventana SQL*, *Importar capa/archivo* e *Exportar a archivo*. En el panel lateral derecho se encuentra *Proveedores* con el listado de los distintos tipos de bases de datos que QGIS puede manejar, seleccione *PostGIS* y en el menú desplegado observe las bases de datos y los esquemas que las conforman. Un esquema es considerado como una "carpeta" en la que se encuentran las tablas (.CSV, .XLSX, .XLS) y capas que conforman las bases de datos, permitiendo la administración de esta de una manera organizada. Asimismo, en el panel derecho encontrará la pestaña *Info*, donde se encuentra la información referente a la conexión, base de datos, esquema o capa seleccionada; *Tabla* para visualizar los datos de la tabla o capa seleccionada en formato tabular (como una hoja de Excel); y *Vista preliminar* para previsualizar espacialmente el contenido en caso de tener geometrías.
+    Se abrirá una nueva ventana denominada *Administrador de BBDD,* en la cual se encuentra la barra de menús conformada por *Base de datos, Esquema, Tabla* y *Schema*. La barra de herramientas cuenta con las opciones *Actualizar*, *Ventana SQL*, *Importar capa/archivo* y *Exportar a archivo*. En el panel lateral derecho, se encuentra *Proveedores* con el listado de los distintos tipos de bases de datos que QGIS maneja. Seleccione *PostGIS* y en el menú desplegado, observe las bases de datos junto con los esquemas que las conforman.
 
-    ![](assets/Ingreso%20Base%20de%20datos.png)
+    Un esquema es considerado como una "carpeta" en la que se encuentran las tablas (.csv) y las capas contenidas en la base de datos, permitiendo su administración de una manera organizada. Asimismo, en el panel derecho encontrará la pestaña *Info*, donde se encuentra la información referente a la conexión, base de datos, esquema o capa seleccionada; *Tabla* para visualizar los datos de la tabla o capa seleccionada en formato tabular (como una hoja de Excel); y *Vista preliminar* para previsualizar espacialmente el contenido en caso de tener geometrías.
+
+    ![](assets/Ingreso Base de datos.png)
 
     Vaya a *PostGIS* y seleccione la base de datos en la que se estableció la conexión.
 
-<!-- -->
+## Visualización de capas
+
+Para poder visualizar y editar las capas contenidas en la base de datos,
 
 1.  f
 
