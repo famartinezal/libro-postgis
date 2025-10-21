@@ -504,7 +504,7 @@
     "href": "qgis_integracion.html#visualización-de-capas",
     "title": "Integración con QGIS",
     "section": "Visualización de capas",
-    "text": "Visualización de capas\nPara poder visualizar y editar las capas contenidas en la base de datos,\n\nf\nf\n\nDato compartido para poder hacer las uniones y diferentes anaálisis.",
+    "text": "Visualización de capas\nIngrese a la base de datos para visualizar y editar las capas de interés. En la barra de menús seleccione Base de datos &gt; Administrador de bases de datos. En la ventana Administrador de BBDD, diríjase a PostGIS &gt; seleccione la base de datos de interés &gt; esquema que contiene la/s capa/s &gt; click derecho sobre la capa que quiere visualizar o editar &gt; Seleccione Añadir al lienzo.\n\n\nf\nf\n\nDato compartido para poder hacer las uniones y diferentes anaálisis.",
     "crumbs": [
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Integración con QGIS</span>"
     ]

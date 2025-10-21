@@ -177,13 +177,15 @@ title: "Integración con QGIS"
 
     Un esquema es considerado como una "carpeta" en la que se encuentran las tablas (.csv) y las capas contenidas en la base de datos, permitiendo su administración de una manera organizada. Asimismo, en el panel derecho encontrará la pestaña *Info*, donde se encuentra la información referente a la conexión, base de datos, esquema o capa seleccionada; *Tabla* para visualizar los datos de la tabla o capa seleccionada en formato tabular (como una hoja de Excel); y *Vista preliminar* para previsualizar espacialmente el contenido en caso de tener geometrías.
 
-    ![](assets/Ingreso Base de datos.png)
+    ![](assets/Ingreso%20Base%20de%20datos.png)
 
     Vaya a *PostGIS* y seleccione la base de datos en la que se estableció la conexión.
 
 ## Visualización de capas
 
-Para poder visualizar y editar las capas contenidas en la base de datos,
+Ingrese a la base de datos para visualizar y editar las capas de interés. En la barra de menús seleccione *Base de datos* \> *Administrador de bases de datos*. En la ventana *Administrador de BBDD*, diríjase a *PostGIS* \> seleccione la base de datos de interés \> esquema que contiene la/s capa/s \> click derecho sobre la capa que quiere visualizar o editar \> Seleccione *Añadir al lienzo*.
+
+![](assets/Añadir capa al lienzo de trabajo.png)
 
 1.  f
 
