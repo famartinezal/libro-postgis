@@ -181,21 +181,59 @@ title: "Integración con QGIS"
 
     Vaya a *PostGIS* y seleccione la base de datos en la que se estableció la conexión.
 
-## Visualización de capas
+## Cargar capas al lienzo de QGIS
 
-Ingrese a la base de datos para visualizar y editar las capas de interés. En la barra de menús seleccione *Base de datos* \> *Administrador de bases de datos*. En la ventana *Administrador de BBDD*, diríjase a *PostGIS* \> seleccione la base de datos de interés \> esquema que contiene la/s capa/s \> click derecho sobre la capa que quiere visualizar o editar \> Seleccione *Añadir al lienzo*.
+Ingrese a la base de datos para visualizar y editar las capas de interés. En la barra de menús seleccione *Base de datos* \> *Administrador de bases de datos*. En la ventana *Administrador de BBDD*, diríjase a *PostGIS* \> seleccione la base de datos de interés \> esquema que contiene la/s capa/s \> click derecho sobre la capa que quiere visualizar o editar \> Seleccione *Añadir al lienzo*. Del mismo modo, se puede añadir una capa al lienzo de QGIS haciendo doble click izquierdo sobre esta.
 
-![](assets/Añadir capa al lienzo de trabajo.png)
+![](assets/Añadir%20capa%20al%20lienzo%20de%20trabajo.png)
 
-1.  f
+Una vez se ha subido la capa, puede visualzarla o editarla como normalmente lo hace desde el software QGIS. No olvide guardar sus cambios.
 
-2.  f
+## Cargar capas o tablas a la base de datos
 
-3.  
+Para subir a la base de datos PostgreSQL/PostGIS una capa vectorial o una tabla en formato .csv, siga los siguientes pasos:
 
-4.  Dato compartido para poder hacer las uniones y diferentes anaálisis.
+1.  Capa en formato .gpkg subida en el software QGIS, por ejemplo una capa denominada *Puntos*.
 
-## Cargar capas
+    ![](assets/Capa%20a%20subir%20puntos.png)
+
+2.  En la barra de menús, vaya a *Base de datos* \> *Administrador de bases de datos* \> PostGIS \> click sobre la base de datos en la que subirá el archivo \> *Importar capa/archivo*.
+
+    ![](assets/Administrador_BD_subir_capa.png)
+
+3.  En la ventana *Importar capa vectorial* se encuentran las siguientes opciones:
+
+    -   Entrada: En el menú desplegado seleccione la capa que desea importar, aparecerán solo las capas que se encuentran cargadas en QGIS. El archivo también puede exportarlo desde su ordenador dando click en los tres puntos y seleccionando el archivo donde lo tenga guardado. En este apartado también se encuentra la opción *Importar sólo objetos espaciales seleccionados*, se importarán solo las entidades espaciales que tenga seleccionadas.
+
+    -   Esquema: Seleccione el esquema (carpeta o contendeor) de la base de datos donde guardará el archivo, en este caso es stg y se almacenará como stg.Puntos.
+
+    -   Tabla: Escriba el nombre de la capa que importará dentro del esquema. Reemplazar los espacios, si los hay, por guión al piso ( \_ ). En el menú desplegado encontrará las capas contenidas en el esquema seleccionado. En el ejemplo, el archivo se llamará Puntos.
+
+    -   Clave primaria: Nombre del campo que actuará como identificador de cada registro, normalmente es el id. Si la capa ya cuenta con esa columna, QGIS puede usarla directamente.
+
+    -   Columna de geometría: Define el nombre del campo donde se guardará la geometría espacial (coordenadas de los vectores). Usualmente se denomina *geom*.
+
+    -   SRID de origen: Sistema de Referencia de Coordenadas -SRC- que tiene la capa de origen.
+
+    -   SRID de destino: SRC que tendrá la capa una vez importada. Se puede conservar el de origen si es EPSG:32618 - WGS / UTM zone 18N, o reproyectarlo a este. Es indispensable que las capas importadas estén proyectadas en el SRC anteriormente mencionado, con el fin de que los resultados de los análisis sean correctos y estandarizar procesos en los que las mediciones estén en metros.
+
+    -   Codificación:
+
+    -   Sustituir las capas de destino (si existe):
+
+    -   Pasar nombres de campos a minúsculas:
+
+    -   Crear índice espacial:
+
+    -   Comentario:
+
+    ![](assets/Importar_capa_vectorial.png)
+
+4.  
+
+5.  Dato compartido para poder hacer las uniones y diferentes anaálisis.
+
+## Exportar capas
 
 -   Añada `stg.veredas_norm` y defina simbología graduada por `area_ha`.
 -   Cree mapas temáticos combinando veredas con capas raster (NDVI, precipitación).

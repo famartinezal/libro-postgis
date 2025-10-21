@@ -456,8 +456,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#conexión-a-postgresql-desde-qgis" id="toc-conexión-a-postgresql-desde-qgis" class="nav-link active" data-scroll-target="#conexión-a-postgresql-desde-qgis">Conexión a PostgreSQL desde QGIS</a></li>
-  <li><a href="#visualización-de-capas" id="toc-visualización-de-capas" class="nav-link" data-scroll-target="#visualización-de-capas">Visualización de capas</a></li>
-  <li><a href="#cargar-capas" id="toc-cargar-capas" class="nav-link" data-scroll-target="#cargar-capas">Cargar capas</a></li>
+  <li><a href="#cargar-capas-al-lienzo-de-qgis" id="toc-cargar-capas-al-lienzo-de-qgis" class="nav-link" data-scroll-target="#cargar-capas-al-lienzo-de-qgis">Cargar capas al lienzo de QGIS</a></li>
+  <li><a href="#cargar-capas-o-tablas-a-la-base-de-datos" id="toc-cargar-capas-o-tablas-a-la-base-de-datos" class="nav-link" data-scroll-target="#cargar-capas-o-tablas-a-la-base-de-datos">Cargar capas o tablas a la base de datos</a></li>
+  <li><a href="#exportar-capas" id="toc-exportar-capas" class="nav-link" data-scroll-target="#exportar-capas">Exportar capas</a></li>
   <li><a href="#consultas-desde-qgis" id="toc-consultas-desde-qgis" class="nav-link" data-scroll-target="#consultas-desde-qgis">Consultas desde QGIS</a></li>
   <li><a href="#salidas-cartográficas" id="toc-salidas-cartográficas" class="nav-link" data-scroll-target="#salidas-cartográficas">Salidas cartográficas</a></li>
   <li><a href="#integración-con-quarto" id="toc-integración-con-quarto" class="nav-link" data-scroll-target="#integración-con-quarto">Integración con Quarto</a></li>
@@ -589,19 +590,42 @@ sslmode=prefer - Conexión. </code></pre></li>
 <p>Vaya a <em>PostGIS</em> y seleccione la base de datos en la que se estableció la conexión.</p></li>
 </ol>
 </section>
-<section id="visualización-de-capas" class="level2">
-<h2 class="anchored" data-anchor-id="visualización-de-capas">Visualización de capas</h2>
-<p>Ingrese a la base de datos para visualizar y editar las capas de interés. En la barra de menús seleccione <em>Base de datos</em> &gt; <em>Administrador de bases de datos</em>. En la ventana <em>Administrador de BBDD</em>, diríjase a <em>PostGIS</em> &gt; seleccione la base de datos de interés &gt; esquema que contiene la/s capa/s &gt; click derecho sobre la capa que quiere visualizar o editar &gt; Seleccione <em>Añadir al lienzo</em>.</p>
+<section id="cargar-capas-al-lienzo-de-qgis" class="level2">
+<h2 class="anchored" data-anchor-id="cargar-capas-al-lienzo-de-qgis">Cargar capas al lienzo de QGIS</h2>
+<p>Ingrese a la base de datos para visualizar y editar las capas de interés. En la barra de menús seleccione <em>Base de datos</em> &gt; <em>Administrador de bases de datos</em>. En la ventana <em>Administrador de BBDD</em>, diríjase a <em>PostGIS</em> &gt; seleccione la base de datos de interés &gt; esquema que contiene la/s capa/s &gt; click derecho sobre la capa que quiere visualizar o editar &gt; Seleccione <em>Añadir al lienzo</em>. Del mismo modo, se puede añadir una capa al lienzo de QGIS haciendo doble click izquierdo sobre esta.</p>
 <p><img src="assets/Añadir capa al lienzo de trabajo.png" class="img-fluid"></p>
+<p>Una vez se ha subido la capa, puede visualzarla o editarla como normalmente lo hace desde el software QGIS. No olvide guardar sus cambios.</p>
+</section>
+<section id="cargar-capas-o-tablas-a-la-base-de-datos" class="level2">
+<h2 class="anchored" data-anchor-id="cargar-capas-o-tablas-a-la-base-de-datos">Cargar capas o tablas a la base de datos</h2>
+<p>Para subir a la base de datos PostgreSQL/PostGIS una capa vectorial o una tabla en formato .csv, siga los siguientes pasos:</p>
 <ol type="1">
-<li><p>f</p></li>
-<li><p>f</p></li>
+<li><p>Capa en formato .gpkg subida en el software QGIS, por ejemplo una capa denominada <em>Puntos</em>.</p>
+<p><img src="assets/Capa a subir puntos.png" class="img-fluid"></p></li>
+<li><p>En la barra de menús, vaya a <em>Base de datos</em> &gt; <em>Administrador de bases de datos</em> &gt; PostGIS &gt; click sobre la base de datos en la que subirá el archivo &gt; <em>Importar capa/archivo</em>.</p>
+<p><img src="assets/Administrador_BD_subir_capa.png" class="img-fluid"></p></li>
+<li><p>En la ventana <em>Importar capa vectorial</em> se encuentran las siguientes opciones:</p>
+<ul>
+<li><p>Entrada: En el menú desplegado seleccione la capa que desea importar, aparecerán solo las capas que se encuentran cargadas en QGIS. El archivo también puede exportarlo desde su ordenador dando click en los tres puntos y seleccionando el archivo donde lo tenga guardado. En este apartado también se encuentra la opción <em>Importar sólo objetos espaciales seleccionados</em>, se importarán solo las entidades espaciales que tenga seleccionadas.</p></li>
+<li><p>Esquema: Seleccione el esquema (carpeta o contendeor) de la base de datos donde guardará el archivo, en este caso es stg y se almacenará como stg.Puntos.</p></li>
+<li><p>Tabla: Escriba el nombre de la capa que importará dentro del esquema. Reemplazar los espacios, si los hay, por guión al piso ( _ ). En el menú desplegado encontrará las capas contenidas en el esquema seleccionado. En el ejemplo, el archivo se llamará Puntos.</p></li>
+<li><p>Clave primaria: Nombre del campo que actuará como identificador de cada registro, normalmente es el id. Si la capa ya cuenta con esa columna, QGIS puede usarla directamente.</p></li>
+<li><p>Columna de geometría: Define el nombre del campo donde se guardará la geometría espacial (coordenadas de los vectores). Usualmente se denomina <em>geom</em>.</p></li>
+<li><p>SRID de origen: Sistema de Referencia de Coordenadas -SRC- que tiene la capa de origen.</p></li>
+<li><p>SRID de destino: SRC que tendrá la capa una vez importada. Se puede conservar el de origen si es EPSG:32618 - WGS / UTM zone 18N, o reproyectarlo a este. Es indispensable que las capas importadas estén proyectadas en el SRC anteriormente mencionado, con el fin de que los resultados de los análisis sean correctos y estandarizar procesos en los que las mediciones estén en metros.</p></li>
+<li><p>Codificación:</p></li>
+<li><p>Sustituir las capas de destino (si existe):</p></li>
+<li><p>Pasar nombres de campos a minúsculas:</p></li>
+<li><p>Crear índice espacial:</p></li>
+<li><p>Comentario:</p></li>
+</ul>
+<p><img src="assets/Importar_capa_vectorial.png" class="img-fluid"></p></li>
 <li></li>
 <li><p>Dato compartido para poder hacer las uniones y diferentes anaálisis.</p></li>
 </ol>
 </section>
-<section id="cargar-capas" class="level2">
-<h2 class="anchored" data-anchor-id="cargar-capas">Cargar capas</h2>
+<section id="exportar-capas" class="level2">
+<h2 class="anchored" data-anchor-id="exportar-capas">Exportar capas</h2>
 <ul>
 <li>Añada <code>stg.veredas_norm</code> y defina simbología graduada por <code>area_ha</code>.</li>
 <li>Cree mapas temáticos combinando veredas con capas raster (NDVI, precipitación).</li>
