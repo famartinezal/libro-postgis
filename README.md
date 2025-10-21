@@ -2,6 +2,8 @@
 
 Repositorio preparado como libro interactivo en Quarto, inspirado en la plantilla `GEEMAP`. Incluye portada con el logo de Fedearroz y capítulos sobre SQL, PostGIS y QGIS.
 
+Visite la versión publicada: [https://famartinezal.github.io/libro-postgis/](https://famartinezal.github.io/libro-postgis/).
+
 ## Requisitos
 
 - [Quarto](https://quarto.org/) 1.4+
