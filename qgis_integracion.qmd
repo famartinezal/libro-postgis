@@ -217,15 +217,17 @@ Para subir a la base de datos PostgreSQL/PostGIS una capa vectorial o una tabla 
 
     -   SRID de destino: SRC que tendrá la capa una vez importada. Se puede conservar el de origen si es EPSG:32618 - WGS / UTM zone 18N, o reproyectarlo a este. Es indispensable que las capas importadas estén proyectadas en el SRC anteriormente mencionado, con el fin de que los resultados de los análisis sean correctos y estandarizar procesos en los que las mediciones estén en metros.
 
-    -   Codificación: Puede definir la codificación del texto, es decir como se guardan los caracteres. Seleccione UFT-8 para asegurar que compatibilidad con tildes y caracteres especiales como la "ñ".
+    -   Codificación: Puede definir la codificación del texto, es decir como se guardan los caracteres. Seleccione UFT-8 para asegurar el reconocimiento de tildes y caracteres especiales como la "ñ".
 
-    -   Sustituir las capas de destino (si existe):
+    -   Sustituir las capas de destino (si existe): Sustituye un archivo si tiene el mismo nombre y formato, cualquier dato previo será borrado.
 
-    -   Pasar nombres de campos a minúsculas:
+    -   No estimular a multiparte: Si las capas tienen geometría multi, como multipolígono, QGIS las dividirá en partes simples (polígonos individuales). Por defecto se déjela sin marcar para conservar las geometrías.
 
-    -   Crear índice espacial:
+    -   Pasar nombres de campos a minúsculas: Reescribe todos los nombres de las columnas a minúsculas.
 
-    -   Comentario:
+    -   Crear índice espacial: Creación de un índice GiST sobre la columna geom que permite hacer las consultas espaciales de ua manera más eficiente. Seleccione esta opción.
+
+    -   Comentario: Se puede añadir una nota o descripción sobre la capa, el texto se guardará como metadato en la base de datos, es decir que proporcionan información
 
     ![](assets/Importar_capa_vectorial.png)
 

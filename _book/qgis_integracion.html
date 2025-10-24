@@ -613,11 +613,12 @@ sslmode=prefer - Conexión. </code></pre></li>
 <li><p>Columna de geometría: Define el nombre del campo donde se guardará la geometría espacial (coordenadas de los vectores). Usualmente se denomina <em>geom</em>.</p></li>
 <li><p>SRID de origen: Sistema de Referencia de Coordenadas -SRC- que tiene la capa de origen. QGIS puede reconocer el SRC de la capa automáticamente sin necesidad de especificarlo en este apartado.</p></li>
 <li><p>SRID de destino: SRC que tendrá la capa una vez importada. Se puede conservar el de origen si es EPSG:32618 - WGS / UTM zone 18N, o reproyectarlo a este. Es indispensable que las capas importadas estén proyectadas en el SRC anteriormente mencionado, con el fin de que los resultados de los análisis sean correctos y estandarizar procesos en los que las mediciones estén en metros.</p></li>
-<li><p>Codificación: Puede definir la codificación del texto, es decir como se guardan los caracteres. Seleccione UFT-8 para asegurar que compatibilidad con tildes y caracteres especiales como la “ñ”.</p></li>
-<li><p>Sustituir las capas de destino (si existe):</p></li>
-<li><p>Pasar nombres de campos a minúsculas:</p></li>
-<li><p>Crear índice espacial:</p></li>
-<li><p>Comentario:</p></li>
+<li><p>Codificación: Puede definir la codificación del texto, es decir como se guardan los caracteres. Seleccione UFT-8 para asegurar el reconocimiento de tildes y caracteres especiales como la “ñ”.</p></li>
+<li><p>Sustituir las capas de destino (si existe): Sustituye un archivo si tiene el mismo nombre y formato, cualquier dato previo será borrado.</p></li>
+<li><p>No estimular a multiparte: Si las capas tienen geometría multi, como multipolígono, QGIS las dividirá en partes simples (polígonos individuales). Por defecto se déjela sin marcar para conservar las geometrías.</p></li>
+<li><p>Pasar nombres de campos a minúsculas: Reescribe todos los nombres de las columnas a minúsculas.</p></li>
+<li><p>Crear índice espacial: Creación de un índice GiST sobre la columna geom que permite hacer las consultas espaciales de ua manera más eficiente. Seleccione esta opción.</p></li>
+<li><p>Comentario: Se puede añadir una nota o descripción sobre la capa, el texto se guardará como metadato en la base de datos, es decir que proporcionan información</p></li>
 </ul>
 <p><img src="assets/Importar_capa_vectorial.png" class="img-fluid"></p></li>
 <li></li>
