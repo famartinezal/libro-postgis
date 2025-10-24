@@ -211,19 +211,25 @@ Para subir a la base de datos PostgreSQL/PostGIS una capa vectorial o una tabla 
 
     -   Esquema: Seleccione en la base de datos el esquema **stg** para guardar el archivo a importar, será almacenado como stg.Puntos.
 
-        ![](assets/Tipo_de_salida_esquema.png)
+    -   Tabla: Corresponde al nombre de la capa que importará dentro del esquema. Si desea que el nombre sea el mismo que la capa del lienzo, selecciónela en el menú desplegable [(recomendado)]{.underline}. Si prefiere cambiarlo, escríbalo en este apartado teniendo presente la nota de nomenclartura de archivos.
 
-    -   Tabla: Corresponde al nombre de la capa que importará dentro del esquema. Puede seleccionar la capa en el menú desplegable con el fin de que quede con el mismo nombre de la que tiene en el lienzo de trabajo, o puede escribir el nombre que desee teniendo en presentes los aspectos mencionados previamente para la nomenclatura de archivos.
+        ![](images/paste-7.png)
+
+    Marque las opciones señaladas con un hasterísco (\*) y las que considere pertinentes:
 
     -   Clave primaria: Nombre del campo que actuará como identificador de cada registro, normalmente es el id. Si la capa ya cuenta con esa columna, QGIS puede usarla directamente.
 
-    -   Columna de geometría: Define el nombre del campo donde se guardará la geometría espacial (coordenadas de los vectores). Usualmente se denomina *geom*.
+    -   Columna de geometría\*: Define el nombre del campo donde se guardará la geometría espacial (coordenadas de los vectores). Usualmente se denomina *geom*.
 
     -   SRID de origen: Sistema de Referencia de Coordenadas -SRC- que tiene la capa de origen. QGIS puede reconocer el SRC de la capa automáticamente sin necesidad de especificarlo en este apartado.
 
-    -   SRID de destino: SRC que tendrá la capa una vez importada. Se puede conservar el de origen si es EPSG:32618 - WGS / UTM zone 18N, o reproyectarlo a este. Es indispensable que las capas importadas estén proyectadas en el SRC anteriormente mencionado, con el fin de que los resultados de los análisis sean correctos y estandarizar procesos en los que las mediciones estén en metros.
+    -   SRID de destino\*: SRC que tendrá la capa una vez importada, debe ser EPSG:32618 - WGS / UTM zone 18N. Puede conservar el de origen si corresponde a este o reproyectarlo. Es indispensable que las capas importadas estén proyectadas en el SRC anteriormente mencionado, con el fin de que los resultados de los análisis sean correctos y estandarizar procesos.
 
-    -   Codificación: Puede definir la codificación del texto, es decir como se guardan los caracteres. Seleccione UFT-8 para asegurar el reconocimiento de tildes y caracteres especiales como la "ñ".
+        ![](assets/Opciones_SRC.png)
+
+    -   Codificación\*: Defina la codificación del texto, es decir como se guardan los caracteres. Seleccione UFT-8 para asegurar el reconocimiento de tildes y caracteres especiales como la "ñ".
+
+        ![](assets/Opciones_codifica.png)
 
     -   Sustituir las capas de destino (si existe): Sustituye un archivo si tiene el mismo nombre y formato, cualquier dato previo será borrado.
 
@@ -231,7 +237,7 @@ Para subir a la base de datos PostgreSQL/PostGIS una capa vectorial o una tabla 
 
     -   Pasar nombres de campos a minúsculas: Reescribe todos los nombres de las columnas a minúsculas.
 
-    -   Crear índice espacial: Creación de un índice GiST sobre la columna geom que permite hacer las consultas espaciales de ua manera más eficiente. Seleccione esta opción.
+    -   Crear índice espacial\*: Creación de un índice GiST sobre la columna geom que permite hacer las consultas espaciales de ua manera más eficiente. Seleccione esta opción.
 
     -   Comentario: Se puede añadir una nota o descripción sobre la capa, el texto se guardará como metadato en la base de datos, es decir que proporcionan información sobre los datos.
 
@@ -239,14 +245,16 @@ Para subir a la base de datos PostgreSQL/PostGIS una capa vectorial o una tabla 
 
 4.  
 
-5.  Dato compartido para poder hacer las uniones y diferentes anaálisis.
+5.  
 
 ## Exportar capas
 
 -   Añada `stg.veredas_norm` y defina simbología graduada por `area_ha`.
 -   Cree mapas temáticos combinando veredas con capas raster (NDVI, precipitación).
 
-## Consultas desde QGIS
+## Consultas desde QGIS SQL
+
+1.  Dato compartido para poder hacer las uniones y diferentes anaálisis.
 
 Utilice el panel **DB Manager** para ejecutar SQL y crear vistas materiales.
 

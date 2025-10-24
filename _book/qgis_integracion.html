@@ -459,7 +459,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#cargar-capas-al-lienzo-de-qgis" id="toc-cargar-capas-al-lienzo-de-qgis" class="nav-link" data-scroll-target="#cargar-capas-al-lienzo-de-qgis">Cargar capas al lienzo de QGIS</a></li>
   <li><a href="#cargar-capas-o-tablas-a-la-base-de-datos" id="toc-cargar-capas-o-tablas-a-la-base-de-datos" class="nav-link" data-scroll-target="#cargar-capas-o-tablas-a-la-base-de-datos">Cargar capas o tablas a la base de datos</a></li>
   <li><a href="#exportar-capas" id="toc-exportar-capas" class="nav-link" data-scroll-target="#exportar-capas">Exportar capas</a></li>
-  <li><a href="#consultas-desde-qgis" id="toc-consultas-desde-qgis" class="nav-link" data-scroll-target="#consultas-desde-qgis">Consultas desde QGIS</a></li>
+  <li><a href="#consultas-desde-qgis-sql" id="toc-consultas-desde-qgis-sql" class="nav-link" data-scroll-target="#consultas-desde-qgis-sql">Consultas desde QGIS SQL</a></li>
   <li><a href="#salidas-cartográficas" id="toc-salidas-cartográficas" class="nav-link" data-scroll-target="#salidas-cartográficas">Salidas cartográficas</a></li>
   <li><a href="#integración-con-quarto" id="toc-integración-con-quarto" class="nav-link" data-scroll-target="#integración-con-quarto">Integración con Quarto</a></li>
   </ul>
@@ -593,6 +593,7 @@ sslmode=prefer - Conexión. </code></pre></li>
 <section id="cargar-capas-al-lienzo-de-qgis" class="level2">
 <h2 class="anchored" data-anchor-id="cargar-capas-al-lienzo-de-qgis">Cargar capas al lienzo de QGIS</h2>
 <p>Ingrese a la base de datos para visualizar y editar las capas de interés. En la barra de menús seleccione <em>Base de datos</em> &gt; <em>Administrador de bases de datos</em>. En la ventana <em>Administrador de BBDD</em>, diríjase a <em>PostGIS</em> &gt; seleccione la base de datos de interés &gt; esquema que contiene la/s capa/s &gt; click derecho sobre la capa que quiere visualizar o editar &gt; Seleccione <em>Añadir al lienzo</em>. Del mismo modo, se puede añadir una capa al lienzo de QGIS haciendo doble click izquierdo sobre esta.</p>
+<p>Nota: La nomenclatura de capas, tablas y otros archivos es fundamental para la consulta de una amplia gama de análisis. Para ello, evite los espacios entre palabras reemplazándolos por guión al piso ( _ ), por ejemplo en vez de escribir “zona llanos”, escriba “zona_llanos”. En el menú desplegado encontrará las capas contenidas en el esquema seleccionado.</p>
 <p><img src="assets/Añadir capa al lienzo de trabajo.png" class="img-fluid"></p>
 <p>Una vez se ha subido la capa, puede visualzarla o editarla como normalmente lo hace desde el software QGIS. No olvide guardar sus cambios.</p>
 </section>
@@ -608,23 +609,28 @@ sslmode=prefer - Conexión. </code></pre></li>
 <ul>
 <li><p>Entrada: Hay dos formas de importar el archivo a la base de datos, desde el panel de capas en QGIS o desde el equipo directamente. La primera opción es importar el archivo desde en proyecto QGIS (flechas color rojo): suba la capa o tabla a QGIS y haga click en la barra del menú desplegable, podrá observar las capas que se encuentran en el proyecto, seleccione la que es de su interés. Como segunda alternativa, importe el archivo desde su ordenador (flechas color azul): haga click en el recuadro que tiene tres puntos y búsque la capa y selecciónela. En este apartado también se encuentra la opción <em>Importar sólo objetos espaciales seleccionados</em> de la capa que se encuentra en el lienzo, se importarán solo las entidades espaciales que tenga seleccionadas.</p>
 <p><img src="assets/Capa_de_entrada.png" class="img-fluid"></p></li>
-<li><p>Esquema: Seleccione en la base de datos el esquema <strong>stg</strong> para guardar el archivo a importar, será almacenado como stg.Puntos.</p>
-<p><img src="assets/Tipo_de_salida_esquema.png" class="img-fluid"></p></li>
-<li><p>Tabla: Escriba el nombre de la capa que importará dentro del esquema. Reemplazar los espacios, si los hay, por guión al piso ( _ ). En el menú desplegado encontrará las capas contenidas en el esquema seleccionado. En el ejemplo, el archivo se llamará Puntos.</p></li>
+<li><p>Esquema: Seleccione en la base de datos el esquema <strong>stg</strong> para guardar el archivo a importar, será almacenado como stg.Puntos.</p></li>
+<li><p>Tabla: Corresponde al nombre de la capa que importará dentro del esquema. Si desea que el nombre sea el mismo que la capa del lienzo, selecciónela en el menú desplegable <u>(recomendado)</u>. Si prefiere cambiarlo, escríbalo en este apartado teniendo presente la nota de nomenclartura de archivos.</p>
+<p><img src="images/paste-7.png" class="img-fluid"></p></li>
+</ul>
+<p>Marque las opciones señaladas con un hasterísco (*) y las que considere pertinentes:</p>
+<ul>
 <li><p>Clave primaria: Nombre del campo que actuará como identificador de cada registro, normalmente es el id. Si la capa ya cuenta con esa columna, QGIS puede usarla directamente.</p></li>
-<li><p>Columna de geometría: Define el nombre del campo donde se guardará la geometría espacial (coordenadas de los vectores). Usualmente se denomina <em>geom</em>.</p></li>
+<li><p>Columna de geometría*: Define el nombre del campo donde se guardará la geometría espacial (coordenadas de los vectores). Usualmente se denomina <em>geom</em>.</p></li>
 <li><p>SRID de origen: Sistema de Referencia de Coordenadas -SRC- que tiene la capa de origen. QGIS puede reconocer el SRC de la capa automáticamente sin necesidad de especificarlo en este apartado.</p></li>
-<li><p>SRID de destino: SRC que tendrá la capa una vez importada. Se puede conservar el de origen si es EPSG:32618 - WGS / UTM zone 18N, o reproyectarlo a este. Es indispensable que las capas importadas estén proyectadas en el SRC anteriormente mencionado, con el fin de que los resultados de los análisis sean correctos y estandarizar procesos en los que las mediciones estén en metros.</p></li>
-<li><p>Codificación: Puede definir la codificación del texto, es decir como se guardan los caracteres. Seleccione UFT-8 para asegurar el reconocimiento de tildes y caracteres especiales como la “ñ”.</p></li>
+<li><p>SRID de destino*: SRC que tendrá la capa una vez importada, debe ser EPSG:32618 - WGS / UTM zone 18N. Puede conservar el de origen si corresponde a este o reproyectarlo. Es indispensable que las capas importadas estén proyectadas en el SRC anteriormente mencionado, con el fin de que los resultados de los análisis sean correctos y estandarizar procesos.</p>
+<p><img src="assets/Opciones_SRC.png" class="img-fluid"></p></li>
+<li><p>Codificación*: Defina la codificación del texto, es decir como se guardan los caracteres. Seleccione UFT-8 para asegurar el reconocimiento de tildes y caracteres especiales como la “ñ”.</p>
+<p><img src="assets/Opciones_codifica.png" class="img-fluid"></p></li>
 <li><p>Sustituir las capas de destino (si existe): Sustituye un archivo si tiene el mismo nombre y formato, cualquier dato previo será borrado.</p></li>
 <li><p>No estimular a multiparte: Si las capas tienen geometría multi, como multipolígono, QGIS las dividirá en partes simples (polígonos individuales). Por defecto se déjela sin marcar para conservar las geometrías.</p></li>
 <li><p>Pasar nombres de campos a minúsculas: Reescribe todos los nombres de las columnas a minúsculas.</p></li>
-<li><p>Crear índice espacial: Creación de un índice GiST sobre la columna geom que permite hacer las consultas espaciales de ua manera más eficiente. Seleccione esta opción.</p></li>
+<li><p>Crear índice espacial*: Creación de un índice GiST sobre la columna geom que permite hacer las consultas espaciales de ua manera más eficiente. Seleccione esta opción.</p></li>
 <li><p>Comentario: Se puede añadir una nota o descripción sobre la capa, el texto se guardará como metadato en la base de datos, es decir que proporcionan información sobre los datos.</p></li>
 </ul>
 <p><img src="assets/Importar_capa_vectorial.png" class="img-fluid"></p></li>
 <li></li>
-<li><p>Dato compartido para poder hacer las uniones y diferentes anaálisis.</p></li>
+<li></li>
 </ol>
 </section>
 <section id="exportar-capas" class="level2">
@@ -634,8 +640,11 @@ sslmode=prefer - Conexión. </code></pre></li>
 <li>Cree mapas temáticos combinando veredas con capas raster (NDVI, precipitación).</li>
 </ul>
 </section>
-<section id="consultas-desde-qgis" class="level2">
-<h2 class="anchored" data-anchor-id="consultas-desde-qgis">Consultas desde QGIS</h2>
+<section id="consultas-desde-qgis-sql" class="level2">
+<h2 class="anchored" data-anchor-id="consultas-desde-qgis-sql">Consultas desde QGIS SQL</h2>
+<ol type="1">
+<li>Dato compartido para poder hacer las uniones y diferentes anaálisis.</li>
+</ol>
 <p>Utilice el panel <strong>DB Manager</strong> para ejecutar SQL y crear vistas materiales.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">MATERIALIZED</span> <span class="kw">VIEW</span> carto.v_veredas_fuente_hidrica <span class="kw">AS</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> fuentes <span class="kw">AS</span> (</span>
