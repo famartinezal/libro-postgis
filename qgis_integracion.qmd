@@ -175,7 +175,7 @@ title: "Integración con QGIS"
 
     Se abrirá una nueva ventana denominada *Administrador de BBDD,* en la cual se encuentra la barra de menús conformada por *Base de datos, Esquema, Tabla* y *Schema*. La barra de herramientas cuenta con las opciones *Actualizar*, *Ventana SQL*, *Importar capa/archivo* y *Exportar a archivo*. En el panel lateral derecho, se encuentra *Proveedores* con el listado de los distintos tipos de bases de datos que QGIS maneja. Seleccione *PostGIS* y en el menú desplegado, observe las bases de datos junto con los esquemas que las conforman.
 
-    Un esquema es considerado como una "carpeta" en la que se encuentran las tablas (.csv) y las capas contenidas en la base de datos, permitiendo su administración de una manera organizada. Asimismo, en el panel derecho encontrará la pestaña *Info*, donde se encuentra la información referente a la conexión, base de datos, esquema o capa seleccionada; *Tabla* para visualizar los datos de la tabla o capa seleccionada en formato tabular (como una hoja de Excel); y *Vista preliminar* para previsualizar espacialmente el contenido en caso de tener geometrías.
+    Un esquema es considerado como una "carpeta" o "contenedor", en el que se encuentran las tablas (.csv) y las capas contenidas en la base de datos, permitiendo su administración de una manera organizada. Asimismo, en el panel derecho encontrará la pestaña *Info*, donde se encuentra la información referente a la conexión, base de datos, esquema o capa seleccionada; *Tabla* para visualizar los datos de la tabla o capa seleccionada en formato tabular (como una hoja de Excel); y *Vista preliminar* para previsualizar espacialmente el contenido en caso de tener geometrías.
 
     ![](assets/Ingreso%20Base%20de%20datos.png)
 
@@ -184,6 +184,8 @@ title: "Integración con QGIS"
 ## Cargar capas al lienzo de QGIS
 
 Ingrese a la base de datos para visualizar y editar las capas de interés. En la barra de menús seleccione *Base de datos* \> *Administrador de bases de datos*. En la ventana *Administrador de BBDD*, diríjase a *PostGIS* \> seleccione la base de datos de interés \> esquema que contiene la/s capa/s \> click derecho sobre la capa que quiere visualizar o editar \> Seleccione *Añadir al lienzo*. Del mismo modo, se puede añadir una capa al lienzo de QGIS haciendo doble click izquierdo sobre esta.
+
+Nota: La nomenclatura de capas, tablas y otros archivos es fundamental para la consulta de una amplia gama de análisis. Para ello, evite los espacios entre palabras reemplazándolos por guión al piso ( \_ ), por ejemplo en vez de escribir "zona llanos", escriba "zona_llanos". En el menú desplegado encontrará las capas contenidas en el esquema seleccionado.
 
 ![](assets/Añadir%20capa%20al%20lienzo%20de%20trabajo.png)
 
@@ -203,11 +205,15 @@ Para subir a la base de datos PostgreSQL/PostGIS una capa vectorial o una tabla 
 
 3.  En la ventana *Importar capa vectorial* se encuentran las siguientes opciones:
 
-    -   Entrada: En el menú desplegado seleccione la capa que desea importar, aparecerán solo las capas que se encuentran cargadas en QGIS. El archivo también puede exportarlo desde su ordenador dando click en los tres puntos y seleccionando el archivo donde lo tenga guardado. En este apartado también se encuentra la opción *Importar sólo objetos espaciales seleccionados*, se importarán solo las entidades espaciales que tenga seleccionadas.
+    -   Entrada: Hay dos formas de importar el archivo a la base de datos, desde el panel de capas en QGIS o desde el equipo directamente. La primera opción es importar el archivo desde en proyecto QGIS (flechas color rojo): suba la capa o tabla a QGIS y haga click en la barra del menú desplegable, podrá observar las capas que se encuentran en el proyecto, seleccione la que es de su interés. Como segunda alternativa, importe el archivo desde su ordenador (flechas color azul): haga click en el recuadro que tiene tres puntos y búsque la capa y selecciónela. En este apartado también se encuentra la opción *Importar sólo objetos espaciales seleccionados* de la capa que se encuentra en el lienzo, se importarán solo las entidades espaciales que tenga seleccionadas.
 
-    -   Esquema: Seleccione el esquema (carpeta o contendeor) de la base de datos donde guardará el archivo, en este caso es stg y se almacenará como stg.Puntos.
+        ![](assets/Capa_de_entrada.png)
 
-    -   Tabla: Escriba el nombre de la capa que importará dentro del esquema. Reemplazar los espacios, si los hay, por guión al piso ( \_ ). En el menú desplegado encontrará las capas contenidas en el esquema seleccionado. En el ejemplo, el archivo se llamará Puntos.
+    -   Esquema: Seleccione en la base de datos el esquema **stg** para guardar el archivo a importar, será almacenado como stg.Puntos.
+
+        ![](assets/Tipo_de_salida_esquema.png)
+
+    -   Tabla: Corresponde al nombre de la capa que importará dentro del esquema. Puede seleccionar la capa en el menú desplegable con el fin de que quede con el mismo nombre de la que tiene en el lienzo de trabajo, o puede escribir el nombre que desee teniendo en presentes los aspectos mencionados previamente para la nomenclatura de archivos.
 
     -   Clave primaria: Nombre del campo que actuará como identificador de cada registro, normalmente es el id. Si la capa ya cuenta con esa columna, QGIS puede usarla directamente.
 
@@ -227,7 +233,7 @@ Para subir a la base de datos PostgreSQL/PostGIS una capa vectorial o una tabla 
 
     -   Crear índice espacial: Creación de un índice GiST sobre la columna geom que permite hacer las consultas espaciales de ua manera más eficiente. Seleccione esta opción.
 
-    -   Comentario: Se puede añadir una nota o descripción sobre la capa, el texto se guardará como metadato en la base de datos, es decir que proporcionan información
+    -   Comentario: Se puede añadir una nota o descripción sobre la capa, el texto se guardará como metadato en la base de datos, es decir que proporcionan información sobre los datos.
 
     ![](assets/Importar_capa_vectorial.png)
 
