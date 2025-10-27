@@ -235,7 +235,11 @@ Para subir a la base de datos PostgreSQL/PostGIS una capa vectorial o una tabla 
 
         ![](assets/Opciones_codifica.png)
 
-    -   Sustituir las capas de destino (si existe): Sustituye un archivo si tiene el mismo nombre y formato, cualquier dato previo será borrado.
+    -   Sustituir las capas de destino (si existe): Sustituye un archivo si tiene el mismo nombre y formato, cualquier dato previo será borrado. Si no selecciona esta opción y la capa tiene el mismo nombre que otra que se encuentra en el esquema, le saldrá un error en la importación.
+
+        ![](images/paste-8.png)
+
+        Asegúrese de que la capa que tiene en el lienzo de QGIS sea la última que importó a la base de datos, debido a que puede hacer análisis erróneos, modificar un archivo dferente o hacer cambios que no corresponden al archivo importado.
 
     -   No estimular a multiparte: Si las capas tienen geometría multi, como multipolígono, QGIS las dividirá en partes simples (polígonos individuales). Por defecto se déjela [sin marcar]{.underline} para conservar las geometrías.
 
@@ -251,21 +255,21 @@ Para subir a la base de datos PostgreSQL/PostGIS una capa vectorial o una tabla 
 
 ## Exportar archivos desde la base de datos
 
-1.  cxc
+La exportación desde la base de datos PostgreSQL/PostGIS a un disco, puede realizarse
+
+1.  xc
 
 2.  xc
 
-3.  xc
+3.  x
 
-4.  x
+4.  c
 
-5.  c
+5.  x
 
-6.  x
+6.  i
 
-7.  i
-
-## dgsdg
+## JOINS
 
 -   Añada `stg.veredas_norm` y defina simbología graduada por `area_ha`.
 -   Cree mapas temáticos combinando veredas con capas raster (NDVI, precipitación).

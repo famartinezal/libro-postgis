@@ -459,7 +459,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#cargar-capas-al-lienzo-de-qgis" id="toc-cargar-capas-al-lienzo-de-qgis" class="nav-link" data-scroll-target="#cargar-capas-al-lienzo-de-qgis">Cargar capas al lienzo de QGIS</a></li>
   <li><a href="#importar-archivos-a-la-base-de-datos" id="toc-importar-archivos-a-la-base-de-datos" class="nav-link" data-scroll-target="#importar-archivos-a-la-base-de-datos">Importar archivos a la base de datos</a></li>
   <li><a href="#exportar-archivos-desde-la-base-de-datos" id="toc-exportar-archivos-desde-la-base-de-datos" class="nav-link" data-scroll-target="#exportar-archivos-desde-la-base-de-datos">Exportar archivos desde la base de datos</a></li>
-  <li><a href="#dgsdg" id="toc-dgsdg" class="nav-link" data-scroll-target="#dgsdg">dgsdg</a></li>
+  <li><a href="#joins" id="toc-joins" class="nav-link" data-scroll-target="#joins">JOINS</a></li>
   <li><a href="#consultas-desde-qgis-sql" id="toc-consultas-desde-qgis-sql" class="nav-link" data-scroll-target="#consultas-desde-qgis-sql">Consultas desde QGIS SQL</a></li>
   <li><a href="#salidas-cartográficas" id="toc-salidas-cartográficas" class="nav-link" data-scroll-target="#salidas-cartográficas">Salidas cartográficas</a></li>
   <li><a href="#integración-con-quarto" id="toc-integración-con-quarto" class="nav-link" data-scroll-target="#integración-con-quarto">Integración con Quarto</a></li>
@@ -625,7 +625,9 @@ sslmode=prefer - Conexión. </code></pre></li>
 <p><img src="assets/Opciones_SRC.png" class="img-fluid"></p></li>
 <li><p>Codificación*: Defina la codificación del texto, es decir como se guardan los caracteres. Seleccione UFT-8 para asegurar el reconocimiento de tildes y caracteres especiales como la “ñ”.</p>
 <p><img src="assets/Opciones_codifica.png" class="img-fluid"></p></li>
-<li><p>Sustituir las capas de destino (si existe): Sustituye un archivo si tiene el mismo nombre y formato, cualquier dato previo será borrado.</p></li>
+<li><p>Sustituir las capas de destino (si existe): Sustituye un archivo si tiene el mismo nombre y formato, cualquier dato previo será borrado. Si no selecciona esta opción y la capa tiene el mismo nombre que otra que se encuentra en el esquema, le saldrá un error en la importación.</p>
+<p><img src="images/paste-8.png" class="img-fluid"></p>
+<p>Asegúrese de que la capa que tiene en el lienzo de QGIS sea la última que importó a la base de datos, debido a que puede hacer análisis erróneos, modificar un archivo dferente o hacer cambios que no corresponden al archivo importado.</p></li>
 <li><p>No estimular a multiparte: Si las capas tienen geometría multi, como multipolígono, QGIS las dividirá en partes simples (polígonos individuales). Por defecto se déjela <u>sin marcar</u> para conservar las geometrías.</p></li>
 <li><p>Pasar nombres de campos a minúsculas: Reescribe todos los nombres de las columnas a minúsculas.</p></li>
 <li><p>Crear índice espacial*: Creación de un índice GiST sobre la columna geom que permite hacer las consultas espaciales de ua manera más eficiente. Seleccione esta opción.</p></li>
@@ -637,8 +639,8 @@ sslmode=prefer - Conexión. </code></pre></li>
 </section>
 <section id="exportar-archivos-desde-la-base-de-datos" class="level2">
 <h2 class="anchored" data-anchor-id="exportar-archivos-desde-la-base-de-datos">Exportar archivos desde la base de datos</h2>
+<p>La exportación desde la base de datos PostgreSQL/PostGIS a un disco, puede realizarse</p>
 <ol type="1">
-<li><p>cxc</p></li>
 <li><p>xc</p></li>
 <li><p>xc</p></li>
 <li><p>x</p></li>
@@ -647,8 +649,8 @@ sslmode=prefer - Conexión. </code></pre></li>
 <li><p>i</p></li>
 </ol>
 </section>
-<section id="dgsdg" class="level2">
-<h2 class="anchored" data-anchor-id="dgsdg">dgsdg</h2>
+<section id="joins" class="level2">
+<h2 class="anchored" data-anchor-id="joins">JOINS</h2>
 <ul>
 <li>Añada <code>stg.veredas_norm</code> y defina simbología graduada por <code>area_ha</code>.</li>
 <li>Cree mapas temáticos combinando veredas con capas raster (NDVI, precipitación).</li>
