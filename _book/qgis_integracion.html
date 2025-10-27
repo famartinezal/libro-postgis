@@ -459,8 +459,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#cargar-capas-al-lienzo-de-qgis" id="toc-cargar-capas-al-lienzo-de-qgis" class="nav-link" data-scroll-target="#cargar-capas-al-lienzo-de-qgis">Cargar capas al lienzo de QGIS</a></li>
   <li><a href="#importar-archivos-a-la-base-de-datos" id="toc-importar-archivos-a-la-base-de-datos" class="nav-link" data-scroll-target="#importar-archivos-a-la-base-de-datos">Importar archivos a la base de datos</a></li>
   <li><a href="#exportar-archivos-desde-la-base-de-datos" id="toc-exportar-archivos-desde-la-base-de-datos" class="nav-link" data-scroll-target="#exportar-archivos-desde-la-base-de-datos">Exportar archivos desde la base de datos</a></li>
-  <li><a href="#joins" id="toc-joins" class="nav-link" data-scroll-target="#joins">JOINS</a></li>
   <li><a href="#consultas-desde-qgis-sql" id="toc-consultas-desde-qgis-sql" class="nav-link" data-scroll-target="#consultas-desde-qgis-sql">Consultas desde QGIS SQL</a></li>
+  <li><a href="#joins" id="toc-joins" class="nav-link" data-scroll-target="#joins">JOINS</a></li>
+  <li><a href="#consultas-desde-qgis-sql-1" id="toc-consultas-desde-qgis-sql-1" class="nav-link" data-scroll-target="#consultas-desde-qgis-sql-1">Consultas desde QGIS SQL</a></li>
   <li><a href="#salidas-cartográficas" id="toc-salidas-cartográficas" class="nav-link" data-scroll-target="#salidas-cartográficas">Salidas cartográficas</a></li>
   <li><a href="#integración-con-quarto" id="toc-integración-con-quarto" class="nav-link" data-scroll-target="#integración-con-quarto">Integración con Quarto</a></li>
   </ul>
@@ -492,7 +493,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="conexión-a-postgresql-desde-qgis">Conexión a PostgreSQL desde QGIS</h2>
 <ol type="1">
 <li><p><strong>Versión de QGIS:</strong> Verifique que QGIS esté actualizado a la versión 3.40.9 para asegurar compatibilidad con extensiones y complementos de acceso a PostgreSQL.</p></li>
-<li><p><strong>Verificación de acceso a la red:</strong> Para comprobar la conectividad al servidor y al puerto (IP del computador) donde se encuentra la base de datos PostgreSQL.</p>
+<li><p><strong>Verificación de acceso a la red:</strong> Para comprobar la conectividad al servidor o al puerto (IP del computador) donde se encuentra la base de datos PostgreSQL.</p>
 <ul>
 <li><p>Abra <strong>PowerShell de Windows</strong> desde el buscador o desde el ejecutador de programas (tecla de Windows+R).<br>
 <img src="images/Powershell1-2.png" class="img-fluid" alt="Acceder a Windows Powershell"></p></li>
@@ -562,7 +563,7 @@ sslmode=prefer - Conexión. </code></pre></li>
 <p>Si no es posible establecer la conexión, diríjase a <em>Windows Powershell</em> y digite el siguiente código para verificar si la conexión entre el equipo desde el que está intentando acceder a la base de datos y el servidor PostgreSQL, es exitosa o no:</p>
 <pre><code>Test-NetConnection &lt;IP computador o servidor &gt; -Port 5432</code></pre>
 <p><img src="assets/Conectividad2.png" class="img-fluid"></p>
-<p>El usuario es el referente al de Windows (su cuenta), IP del computador o servidor donde se encuentra ubicada la base de datos y el ´puerto normalmente es 5432 por defecto, si es necesario modifíquelo.</p>
+<p>El usuario es el referente al de Windows (su cuenta), IP del computador o servidor donde se encuentra ubicada la base de datos y el puerto normalmente es 5432 por defecto, si es necesario modifíquelo.</p>
 <p><em>TcpTestSucceeded:</em> <em>True</em> incica que la configuración es correcta para aceptar conexiones.</p>
 <p><img src="assets/Probar conexión al servidor.png" class="img-fluid"></p>
 <p>A continuación, en Windows PowerShell digite el código que se encuentra en la parte inferior. Este le permite configurar una variable de entorno en Windows, le indica a QGIS y PostgreSQL la ruta en la que se encuentra guardado el archivo pg_service.conf, debido a que no siempre reconoce dónde encontrar el archivo.</p>
@@ -639,7 +640,12 @@ sslmode=prefer - Conexión. </code></pre></li>
 </section>
 <section id="exportar-archivos-desde-la-base-de-datos" class="level2">
 <h2 class="anchored" data-anchor-id="exportar-archivos-desde-la-base-de-datos">Exportar archivos desde la base de datos</h2>
-<p>La exportación desde la base de datos PostgreSQL/PostGIS a un disco, puede realizarse</p>
+<p>La exportación desde la base de datos PostgreSQL/PostGIS a un disco, puede realizarse desde el panel de capas en QGIS como habitualmente lo hace, o puede hacerlo directamente desde el <em>Administrador de BBDD</em> &gt; Exportar a archivo.</p>
+<p><img src="assets/Exportar archivo 1.png" class="img-fluid"></p>
+<p>Se abrirá la ventana <em>Exportar a archivo vectorial</em>. En <em>formato</em>, seleccione el de su interés en el menú desplegado; defina la ruta donde desea guardar el archivo en el apartado <em>Guardar como,</em> haciendo click en el recuadro de los tres puntos; en <em>Opciones</em>, defina 32618 como el SRID de destino, <em>Codificación</em> UFT-8 y seleccione si considera sustituir el archivo de destino (si existe). Finalmente, seleccione <em>Aceptar</em> y observará una ventana emergente que le confirma el éxito de la exportación del archivo.</p>
+</section>
+<section id="consultas-desde-qgis-sql" class="level2">
+<h2 class="anchored" data-anchor-id="consultas-desde-qgis-sql">Consultas desde QGIS SQL</h2>
 <ol type="1">
 <li><p>xc</p></li>
 <li><p>xc</p></li>
@@ -656,8 +662,8 @@ sslmode=prefer - Conexión. </code></pre></li>
 <li>Cree mapas temáticos combinando veredas con capas raster (NDVI, precipitación).</li>
 </ul>
 </section>
-<section id="consultas-desde-qgis-sql" class="level2">
-<h2 class="anchored" data-anchor-id="consultas-desde-qgis-sql">Consultas desde QGIS SQL</h2>
+<section id="consultas-desde-qgis-sql-1" class="level2">
+<h2 class="anchored" data-anchor-id="consultas-desde-qgis-sql-1">Consultas desde QGIS SQL</h2>
 <ol type="1">
 <li>Dato compartido para poder hacer las uniones y diferentes anaálisis.</li>
 </ol>

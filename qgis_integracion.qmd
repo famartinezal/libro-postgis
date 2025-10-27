@@ -6,7 +6,7 @@ title: "Integración con QGIS"
 
 1.  **Versión de QGIS:** Verifique que QGIS esté actualizado a la versión 3.40.9 para asegurar compatibilidad con extensiones y complementos de acceso a PostgreSQL.
 
-2.  **Verificación de acceso a la red:** Para comprobar la conectividad al servidor y al puerto (IP del computador) donde se encuentra la base de datos PostgreSQL.
+2.  **Verificación de acceso a la red:** Para comprobar la conectividad al servidor o al puerto (IP del computador) donde se encuentra la base de datos PostgreSQL.
 
     -   Abra **PowerShell de Windows** desde el buscador o desde el ejecutador de programas (tecla de Windows+R).\
         ![Acceder a Windows Powershell](images/Powershell1-2.png)
@@ -127,7 +127,7 @@ title: "Integración con QGIS"
 
     ![](assets/Conectividad2.png)
 
-    El usuario es el referente al de Windows (su cuenta), IP del computador o servidor donde se encuentra ubicada la base de datos y el ´puerto normalmente es 5432 por defecto, si es necesario modifíquelo.
+    El usuario es el referente al de Windows (su cuenta), IP del computador o servidor donde se encuentra ubicada la base de datos y el puerto normalmente es 5432 por defecto, si es necesario modifíquelo.
 
     *TcpTestSucceeded:* *True* incica que la configuración es correcta para aceptar conexiones.
 
@@ -255,7 +255,13 @@ Para subir a la base de datos PostgreSQL/PostGIS una capa vectorial o una tabla 
 
 ## Exportar archivos desde la base de datos
 
-La exportación desde la base de datos PostgreSQL/PostGIS a un disco, puede realizarse
+La exportación desde la base de datos PostgreSQL/PostGIS a un disco, puede realizarse desde el panel de capas en QGIS como habitualmente lo hace, o puede hacerlo directamente desde el *Administrador de BBDD* \> Exportar a archivo.
+
+![](assets/Exportar archivo 1.png)
+
+Se abrirá la ventana *Exportar a archivo vectorial*. En *formato*, seleccione el de su interés en el menú desplegado; defina la ruta donde desea guardar el archivo en el apartado *Guardar como,* haciendo click en el recuadro de los tres puntos; en *Opciones*, defina 32618 como el SRID de destino, *Codificación* UFT-8 y seleccione si considera sustituir el archivo de destino (si existe). Finalmente, seleccione *Aceptar* y observará una ventana emergente que le confirma el éxito de la exportación del archivo.
+
+## Consultas desde QGIS SQL
 
 1.  xc
 
