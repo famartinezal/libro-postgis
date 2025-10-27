@@ -191,7 +191,7 @@ Nota: La nomenclatura de capas, tablas y otros archivos es fundamental para la c
 
 Una vez se ha subido la capa, puede visualzarla o editarla como normalmente lo hace desde el software QGIS. No olvide guardar sus cambios.
 
-## Cargar capas o tablas a la base de datos
+## Importar archivos a la base de datos
 
 Para subir a la base de datos PostgreSQL/PostGIS una capa vectorial o una tabla en formato .csv, siga los siguientes pasos:
 
@@ -205,9 +205,13 @@ Para subir a la base de datos PostgreSQL/PostGIS una capa vectorial o una tabla 
 
 3.  En la ventana *Importar capa vectorial* se encuentran las siguientes opciones:
 
-    -   Entrada: Hay dos formas de importar el archivo a la base de datos, desde el panel de capas en QGIS o desde el equipo directamente. La primera opción es importar el archivo desde en proyecto QGIS (flechas color rojo): suba la capa o tabla a QGIS y haga click en la barra del menú desplegable, podrá observar las capas que se encuentran en el proyecto, seleccione la que es de su interés. Como segunda alternativa, importe el archivo desde su ordenador (flechas color azul): haga click en el recuadro que tiene tres puntos y búsque la capa y selecciónela. En este apartado también se encuentra la opción *Importar sólo objetos espaciales seleccionados* de la capa que se encuentra en el lienzo, se importarán solo las entidades espaciales que tenga seleccionadas.
+    -   Entrada: Hay dos formas de importar el archivo a la base de datos, desde el panel de capas en QGIS o desde el equipo directamente. La primera opción es importar el archivo desde en proyecto QGIS (flechas color rojo): suba la capa o tabla a QGIS y haga click en la barra del menú desplegable, podrá observar las capas que se encuentran en el proyecto, seleccione la que es de su interés. Como segunda alternativa, importe el archivo desde su ordenador (flechas color azul): haga click en el recuadro que tiene tres puntos y búsque la capa y selecciónela.
 
         ![](assets/Capa_de_entrada.png)
+
+        En este apartado también se encuentra la opción *Importar sólo objetos espaciales seleccionados* de la capa que se encuentra en el lienzo, se importarán solo las entidades espaciales que tenga seleccionadas.
+
+        ![](assets/Importar_imagen_objetos_seleccionados.png)
 
     -   Esquema: Seleccione en la base de datos el esquema **stg** para guardar el archivo a importar, será almacenado como stg.Puntos.
 
@@ -233,21 +237,35 @@ Para subir a la base de datos PostgreSQL/PostGIS una capa vectorial o una tabla 
 
     -   Sustituir las capas de destino (si existe): Sustituye un archivo si tiene el mismo nombre y formato, cualquier dato previo será borrado.
 
-    -   No estimular a multiparte: Si las capas tienen geometría multi, como multipolígono, QGIS las dividirá en partes simples (polígonos individuales). Por defecto se déjela sin marcar para conservar las geometrías.
+    -   No estimular a multiparte: Si las capas tienen geometría multi, como multipolígono, QGIS las dividirá en partes simples (polígonos individuales). Por defecto se déjela [sin marcar]{.underline} para conservar las geometrías.
 
     -   Pasar nombres de campos a minúsculas: Reescribe todos los nombres de las columnas a minúsculas.
 
     -   Crear índice espacial\*: Creación de un índice GiST sobre la columna geom que permite hacer las consultas espaciales de ua manera más eficiente. Seleccione esta opción.
 
-    -   Comentario: Se puede añadir una nota o descripción sobre la capa, el texto se guardará como metadato en la base de datos, es decir que proporcionan información sobre los datos.
+    -   Comentario: Se puede añadir una nota o descripción sobre la capa, el texto se guardará como metadato en la base de datos, es decir que proporcionan información sobre los datos. Podrá apreciar los comentarios en la ventana de *Info* \> *Información general*.
 
-    ![](assets/Importar_capa_vectorial.png)
+    Una vez tenga la información completa para la importación del archivo, de click en *Aceptar* y podrá observar un enunciado que le indica el éxito de la importación.
 
-4.  
+    ![](assets/Importación_imagen_exitosa.png)
 
-5.  
+## Exportar archivos desde la base de datos
 
-## Exportar capas
+1.  cxc
+
+2.  xc
+
+3.  xc
+
+4.  x
+
+5.  c
+
+6.  x
+
+7.  i
+
+## dgsdg
 
 -   Añada `stg.veredas_norm` y defina simbología graduada por `area_ha`.
 -   Cree mapas temáticos combinando veredas con capas raster (NDVI, precipitación).

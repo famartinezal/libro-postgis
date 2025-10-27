@@ -457,8 +457,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#conexión-a-postgresql-desde-qgis" id="toc-conexión-a-postgresql-desde-qgis" class="nav-link active" data-scroll-target="#conexión-a-postgresql-desde-qgis">Conexión a PostgreSQL desde QGIS</a></li>
   <li><a href="#cargar-capas-al-lienzo-de-qgis" id="toc-cargar-capas-al-lienzo-de-qgis" class="nav-link" data-scroll-target="#cargar-capas-al-lienzo-de-qgis">Cargar capas al lienzo de QGIS</a></li>
-  <li><a href="#cargar-capas-o-tablas-a-la-base-de-datos" id="toc-cargar-capas-o-tablas-a-la-base-de-datos" class="nav-link" data-scroll-target="#cargar-capas-o-tablas-a-la-base-de-datos">Cargar capas o tablas a la base de datos</a></li>
-  <li><a href="#exportar-capas" id="toc-exportar-capas" class="nav-link" data-scroll-target="#exportar-capas">Exportar capas</a></li>
+  <li><a href="#importar-archivos-a-la-base-de-datos" id="toc-importar-archivos-a-la-base-de-datos" class="nav-link" data-scroll-target="#importar-archivos-a-la-base-de-datos">Importar archivos a la base de datos</a></li>
+  <li><a href="#exportar-archivos-desde-la-base-de-datos" id="toc-exportar-archivos-desde-la-base-de-datos" class="nav-link" data-scroll-target="#exportar-archivos-desde-la-base-de-datos">Exportar archivos desde la base de datos</a></li>
+  <li><a href="#dgsdg" id="toc-dgsdg" class="nav-link" data-scroll-target="#dgsdg">dgsdg</a></li>
   <li><a href="#consultas-desde-qgis-sql" id="toc-consultas-desde-qgis-sql" class="nav-link" data-scroll-target="#consultas-desde-qgis-sql">Consultas desde QGIS SQL</a></li>
   <li><a href="#salidas-cartográficas" id="toc-salidas-cartográficas" class="nav-link" data-scroll-target="#salidas-cartográficas">Salidas cartográficas</a></li>
   <li><a href="#integración-con-quarto" id="toc-integración-con-quarto" class="nav-link" data-scroll-target="#integración-con-quarto">Integración con Quarto</a></li>
@@ -597,8 +598,8 @@ sslmode=prefer - Conexión. </code></pre></li>
 <p><img src="assets/Añadir capa al lienzo de trabajo.png" class="img-fluid"></p>
 <p>Una vez se ha subido la capa, puede visualzarla o editarla como normalmente lo hace desde el software QGIS. No olvide guardar sus cambios.</p>
 </section>
-<section id="cargar-capas-o-tablas-a-la-base-de-datos" class="level2">
-<h2 class="anchored" data-anchor-id="cargar-capas-o-tablas-a-la-base-de-datos">Cargar capas o tablas a la base de datos</h2>
+<section id="importar-archivos-a-la-base-de-datos" class="level2">
+<h2 class="anchored" data-anchor-id="importar-archivos-a-la-base-de-datos">Importar archivos a la base de datos</h2>
 <p>Para subir a la base de datos PostgreSQL/PostGIS una capa vectorial o una tabla en formato .csv, siga los siguientes pasos:</p>
 <ol type="1">
 <li><p>Capa en formato .gpkg subida en el software QGIS, por ejemplo una capa denominada <em>Puntos</em>.</p>
@@ -607,8 +608,10 @@ sslmode=prefer - Conexión. </code></pre></li>
 <p><img src="assets/Administrador_BD_subir_capa.png" class="img-fluid"></p></li>
 <li><p>En la ventana <em>Importar capa vectorial</em> se encuentran las siguientes opciones:</p>
 <ul>
-<li><p>Entrada: Hay dos formas de importar el archivo a la base de datos, desde el panel de capas en QGIS o desde el equipo directamente. La primera opción es importar el archivo desde en proyecto QGIS (flechas color rojo): suba la capa o tabla a QGIS y haga click en la barra del menú desplegable, podrá observar las capas que se encuentran en el proyecto, seleccione la que es de su interés. Como segunda alternativa, importe el archivo desde su ordenador (flechas color azul): haga click en el recuadro que tiene tres puntos y búsque la capa y selecciónela. En este apartado también se encuentra la opción <em>Importar sólo objetos espaciales seleccionados</em> de la capa que se encuentra en el lienzo, se importarán solo las entidades espaciales que tenga seleccionadas.</p>
-<p><img src="assets/Capa_de_entrada.png" class="img-fluid"></p></li>
+<li><p>Entrada: Hay dos formas de importar el archivo a la base de datos, desde el panel de capas en QGIS o desde el equipo directamente. La primera opción es importar el archivo desde en proyecto QGIS (flechas color rojo): suba la capa o tabla a QGIS y haga click en la barra del menú desplegable, podrá observar las capas que se encuentran en el proyecto, seleccione la que es de su interés. Como segunda alternativa, importe el archivo desde su ordenador (flechas color azul): haga click en el recuadro que tiene tres puntos y búsque la capa y selecciónela.</p>
+<p><img src="assets/Capa_de_entrada.png" class="img-fluid"></p>
+<p>En este apartado también se encuentra la opción <em>Importar sólo objetos espaciales seleccionados</em> de la capa que se encuentra en el lienzo, se importarán solo las entidades espaciales que tenga seleccionadas.</p>
+<p><img src="assets/Importar_imagen_objetos_seleccionados.png" class="img-fluid"></p></li>
 <li><p>Esquema: Seleccione en la base de datos el esquema <strong>stg</strong> para guardar el archivo a importar, será almacenado como stg.Puntos.</p></li>
 <li><p>Tabla: Corresponde al nombre de la capa que importará dentro del esquema. Si desea que el nombre sea el mismo que la capa del lienzo, selecciónela en el menú desplegable <u>(recomendado)</u>. Si prefiere cambiarlo, escríbalo en este apartado teniendo presente la nota de nomenclartura de archivos.</p>
 <p><img src="images/paste-7.png" class="img-fluid"></p></li>
@@ -623,18 +626,29 @@ sslmode=prefer - Conexión. </code></pre></li>
 <li><p>Codificación*: Defina la codificación del texto, es decir como se guardan los caracteres. Seleccione UFT-8 para asegurar el reconocimiento de tildes y caracteres especiales como la “ñ”.</p>
 <p><img src="assets/Opciones_codifica.png" class="img-fluid"></p></li>
 <li><p>Sustituir las capas de destino (si existe): Sustituye un archivo si tiene el mismo nombre y formato, cualquier dato previo será borrado.</p></li>
-<li><p>No estimular a multiparte: Si las capas tienen geometría multi, como multipolígono, QGIS las dividirá en partes simples (polígonos individuales). Por defecto se déjela sin marcar para conservar las geometrías.</p></li>
+<li><p>No estimular a multiparte: Si las capas tienen geometría multi, como multipolígono, QGIS las dividirá en partes simples (polígonos individuales). Por defecto se déjela <u>sin marcar</u> para conservar las geometrías.</p></li>
 <li><p>Pasar nombres de campos a minúsculas: Reescribe todos los nombres de las columnas a minúsculas.</p></li>
 <li><p>Crear índice espacial*: Creación de un índice GiST sobre la columna geom que permite hacer las consultas espaciales de ua manera más eficiente. Seleccione esta opción.</p></li>
-<li><p>Comentario: Se puede añadir una nota o descripción sobre la capa, el texto se guardará como metadato en la base de datos, es decir que proporcionan información sobre los datos.</p></li>
+<li><p>Comentario: Se puede añadir una nota o descripción sobre la capa, el texto se guardará como metadato en la base de datos, es decir que proporcionan información sobre los datos. Podrá apreciar los comentarios en la ventana de <em>Info</em> &gt; <em>Información general</em>.</p></li>
 </ul>
-<p><img src="assets/Importar_capa_vectorial.png" class="img-fluid"></p></li>
-<li></li>
-<li></li>
+<p>Una vez tenga la información completa para la importación del archivo, de click en <em>Aceptar</em> y podrá observar un enunciado que le indica el éxito de la importación.</p>
+<p><img src="assets/Importación_imagen_exitosa.png" class="img-fluid"></p></li>
 </ol>
 </section>
-<section id="exportar-capas" class="level2">
-<h2 class="anchored" data-anchor-id="exportar-capas">Exportar capas</h2>
+<section id="exportar-archivos-desde-la-base-de-datos" class="level2">
+<h2 class="anchored" data-anchor-id="exportar-archivos-desde-la-base-de-datos">Exportar archivos desde la base de datos</h2>
+<ol type="1">
+<li><p>cxc</p></li>
+<li><p>xc</p></li>
+<li><p>xc</p></li>
+<li><p>x</p></li>
+<li><p>c</p></li>
+<li><p>x</p></li>
+<li><p>i</p></li>
+</ol>
+</section>
+<section id="dgsdg" class="level2">
+<h2 class="anchored" data-anchor-id="dgsdg">dgsdg</h2>
 <ul>
 <li>Añada <code>stg.veredas_norm</code> y defina simbología graduada por <code>area_ha</code>.</li>
 <li>Cree mapas temáticos combinando veredas con capas raster (NDVI, precipitación).</li>
