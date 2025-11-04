@@ -4,9 +4,55 @@ title: "Integración con QGIS"
 
 ## Conexión a PostgreSQL desde QGIS
 
-1.  **Versión de QGIS:** Verifique que QGIS esté actualizado a la versión 3.40.9 para asegurar compatibilidad con extensiones y complementos de acceso a PostgreSQL.
+1.  **Versión de QGIS:** Verifique que la versión de QGIS esté actualizada, con el fin de asegurar compatibilidad con extensiones y complementos del software.
 
-2.  **Verificación de acceso a la red:** Para comprobar la conectividad al servidor o al puerto (IP del computador) donde se encuentra la base de datos PostgreSQL.
+2.  **Verificación Windows**: Verifique el nombre del disco y el usuario de Windows del computador en el que va a establecer la conexión a la base de datos, para realizar las respectivas modificaciones en los scripts de permisos y conexión. Asimismo, compruebe si tiene PostgreSQL instalado en el equipo.
+
+3.  **Creación del túnel de acceso al servidor:** La base de datos se encuentra almacenada en un servidor de la empresa, por este motivo se debe crear el túnel y poder acceder a este cada vez que vaya a entrar a la base de datos:
+
+    -   Debe contar con la carpeta denominada *1keys* y dentro de esta se encuentran los archivos correspondientes a las llaves de su usuario (id_ed_usuario); script_conexion (creación de la conexión al túnel), y script_permisos (para poder leer la llave de acceso al servidor) y el ícono (es un script de conexión para abrir el túnel y al abrirlo solicita la contraseña de acceso al servidor, que es diferente del acceso a la base de datos). En la carpeta dejar única y exclusivamente los archivos del usuario que está configurando.
+
+        ![](assets/Carpeta_keys.png)
+
+    -   La carpeta 1keys se debe copiar en uno de los discos del equipo, reconocer cuál es y renombrarlo en los scripts en caso de ser necesario.
+
+    -   En *ícono* click derecho \> Propiedades \> Acceso directo, en el apartado de destino aparecerá la dirección de ???, valide el nombre del disco y cámbielo en caso de ser necesario (-File "Disco\\1keys).
+
+        ![](assets/Propiedades_icono.png)
+
+    -   Validar el nombre de usuario de windows y el disco en el script_permisos y script_conexion. Click derecho sobre el archivo dentro de cada una de las carpetas según corresponda \> editar en blog de notas \> Guardar después de las modificaciones.
+
+        Asimismo, verificar el puerto de conexión. Normalmente es el 5432, pero en caso de tener instalado PostgreSQL en la computadora, se debe cambiar por 15432 en el archivo .conf, en el script_conexion (-L) y en los pasos posteriores en QGIS.
+
+    -   g
+
+    -   g
+
+    -   g
+
+    -   g
+
+    -   g
+
+    -   g
+
+    -   g
+
+    -   g
+
+    -   g
+
+    -   g
+
+    -   g
+
+    -   g
+
+    -   g
+
+    -   gg
+
+4.  **Verificación de acceso a la red:** Para comprobar la conectividad al servidor o al puerto (IP del computador) donde se encuentra la base de datos PostgreSQL.
 
     -   Abra **PowerShell de Windows** desde el buscador o desde el ejecutador de programas (tecla de Windows+R).\
         ![Acceder a Windows Powershell](images/Powershell1-2.png)
@@ -27,7 +73,7 @@ title: "Integración con QGIS"
 
         Si no puede conectarse, revise la configuración de los datos del IP del computador o servidor, del puerto, así como la red desde la que está intentando acceder.
 
-3.  **Archivo pg_service.conf:**
+5.  **Archivo pg_service.conf:**
 
     -   En primer lugar, compruebe si existe una carpeta denominada *postgresql* copiando la siguiente ruta en el buscador de archivos de su ordenador:
 
@@ -59,7 +105,7 @@ title: "Integración con QGIS"
         sslmode=prefer - Conexión. 
         ```
 
-4.  **Activación de la contraseña maestra y creación de credenciales cifradas**
+6.  **Activación de la contraseña maestra y creación de credenciales cifradas**
 
     Este paso es fundamental para proporcionar seguridad a la información que se está visualizando.
 
@@ -85,7 +131,7 @@ title: "Integración con QGIS"
 
     ![](assets/Autenticación.png)
 
-5.  **Creación de la conexión a PostgreSQL**
+7.  **Creación de la conexión a PostgreSQL**
 
     En esta sección se establecerá la conexión a PostgreSQL para tener acceso a la base de datos.
 
@@ -257,7 +303,7 @@ Para subir a la base de datos PostgreSQL/PostGIS una capa vectorial o una tabla 
 
 La exportación desde la base de datos PostgreSQL/PostGIS a un disco, puede realizarse desde el panel de capas en QGIS como habitualmente lo hace, o puede hacerlo directamente desde el *Administrador de BBDD* \> Exportar a archivo.
 
-![](assets/Exportar archivo 1.png)
+![](assets/Exportar%20archivo%201.png)
 
 Se abrirá la ventana *Exportar a archivo vectorial*. En *formato*, seleccione el de su interés en el menú desplegado; defina la ruta donde desea guardar el archivo en el apartado *Guardar como,* haciendo click en el recuadro de los tres puntos; en *Opciones*, defina 32618 como el SRID de destino, *Codificación* UFT-8 y seleccione si considera sustituir el archivo de destino (si existe). Finalmente, seleccione *Aceptar* y observará una ventana emergente que le confirma el éxito de la exportación del archivo.
 
@@ -273,12 +319,11 @@ Se abrirá la ventana *Exportar a archivo vectorial*. En *formato*, seleccione e
 
 5.  x
 
-6.  i
+    ### 
 
-## JOINS
+6.  Añada `stg.veredas_norm` y defina simbología graduada por `area_ha`.
 
--   Añada `stg.veredas_norm` y defina simbología graduada por `area_ha`.
--   Cree mapas temáticos combinando veredas con capas raster (NDVI, precipitación).
+7.  Cree mapas temáticos combinando veredas con capas raster (NDVI, precipitación).
 
 ## Consultas desde QGIS SQL
 

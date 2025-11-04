@@ -460,7 +460,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#importar-archivos-a-la-base-de-datos" id="toc-importar-archivos-a-la-base-de-datos" class="nav-link" data-scroll-target="#importar-archivos-a-la-base-de-datos">Importar archivos a la base de datos</a></li>
   <li><a href="#exportar-archivos-desde-la-base-de-datos" id="toc-exportar-archivos-desde-la-base-de-datos" class="nav-link" data-scroll-target="#exportar-archivos-desde-la-base-de-datos">Exportar archivos desde la base de datos</a></li>
   <li><a href="#consultas-desde-qgis-sql" id="toc-consultas-desde-qgis-sql" class="nav-link" data-scroll-target="#consultas-desde-qgis-sql">Consultas desde QGIS SQL</a></li>
-  <li><a href="#joins" id="toc-joins" class="nav-link" data-scroll-target="#joins">JOINS</a></li>
   <li><a href="#consultas-desde-qgis-sql-1" id="toc-consultas-desde-qgis-sql-1" class="nav-link" data-scroll-target="#consultas-desde-qgis-sql-1">Consultas desde QGIS SQL</a></li>
   <li><a href="#salidas-cartográficas" id="toc-salidas-cartográficas" class="nav-link" data-scroll-target="#salidas-cartográficas">Salidas cartográficas</a></li>
   <li><a href="#integración-con-quarto" id="toc-integración-con-quarto" class="nav-link" data-scroll-target="#integración-con-quarto">Integración con Quarto</a></li>
@@ -492,7 +491,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="conexión-a-postgresql-desde-qgis" class="level2">
 <h2 class="anchored" data-anchor-id="conexión-a-postgresql-desde-qgis">Conexión a PostgreSQL desde QGIS</h2>
 <ol type="1">
-<li><p><strong>Versión de QGIS:</strong> Verifique que QGIS esté actualizado a la versión 3.40.9 para asegurar compatibilidad con extensiones y complementos de acceso a PostgreSQL.</p></li>
+<li><p><strong>Versión de QGIS:</strong> Verifique que la versión de QGIS esté actualizada, con el fin de asegurar compatibilidad con extensiones y complementos del software.</p></li>
+<li><p><strong>Verificación Windows</strong>: Verifique el nombre del disco y el usuario de Windows del computador en el que va a establecer la conexión a la base de datos, para realizar las respectivas modificaciones en los scripts de permisos y conexión. Asimismo, compruebe si tiene PostgreSQL instalado en el equipo.</p></li>
+<li><p><strong>Creación del túnel de acceso al servidor:</strong> La base de datos se encuentra almacenada en un servidor de la empresa, por este motivo se debe crear el túnel y poder acceder a este cada vez que vaya a entrar a la base de datos:</p>
+<ul>
+<li><p>Debe contar con la carpeta denominada <em>1keys</em> y dentro de esta se encuentran los archivos correspondientes a las llaves de su usuario (id_ed_usuario); script_conexion (creación de la conexión al túnel), y script_permisos (para poder leer la llave de acceso al servidor) y el ícono (es un script de conexión para abrir el túnel y al abrirlo solicita la contraseña de acceso al servidor, que es diferente del acceso a la base de datos). En la carpeta dejar única y exclusivamente los archivos del usuario que está configurando.</p>
+<p><img src="assets/Carpeta_keys.png" class="img-fluid"></p></li>
+<li><p>La carpeta 1keys se debe copiar en uno de los discos del equipo, reconocer cuál es y renombrarlo en los scripts en caso de ser necesario.</p></li>
+<li><p>En <em>ícono</em> click derecho &gt; Propiedades &gt; Acceso directo, en el apartado de destino aparecerá la dirección de ???, valide el nombre del disco y cámbielo en caso de ser necesario (-File “Disco\1keys).</p>
+<p><img src="assets/Propiedades_icono.png" class="img-fluid"></p></li>
+<li><p>Validar el nombre de usuario de windows y el disco en el script_permisos y script_conexion. Click derecho sobre el archivo dentro de cada una de las carpetas según corresponda &gt; editar en blog de notas &gt; Guardar después de las modificaciones.</p>
+<p>Asimismo, verificar el puerto de conexión. Normalmente es el 5432, pero en caso de tener instalado PostgreSQL en la computadora, se debe cambiar por 15432 en el archivo .conf, en el script_conexion (-L) y en los pasos posteriores en QGIS.</p></li>
+<li><p>g</p></li>
+<li><p>g</p></li>
+<li><p>g</p></li>
+<li><p>g</p></li>
+<li><p>g</p></li>
+<li><p>g</p></li>
+<li><p>g</p></li>
+<li><p>g</p></li>
+<li><p>g</p></li>
+<li><p>g</p></li>
+<li><p>g</p></li>
+<li><p>g</p></li>
+<li><p>g</p></li>
+<li><p>gg</p></li>
+</ul></li>
 <li><p><strong>Verificación de acceso a la red:</strong> Para comprobar la conectividad al servidor o al puerto (IP del computador) donde se encuentra la base de datos PostgreSQL.</p>
 <ul>
 <li><p>Abra <strong>PowerShell de Windows</strong> desde el buscador o desde el ejecutador de programas (tecla de Windows+R).<br>
@@ -651,16 +675,11 @@ sslmode=prefer - Conexión. </code></pre></li>
 <li><p>xc</p></li>
 <li><p>x</p></li>
 <li><p>c</p></li>
-<li><p>x</p></li>
-<li><p>i</p></li>
+<li><p>x</p>
+<h3 id="section" class="anchored"></h3></li>
+<li><p>Añada <code>stg.veredas_norm</code> y defina simbología graduada por <code>area_ha</code>.</p></li>
+<li><p>Cree mapas temáticos combinando veredas con capas raster (NDVI, precipitación).</p></li>
 </ol>
-</section>
-<section id="joins" class="level2">
-<h2 class="anchored" data-anchor-id="joins">JOINS</h2>
-<ul>
-<li>Añada <code>stg.veredas_norm</code> y defina simbología graduada por <code>area_ha</code>.</li>
-<li>Cree mapas temáticos combinando veredas con capas raster (NDVI, precipitación).</li>
-</ul>
 </section>
 <section id="consultas-desde-qgis-sql-1" class="level2">
 <h2 class="anchored" data-anchor-id="consultas-desde-qgis-sql-1">Consultas desde QGIS SQL</h2>
