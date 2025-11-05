@@ -8,7 +8,7 @@ title: "Integración con QGIS"
 
 2.  **Verificación Windows**: Verifique el nombre del disco y el usuario de Windows del computador en el que va a establecer la conexión a la base de datos, para realizar las respectivas modificaciones en los scripts de permisos y conexión. Asimismo, compruebe si tiene PostgreSQL instalado en el equipo.
 
-3.  **Creación del túnel de acceso al servidor:** La base de datos se encuentra almacenada en un servidor de la empresa, por este motivo se debe crear el túnel y poder acceder a este cada vez que vaya a entrar a la base de datos:
+3.  **Preparaciones previas para establecer el túnel de conexión:** La base de datos se encuentra almacenada en un servidor de la empresa, por este motivo se debe crear el túnel y poder acceder a este cada vez que vaya a entrar a la base de datos:
 
     -   Debe contar con la carpeta denominada *1keys* y dentro de esta se encuentran los archivos correspondientes a las llaves de su usuario (id_ed_usuario); script_conexion (creación de la conexión al túnel), y script_permisos (para poder leer la llave de acceso al servidor) y el ícono (es un script de conexión para abrir el túnel y al abrirlo solicita la contraseña de acceso al servidor, que es diferente del acceso a la base de datos). En la carpeta dejar única y exclusivamente los archivos del usuario que está configurando.
 
@@ -22,37 +22,86 @@ title: "Integración con QGIS"
 
     -   Validar el nombre de usuario de windows y el disco en el script_permisos y script_conexion. Click derecho sobre el archivo dentro de cada una de las carpetas según corresponda \> editar en blog de notas \> Guardar después de las modificaciones.
 
-        Asimismo, verificar el puerto de conexión. Normalmente es el 5432, pero en caso de tener instalado PostgreSQL en la computadora, se debe cambiar por 15432 en el archivo .conf, en el script_conexion (-L) y en los pasos posteriores en QGIS.
+        Asimismo, verificar el puerto de conexión. Normalmente es el 5432, pero en caso de tener instalado PostgreSQL en la computadora, se debe cambiar por 15432 en el archivo .conf, en el script_conexion (-L) y en los pasos posteriores en QGIS. No olvide guardar los cambios realizados.
 
-    -   g
+    -   Ejecutar el archivo de *script_permisos* para que restrinja el acceso de otros usuarios a la base de datos. Diríjase a la carpeta *script_permisos* \> click derecho sobre el archivo que se encuentra dentro de ella \> ejecutar en PowerShell. Si es exitoso, vaya a la llave del usuario (id_ed_usuario) \> click derecho \> Propiedades. Se abrirá una nueva ventana, en la pestaña *Seguridad*, en el apartado *Nombres de grupos o usuarios*, debe aparecer únicamente el que le corresponde al usuario de la base de datos, si aparecen otros, la ejecución del script de permisos no fue exitosa.
 
-    -   g
+        ![](assets/Permisos_exitoso.png)
 
-    -   g
+        El error puede ser porque Windows, por defecto, restringe la ejecución de scripts para su protección ante archivos maliciosos. Por este motivo, esta configuración debe ser modificada temporalmente mediante la línea Set-ExecutionPolicy para que se pueda ejecutar el archivo de permisos y el del ícono para poder entrar a la base de datos.
 
-    -   g
+        Abrir Windows PowerShell como administrador y ejecutar la línea:
 
-    -   g
+        ```         
+        Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+        ```
 
-    -   g
+        Luego, escribir S para aceptar el cambio de la directiva de ejecución.
 
-    -   g
+        ![](assets/Setpoli.png)
 
-    -   g
+    -   Ejecutar en PowerShell el archivo de script_permisos, si sale un error, no han quedado libre de restricciones para la ejecución del script, entonces se deben quitar manualmente como se explica a continuación.
 
-    -   g
+        Abra Windows PowerShell como administrador y digitar:
 
-    -   g
+        ```         
+        # Hace referencia al disco donde se guardó la carpeta 1keys. 
+        d:
+        ```
 
-    -   g
+        ```         
+        cd 1keys
+        ```
 
-    -   g
+        ```         
+        ls
+        ```
 
-    -   g
+        ```         
+        cd script_permisos
+        ```
 
-    -   gg
+        ```         
+        .\usuario_nombre de usuario.ps1
+        ```
 
-4.  **Verificación de acceso a la red:** Para comprobar la conectividad al servidor o al puerto (IP del computador) donde se encuentra la base de datos PostgreSQL.
+        ```         
+        ping
+        ```
+
+        ```         
+        ipconfig
+        ```
+
+    Ahora, vuelva a revisar en la pestaña de seguridad en las propiedades de la llave con los parámetros anteriormente mencionados.
+
+4.  **Establecimiento del túnel de acceso al servidor:**
+
+    Al abrir el íncono del usuario creado en la carpeta, se desplegará una ventana en Windows PowerShell en la que le solicitará la contraseña para el acceso al servidor, digítela aún si no es posible verla en la pantalla y oprima la tecla *Enter.*
+
+    ![](assets/Ingreso_contraseña_servidor.png)
+
+    Si es la primera vez, es posible que le salga un mensaje de advertencia, escriba *yes*, oprima la tecla *Enter* y digite la contraseña.
+
+    ![](assets/Autorización_ingreso_contraseñas.png)
+
+    Ingreso aprobado al servidor:
+
+    ![](assets/Ingreso_aprobado_al_servidor.png)
+
+    Es posible que aparezcan una serie de errores como los siguientes:
+
+    -   
+
+    g
+
+    g
+
+    g
+
+    g
+
+5.  **Verificación de acceso a la red:** Para comprobar la conectividad al servidor o al puerto (IP del computador) donde se encuentra la base de datos PostgreSQL.
 
     -   Abra **PowerShell de Windows** desde el buscador o desde el ejecutador de programas (tecla de Windows+R).\
         ![Acceder a Windows Powershell](images/Powershell1-2.png)
@@ -73,7 +122,7 @@ title: "Integración con QGIS"
 
         Si no puede conectarse, revise la configuración de los datos del IP del computador o servidor, del puerto, así como la red desde la que está intentando acceder.
 
-5.  **Archivo pg_service.conf:**
+6.  **Archivo pg_service.conf:**
 
     -   En primer lugar, compruebe si existe una carpeta denominada *postgresql* copiando la siguiente ruta en el buscador de archivos de su ordenador:
 
@@ -105,7 +154,7 @@ title: "Integración con QGIS"
         sslmode=prefer - Conexión. 
         ```
 
-6.  **Activación de la contraseña maestra y creación de credenciales cifradas**
+7.  **Activación de la contraseña maestra y creación de credenciales cifradas**
 
     Este paso es fundamental para proporcionar seguridad a la información que se está visualizando.
 
@@ -131,7 +180,7 @@ title: "Integración con QGIS"
 
     ![](assets/Autenticación.png)
 
-7.  **Creación de la conexión a PostgreSQL**
+8.  **Creación de la conexión a PostgreSQL**
 
     En esta sección se establecerá la conexión a PostgreSQL para tener acceso a la base de datos.
 
