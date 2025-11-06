@@ -310,21 +310,51 @@
     ]
   },
   {
-    "objectID": "qgis_integracion.html#cargar-capas",
-    "href": "qgis_integracion.html#cargar-capas",
+    "objectID": "qgis_integracion.html#cargar-capas-al-lienzo-de-qgis",
+    "href": "qgis_integracion.html#cargar-capas-al-lienzo-de-qgis",
     "title": "Integración con QGIS",
-    "section": "Cargar capas",
-    "text": "Cargar capas\n\nAñada stg.veredas_norm y defina simbología graduada por area_ha.\nCree mapas temáticos combinando veredas con capas raster (NDVI, precipitación).",
+    "section": "Cargar capas al lienzo de QGIS",
+    "text": "Cargar capas al lienzo de QGIS\nIngrese a la base de datos para visualizar y editar las capas de interés. En la barra de menús seleccione Base de datos &gt; Administrador de bases de datos. En la ventana Administrador de BBDD, diríjase a PostGIS &gt; seleccione la base de datos de interés &gt; esquema que contiene la/s capa/s &gt; click derecho sobre la capa que quiere visualizar o editar &gt; Seleccione Añadir al lienzo. Del mismo modo, se puede añadir una capa al lienzo de QGIS haciendo doble click izquierdo sobre esta.\nNota: La nomenclatura de capas, tablas y otros archivos es fundamental para la consulta de una amplia gama de análisis. Para ello, evite los espacios entre palabras reemplazándolos por guión al piso ( _ ), por ejemplo en vez de escribir “zona llanos”, escriba “zona_llanos”. En el menú desplegado encontrará las capas contenidas en el esquema seleccionado.\n\nUna vez se ha subido la capa, puede visualzarla o editarla como normalmente lo hace desde el software QGIS. No olvide guardar sus cambios.",
     "crumbs": [
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Integración con QGIS</span>"
     ]
   },
   {
-    "objectID": "qgis_integracion.html#consultas-desde-qgis",
-    "href": "qgis_integracion.html#consultas-desde-qgis",
+    "objectID": "qgis_integracion.html#importar-archivos-a-la-base-de-datos",
+    "href": "qgis_integracion.html#importar-archivos-a-la-base-de-datos",
     "title": "Integración con QGIS",
-    "section": "Consultas desde QGIS",
-    "text": "Consultas desde QGIS\nUtilice el panel DB Manager para ejecutar SQL y crear vistas materiales.\nCREATE MATERIALIZED VIEW carto.v_veredas_fuente_hidrica AS\nWITH fuentes AS (\n  SELECT geom\n  FROM ref.hidrografia_principal\n),\nsimplificado AS (\n  SELECT vereda_codigo,\n         vereda_nombre,\n         municipio,\n         ST_SimplifyPreserveTopology(geom, 5) AS geom\n  FROM stg.veredas_norm\n)\nSELECT s.*, ST_Distance(s.geom, f.geom) AS distancia_m\nFROM simplificado s\nCROSS JOIN LATERAL (\n  SELECT geom\n  FROM fuentes\n  ORDER BY s.geom &lt;-&gt; geom\n  LIMIT 1\n) AS f;\nRecargue la vista en QGIS y configure actualizaciones automáticas tras REFRESH MATERIALIZED VIEW.",
+    "section": "Importar archivos a la base de datos",
+    "text": "Importar archivos a la base de datos\nPara subir a la base de datos PostgreSQL/PostGIS una capa vectorial o una tabla en formato .csv, siga los siguientes pasos:\n\nCapa en formato .gpkg subida en el software QGIS, por ejemplo una capa denominada Puntos.\n\nEn la barra de menús, vaya a Base de datos &gt; Administrador de bases de datos &gt; PostGIS &gt; click sobre la base de datos en la que subirá el archivo &gt; Importar capa/archivo.\n\nEn la ventana Importar capa vectorial se encuentran las siguientes opciones:\n\nEntrada: Hay dos formas de importar el archivo a la base de datos, desde el panel de capas en QGIS o desde el equipo directamente. La primera opción es importar el archivo desde en proyecto QGIS (flechas color rojo): suba la capa o tabla a QGIS y haga click en la barra del menú desplegable, podrá observar las capas que se encuentran en el proyecto, seleccione la que es de su interés. Como segunda alternativa, importe el archivo desde su ordenador (flechas color azul): haga click en el recuadro que tiene tres puntos y búsque la capa y selecciónela.\n\nEn este apartado también se encuentra la opción Importar sólo objetos espaciales seleccionados de la capa que se encuentra en el lienzo, se importarán solo las entidades espaciales que tenga seleccionadas.\n\nEsquema: Seleccione en la base de datos el esquema stg para guardar el archivo a importar, será almacenado como stg.Puntos.\nTabla: Corresponde al nombre de la capa que importará dentro del esquema. Si desea que el nombre sea el mismo que la capa del lienzo, selecciónela en el menú desplegable (recomendado). Si prefiere cambiarlo, escríbalo en este apartado teniendo presente la nota de nomenclartura de archivos.\n\n\nMarque las opciones señaladas con un hasterísco (*) y las que considere pertinentes:\n\nClave primaria: Nombre del campo que actuará como identificador de cada registro, normalmente es el id. Si la capa ya cuenta con esa columna, QGIS puede usarla directamente.\nColumna de geometría*: Define el nombre del campo donde se guardará la geometría espacial (coordenadas de los vectores). Usualmente se denomina geom.\nSRID de origen: Sistema de Referencia de Coordenadas -SRC- que tiene la capa de origen. QGIS puede reconocer el SRC de la capa automáticamente sin necesidad de especificarlo en este apartado.\nSRID de destino*: SRC que tendrá la capa una vez importada, debe ser EPSG:32618 - WGS / UTM zone 18N. Puede conservar el de origen si corresponde a este o reproyectarlo. Es indispensable que las capas importadas estén proyectadas en el SRC anteriormente mencionado, con el fin de que los resultados de los análisis sean correctos y estandarizar procesos.\n\nCodificación*: Defina la codificación del texto, es decir como se guardan los caracteres. Seleccione UFT-8 para asegurar el reconocimiento de tildes y caracteres especiales como la “ñ”.\n\nSustituir las capas de destino (si existe): Sustituye un archivo si tiene el mismo nombre y formato, cualquier dato previo será borrado. Si no selecciona esta opción y la capa tiene el mismo nombre que otra que se encuentra en el esquema, le saldrá un error en la importación.\n\nAsegúrese de que la capa que tiene en el lienzo de QGIS sea la última que importó a la base de datos, debido a que puede hacer análisis erróneos, modificar un archivo dferente o hacer cambios que no corresponden al archivo importado.\nNo estimular a multiparte: Si las capas tienen geometría multi, como multipolígono, QGIS las dividirá en partes simples (polígonos individuales). Por defecto se déjela sin marcar para conservar las geometrías.\nPasar nombres de campos a minúsculas: Reescribe todos los nombres de las columnas a minúsculas.\nCrear índice espacial*: Creación de un índice GiST sobre la columna geom que permite hacer las consultas espaciales de ua manera más eficiente. Seleccione esta opción.\nComentario: Se puede añadir una nota o descripción sobre la capa, el texto se guardará como metadato en la base de datos, es decir que proporcionan información sobre los datos. Podrá apreciar los comentarios en la ventana de Info &gt; Información general.\n\nUna vez tenga la información completa para la importación del archivo, de click en Aceptar y podrá observar un enunciado que le indica el éxito de la importación.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Integración con QGIS</span>"
+    ]
+  },
+  {
+    "objectID": "qgis_integracion.html#exportar-archivos-desde-la-base-de-datos",
+    "href": "qgis_integracion.html#exportar-archivos-desde-la-base-de-datos",
+    "title": "Integración con QGIS",
+    "section": "Exportar archivos desde la base de datos",
+    "text": "Exportar archivos desde la base de datos\nLa exportación desde la base de datos PostgreSQL/PostGIS a un disco, puede realizarse desde el panel de capas en QGIS como habitualmente lo hace, o puede hacerlo directamente desde el Administrador de BBDD &gt; Exportar a archivo.\n\nSe abrirá la ventana Exportar a archivo vectorial. En formato, seleccione el de su interés en el menú desplegado; defina la ruta donde desea guardar el archivo en el apartado Guardar como, haciendo click en el recuadro de los tres puntos; en Opciones, defina 32618 como el SRID de destino, Codificación UFT-8 y seleccione si considera sustituir el archivo de destino (si existe). Finalmente, seleccione Aceptar y observará una ventana emergente que le confirma el éxito de la exportación del archivo.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Integración con QGIS</span>"
+    ]
+  },
+  {
+    "objectID": "qgis_integracion.html#consultas-desde-qgis-sql",
+    "href": "qgis_integracion.html#consultas-desde-qgis-sql",
+    "title": "Integración con QGIS",
+    "section": "Consultas desde QGIS SQL",
+    "text": "Consultas desde QGIS SQL\n\nxc\nxc\nx\nc\nx\n\nAñada stg.veredas_norm y defina simbología graduada por area_ha.\nCree mapas temáticos combinando veredas con capas raster (NDVI, precipitación).",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Integración con QGIS</span>"
+    ]
+  },
+  {
+    "objectID": "qgis_integracion.html#consultas-desde-qgis-sql-1",
+    "href": "qgis_integracion.html#consultas-desde-qgis-sql-1",
+    "title": "Integración con QGIS",
+    "section": "Consultas desde QGIS SQL",
+    "text": "Consultas desde QGIS SQL\n\nDato compartido para poder hacer las uniones y diferentes anaálisis.\n\nUtilice el panel DB Manager para ejecutar SQL y crear vistas materiales.\nCREATE MATERIALIZED VIEW carto.v_veredas_fuente_hidrica AS\nWITH fuentes AS (\n  SELECT geom\n  FROM ref.hidrografia_principal\n),\nsimplificado AS (\n  SELECT vereda_codigo,\n         vereda_nombre,\n         municipio,\n         ST_SimplifyPreserveTopology(geom, 5) AS geom\n  FROM stg.veredas_norm\n)\nSELECT s.*, ST_Distance(s.geom, f.geom) AS distancia_m\nFROM simplificado s\nCROSS JOIN LATERAL (\n  SELECT geom\n  FROM fuentes\n  ORDER BY s.geom &lt;-&gt; geom\n  LIMIT 1\n) AS f;\nRecargue la vista en QGIS y configure actualizaciones automáticas tras REFRESH MATERIALIZED VIEW.",
     "crumbs": [
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Integración con QGIS</span>"
     ]
@@ -497,116 +527,6 @@
     "text": "Próximos pasos\n\nAñadir capítulos avanzados sobre análisis raster en PostGIS.\nIncluir ejercicios de QGIS con complementos (Time Manager, Processing).\nDocumentar la arquitectura completa en docs/arquitectura/.",
     "crumbs": [
       "<span class='chapter-number'>10</span>  <span class='chapter-title'>Recursos</span>"
-    ]
-  },
-  {
-    "objectID": "qgis_integracion.html#visualización-de-capas",
-    "href": "qgis_integracion.html#visualización-de-capas",
-    "title": "Integración con QGIS",
-    "section": "Visualización de capas",
-    "text": "Visualización de capas\nIngrese a la base de datos para visualizar y editar las capas de interés. En la barra de menús seleccione Base de datos &gt; Administrador de bases de datos. En la ventana Administrador de BBDD, diríjase a PostGIS &gt; seleccione la base de datos de interés &gt; esquema que contiene la/s capa/s &gt; click derecho sobre la capa que quiere visualizar o editar &gt; Seleccione Añadir al lienzo.\n\n\nf\nf\n\nDato compartido para poder hacer las uniones y diferentes anaálisis.",
-    "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Integración con QGIS</span>"
-    ]
-  },
-  {
-    "objectID": "qgis_integracion.html#cargar-capas-al-lienzo-de-qgis",
-    "href": "qgis_integracion.html#cargar-capas-al-lienzo-de-qgis",
-    "title": "Integración con QGIS",
-    "section": "Cargar capas al lienzo de QGIS",
-    "text": "Cargar capas al lienzo de QGIS\nIngrese a la base de datos para visualizar y editar las capas de interés. En la barra de menús seleccione Base de datos &gt; Administrador de bases de datos. En la ventana Administrador de BBDD, diríjase a PostGIS &gt; seleccione la base de datos de interés &gt; esquema que contiene la/s capa/s &gt; click derecho sobre la capa que quiere visualizar o editar &gt; Seleccione Añadir al lienzo. Del mismo modo, se puede añadir una capa al lienzo de QGIS haciendo doble click izquierdo sobre esta.\nNota: La nomenclatura de capas, tablas y otros archivos es fundamental para la consulta de una amplia gama de análisis. Para ello, evite los espacios entre palabras reemplazándolos por guión al piso ( _ ), por ejemplo en vez de escribir “zona llanos”, escriba “zona_llanos”. En el menú desplegado encontrará las capas contenidas en el esquema seleccionado.\n\nUna vez se ha subido la capa, puede visualzarla o editarla como normalmente lo hace desde el software QGIS. No olvide guardar sus cambios.",
-    "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Integración con QGIS</span>"
-    ]
-  },
-  {
-    "objectID": "qgis_integracion.html#cargar-capas-o-tablas-a-la-base-de-datos",
-    "href": "qgis_integracion.html#cargar-capas-o-tablas-a-la-base-de-datos",
-    "title": "Integración con QGIS",
-    "section": "Cargar capas o tablas a la base de datos",
-    "text": "Cargar capas o tablas a la base de datos\nPara subir a la base de datos PostgreSQL/PostGIS una capa vectorial o una tabla en formato .csv, siga los siguientes pasos:\n\nCapa en formato .gpkg subida en el software QGIS, por ejemplo una capa denominada Puntos.\n\nEn la barra de menús, vaya a Base de datos &gt; Administrador de bases de datos &gt; PostGIS &gt; click sobre la base de datos en la que subirá el archivo &gt; Importar capa/archivo.\n\nEn la ventana Importar capa vectorial se encuentran las siguientes opciones:\n\nEntrada: Hay dos formas de importar el archivo a la base de datos, desde el panel de capas en QGIS o desde el equipo directamente. La primera opción es importar el archivo desde en proyecto QGIS (flechas color rojo): suba la capa o tabla a QGIS y haga click en la barra del menú desplegable, podrá observar las capas que se encuentran en el proyecto, seleccione la que es de su interés. Como segunda alternativa, importe el archivo desde su ordenador (flechas color azul): haga click en el recuadro que tiene tres puntos y búsque la capa y selecciónela. En este apartado también se encuentra la opción Importar sólo objetos espaciales seleccionados de la capa que se encuentra en el lienzo, se importarán solo las entidades espaciales que tenga seleccionadas.\n\nEsquema: Seleccione en la base de datos el esquema stg para guardar el archivo a importar, será almacenado como stg.Puntos.\nTabla: Corresponde al nombre de la capa que importará dentro del esquema. Si desea que el nombre sea el mismo que la capa del lienzo, selecciónela en el menú desplegable (recomendado). Si prefiere cambiarlo, escríbalo en este apartado teniendo presente la nota de nomenclartura de archivos.\n\n\nMarque las opciones señaladas con un hasterísco (*) y las que considere pertinentes:\n\nClave primaria: Nombre del campo que actuará como identificador de cada registro, normalmente es el id. Si la capa ya cuenta con esa columna, QGIS puede usarla directamente.\nColumna de geometría*: Define el nombre del campo donde se guardará la geometría espacial (coordenadas de los vectores). Usualmente se denomina geom.\nSRID de origen: Sistema de Referencia de Coordenadas -SRC- que tiene la capa de origen. QGIS puede reconocer el SRC de la capa automáticamente sin necesidad de especificarlo en este apartado.\nSRID de destino*: SRC que tendrá la capa una vez importada, debe ser EPSG:32618 - WGS / UTM zone 18N. Puede conservar el de origen si corresponde a este o reproyectarlo. Es indispensable que las capas importadas estén proyectadas en el SRC anteriormente mencionado, con el fin de que los resultados de los análisis sean correctos y estandarizar procesos.\n\nCodificación*: Defina la codificación del texto, es decir como se guardan los caracteres. Seleccione UFT-8 para asegurar el reconocimiento de tildes y caracteres especiales como la “ñ”.\n\nSustituir las capas de destino (si existe): Sustituye un archivo si tiene el mismo nombre y formato, cualquier dato previo será borrado.\nNo estimular a multiparte: Si las capas tienen geometría multi, como multipolígono, QGIS las dividirá en partes simples (polígonos individuales). Por defecto se déjela sin marcar para conservar las geometrías.\nPasar nombres de campos a minúsculas: Reescribe todos los nombres de las columnas a minúsculas.\nCrear índice espacial*: Creación de un índice GiST sobre la columna geom que permite hacer las consultas espaciales de ua manera más eficiente. Seleccione esta opción.\nComentario: Se puede añadir una nota o descripción sobre la capa, el texto se guardará como metadato en la base de datos, es decir que proporcionan información sobre los datos.",
-    "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Integración con QGIS</span>"
-    ]
-  },
-  {
-    "objectID": "qgis_integracion.html#exportar-capas",
-    "href": "qgis_integracion.html#exportar-capas",
-    "title": "Integración con QGIS",
-    "section": "Exportar capas",
-    "text": "Exportar capas\n\nAñada stg.veredas_norm y defina simbología graduada por area_ha.\nCree mapas temáticos combinando veredas con capas raster (NDVI, precipitación).",
-    "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Integración con QGIS</span>"
-    ]
-  },
-  {
-    "objectID": "qgis_integracion.html#consultas-desde-qgis-sql",
-    "href": "qgis_integracion.html#consultas-desde-qgis-sql",
-    "title": "Integración con QGIS",
-    "section": "Consultas desde QGIS SQL",
-    "text": "Consultas desde QGIS SQL\n\nxc\nxc\nx\nc\nx\n\nAñada stg.veredas_norm y defina simbología graduada por area_ha.\nCree mapas temáticos combinando veredas con capas raster (NDVI, precipitación).",
-    "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Integración con QGIS</span>"
-    ]
-  },
-  {
-    "objectID": "qgis_integracion.html#importar-archivos-a-la-base-de-datos",
-    "href": "qgis_integracion.html#importar-archivos-a-la-base-de-datos",
-    "title": "Integración con QGIS",
-    "section": "Importar archivos a la base de datos",
-    "text": "Importar archivos a la base de datos\nPara subir a la base de datos PostgreSQL/PostGIS una capa vectorial o una tabla en formato .csv, siga los siguientes pasos:\n\nCapa en formato .gpkg subida en el software QGIS, por ejemplo una capa denominada Puntos.\n\nEn la barra de menús, vaya a Base de datos &gt; Administrador de bases de datos &gt; PostGIS &gt; click sobre la base de datos en la que subirá el archivo &gt; Importar capa/archivo.\n\nEn la ventana Importar capa vectorial se encuentran las siguientes opciones:\n\nEntrada: Hay dos formas de importar el archivo a la base de datos, desde el panel de capas en QGIS o desde el equipo directamente. La primera opción es importar el archivo desde en proyecto QGIS (flechas color rojo): suba la capa o tabla a QGIS y haga click en la barra del menú desplegable, podrá observar las capas que se encuentran en el proyecto, seleccione la que es de su interés. Como segunda alternativa, importe el archivo desde su ordenador (flechas color azul): haga click en el recuadro que tiene tres puntos y búsque la capa y selecciónela.\n\nEn este apartado también se encuentra la opción Importar sólo objetos espaciales seleccionados de la capa que se encuentra en el lienzo, se importarán solo las entidades espaciales que tenga seleccionadas.\n\nEsquema: Seleccione en la base de datos el esquema stg para guardar el archivo a importar, será almacenado como stg.Puntos.\nTabla: Corresponde al nombre de la capa que importará dentro del esquema. Si desea que el nombre sea el mismo que la capa del lienzo, selecciónela en el menú desplegable (recomendado). Si prefiere cambiarlo, escríbalo en este apartado teniendo presente la nota de nomenclartura de archivos.\n\n\nMarque las opciones señaladas con un hasterísco (*) y las que considere pertinentes:\n\nClave primaria: Nombre del campo que actuará como identificador de cada registro, normalmente es el id. Si la capa ya cuenta con esa columna, QGIS puede usarla directamente.\nColumna de geometría*: Define el nombre del campo donde se guardará la geometría espacial (coordenadas de los vectores). Usualmente se denomina geom.\nSRID de origen: Sistema de Referencia de Coordenadas -SRC- que tiene la capa de origen. QGIS puede reconocer el SRC de la capa automáticamente sin necesidad de especificarlo en este apartado.\nSRID de destino*: SRC que tendrá la capa una vez importada, debe ser EPSG:32618 - WGS / UTM zone 18N. Puede conservar el de origen si corresponde a este o reproyectarlo. Es indispensable que las capas importadas estén proyectadas en el SRC anteriormente mencionado, con el fin de que los resultados de los análisis sean correctos y estandarizar procesos.\n\nCodificación*: Defina la codificación del texto, es decir como se guardan los caracteres. Seleccione UFT-8 para asegurar el reconocimiento de tildes y caracteres especiales como la “ñ”.\n\nSustituir las capas de destino (si existe): Sustituye un archivo si tiene el mismo nombre y formato, cualquier dato previo será borrado. Si no selecciona esta opción y la capa tiene el mismo nombre que otra que se encuentra en el esquema, le saldrá un error en la importación.\n\nAsegúrese de que la capa que tiene en el lienzo de QGIS sea la última que importó a la base de datos, debido a que puede hacer análisis erróneos, modificar un archivo dferente o hacer cambios que no corresponden al archivo importado.\nNo estimular a multiparte: Si las capas tienen geometría multi, como multipolígono, QGIS las dividirá en partes simples (polígonos individuales). Por defecto se déjela sin marcar para conservar las geometrías.\nPasar nombres de campos a minúsculas: Reescribe todos los nombres de las columnas a minúsculas.\nCrear índice espacial*: Creación de un índice GiST sobre la columna geom que permite hacer las consultas espaciales de ua manera más eficiente. Seleccione esta opción.\nComentario: Se puede añadir una nota o descripción sobre la capa, el texto se guardará como metadato en la base de datos, es decir que proporcionan información sobre los datos. Podrá apreciar los comentarios en la ventana de Info &gt; Información general.\n\nUna vez tenga la información completa para la importación del archivo, de click en Aceptar y podrá observar un enunciado que le indica el éxito de la importación.",
-    "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Integración con QGIS</span>"
-    ]
-  },
-  {
-    "objectID": "qgis_integracion.html#importarexportar-archivos-a-la-base-de-datos",
-    "href": "qgis_integracion.html#importarexportar-archivos-a-la-base-de-datos",
-    "title": "Integración con QGIS",
-    "section": "Importar/exportar archivos a la base de datos",
-    "text": "Importar/exportar archivos a la base de datos\nPara subir a la base de datos PostgreSQL/PostGIS una capa vectorial o una tabla en formato .csv, siga los siguientes pasos:\n\nCapa en formato .gpkg subida en el software QGIS, por ejemplo una capa denominada Puntos.\n\nEn la barra de menús, vaya a Base de datos &gt; Administrador de bases de datos &gt; PostGIS &gt; click sobre la base de datos en la que subirá el archivo &gt; Importar capa/archivo.\n\nEn la ventana Importar capa vectorial se encuentran las siguientes opciones:\n\nEntrada: Hay dos formas de importar el archivo a la base de datos, desde el panel de capas en QGIS o desde el equipo directamente. La primera opción es importar el archivo desde en proyecto QGIS (flechas color rojo): suba la capa o tabla a QGIS y haga click en la barra del menú desplegable, podrá observar las capas que se encuentran en el proyecto, seleccione la que es de su interés. Como segunda alternativa, importe el archivo desde su ordenador (flechas color azul): haga click en el recuadro que tiene tres puntos y búsque la capa y selecciónela.\n\nEn este apartado también se encuentra la opción Importar sólo objetos espaciales seleccionados de la capa que se encuentra en el lienzo, se importarán solo las entidades espaciales que tenga seleccionadas.\n\nEsquema: Seleccione en la base de datos el esquema stg para guardar el archivo a importar, será almacenado como stg.Puntos.\nTabla: Corresponde al nombre de la capa que importará dentro del esquema. Si desea que el nombre sea el mismo que la capa del lienzo, selecciónela en el menú desplegable (recomendado). Si prefiere cambiarlo, escríbalo en este apartado teniendo presente la nota de nomenclartura de archivos.\n\n\nMarque las opciones señaladas con un hasterísco (*) y las que considere pertinentes:\n\nClave primaria: Nombre del campo que actuará como identificador de cada registro, normalmente es el id. Si la capa ya cuenta con esa columna, QGIS puede usarla directamente.\nColumna de geometría*: Define el nombre del campo donde se guardará la geometría espacial (coordenadas de los vectores). Usualmente se denomina geom.\nSRID de origen: Sistema de Referencia de Coordenadas -SRC- que tiene la capa de origen. QGIS puede reconocer el SRC de la capa automáticamente sin necesidad de especificarlo en este apartado.\nSRID de destino*: SRC que tendrá la capa una vez importada, debe ser EPSG:32618 - WGS / UTM zone 18N. Puede conservar el de origen si corresponde a este o reproyectarlo. Es indispensable que las capas importadas estén proyectadas en el SRC anteriormente mencionado, con el fin de que los resultados de los análisis sean correctos y estandarizar procesos.\n\nCodificación*: Defina la codificación del texto, es decir como se guardan los caracteres. Seleccione UFT-8 para asegurar el reconocimiento de tildes y caracteres especiales como la “ñ”.\n\nSustituir las capas de destino (si existe): Sustituye un archivo si tiene el mismo nombre y formato, cualquier dato previo será borrado.\nNo estimular a multiparte: Si las capas tienen geometría multi, como multipolígono, QGIS las dividirá en partes simples (polígonos individuales). Por defecto se déjela sin marcar para conservar las geometrías.\nPasar nombres de campos a minúsculas: Reescribe todos los nombres de las columnas a minúsculas.\nCrear índice espacial*: Creación de un índice GiST sobre la columna geom que permite hacer las consultas espaciales de ua manera más eficiente. Seleccione esta opción.\nComentario: Se puede añadir una nota o descripción sobre la capa, el texto se guardará como metadato en la base de datos, es decir que proporcionan información sobre los datos. Podrá apreciar los comentarios en la ventana de Info &gt; Información general.\n\nUna vez tenga la información completa para la importación del archivo, de click en Aceptar y podrá observar un enunciado que le indica el éxito de la importación.\n\nEportar a archivo\n\ni",
-    "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Integración con QGIS</span>"
-    ]
-  },
-  {
-    "objectID": "qgis_integracion.html#exportar-archivos-desde-la-base-de-datos",
-    "href": "qgis_integracion.html#exportar-archivos-desde-la-base-de-datos",
-    "title": "Integración con QGIS",
-    "section": "Exportar archivos desde la base de datos",
-    "text": "Exportar archivos desde la base de datos\nLa exportación desde la base de datos PostgreSQL/PostGIS a un disco, puede realizarse desde el panel de capas en QGIS como habitualmente lo hace, o puede hacerlo directamente desde el Administrador de BBDD &gt; Exportar a archivo.\n\nSe abrirá la ventana Exportar a archivo vectorial. En formato, seleccione el de su interés en el menú desplegado; defina la ruta donde desea guardar el archivo en el apartado Guardar como, haciendo click en el recuadro de los tres puntos; en Opciones, defina 32618 como el SRID de destino, Codificación UFT-8 y seleccione si considera sustituir el archivo de destino (si existe). Finalmente, seleccione Aceptar y observará una ventana emergente que le confirma el éxito de la exportación del archivo.",
-    "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Integración con QGIS</span>"
-    ]
-  },
-  {
-    "objectID": "qgis_integracion.html#dgsdg",
-    "href": "qgis_integracion.html#dgsdg",
-    "title": "Integración con QGIS",
-    "section": "dgsdg",
-    "text": "dgsdg\n\nAñada stg.veredas_norm y defina simbología graduada por area_ha.\nCree mapas temáticos combinando veredas con capas raster (NDVI, precipitación).",
-    "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Integración con QGIS</span>"
-    ]
-  },
-  {
-    "objectID": "qgis_integracion.html#joins",
-    "href": "qgis_integracion.html#joins",
-    "title": "Integración con QGIS",
-    "section": "JOINS",
-    "text": "JOINS\n\nAñada stg.veredas_norm y defina simbología graduada por area_ha.\nCree mapas temáticos combinando veredas con capas raster (NDVI, precipitación).",
-    "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Integración con QGIS</span>"
-    ]
-  },
-  {
-    "objectID": "qgis_integracion.html#consultas-desde-qgis-sql-1",
-    "href": "qgis_integracion.html#consultas-desde-qgis-sql-1",
-    "title": "Integración con QGIS",
-    "section": "Consultas desde QGIS SQL",
-    "text": "Consultas desde QGIS SQL\n\nDato compartido para poder hacer las uniones y diferentes anaálisis.\n\nUtilice el panel DB Manager para ejecutar SQL y crear vistas materiales.\nCREATE MATERIALIZED VIEW carto.v_veredas_fuente_hidrica AS\nWITH fuentes AS (\n  SELECT geom\n  FROM ref.hidrografia_principal\n),\nsimplificado AS (\n  SELECT vereda_codigo,\n         vereda_nombre,\n         municipio,\n         ST_SimplifyPreserveTopology(geom, 5) AS geom\n  FROM stg.veredas_norm\n)\nSELECT s.*, ST_Distance(s.geom, f.geom) AS distancia_m\nFROM simplificado s\nCROSS JOIN LATERAL (\n  SELECT geom\n  FROM fuentes\n  ORDER BY s.geom &lt;-&gt; geom\n  LIMIT 1\n) AS f;\nRecargue la vista en QGIS y configure actualizaciones automáticas tras REFRESH MATERIALIZED VIEW.",
-    "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Integración con QGIS</span>"
     ]
   }
 ]

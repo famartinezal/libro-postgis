@@ -41,7 +41,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-bd37c45bf7ab68de5f0118974e0cc06b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-1169b975fe29c19e3a05db0255c518b2.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -71,251 +71,128 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 <script>
-
 (function () {
-
   if (typeof window === "undefined") {
-
     return;
-
   }
-
-
 
   function hydrateFuseFromDocs(fuse, docs) {
-
     docs.forEach(function (doc) {
-
       fuse.add(doc);
-
     });
-
     if (typeof fuseIndex !== "undefined") {
-
       fuseIndex = fuse;
-
     }
-
     return fuse;
-
   }
-
-
 
   function loadJsonWithXHR(url, fuse) {
-
     return new Promise(function (resolve, reject) {
-
       try {
-
         var xhr = new XMLHttpRequest();
-
         xhr.open("GET", url, true);
-
         xhr.overrideMimeType("application/json");
-
         xhr.onreadystatechange = function () {
-
           if (xhr.readyState === XMLHttpRequest.DONE) {
-
             if (xhr.status === 200 || xhr.status === 0) {
-
               try {
-
                 var docs = JSON.parse(xhr.responseText);
-
                 resolve(hydrateFuseFromDocs(fuse, docs));
-
               } catch (err) {
-
                 reject(err);
-
               }
-
             } else {
-
               reject(new Error("No se pudo cargar " + url));
-
             }
-
           }
-
         };
-
         xhr.onerror = function () {
-
           reject(new Error("No se pudo cargar " + url));
-
         };
-
         xhr.send();
-
       } catch (err) {
-
         reject(err);
-
       }
-
     });
-
   }
 
-
-
   function patchSearch() {
-
     if (typeof window.readSearchData !== "function") {
-
       return false;
-
     }
-
     if (typeof window.Fuse === "undefined") {
-
       return false;
-
     }
-
     if (typeof kFuseIndexOptions === "undefined") {
-
       return false;
-
     }
-
     if (window.__quartoSearchFilePatched) {
-
       return true;
-
     }
-
-
 
     var searchUrl = "search.json";
-
     if (typeof offsetURL === "function") {
-
       searchUrl = offsetURL("search.json");
-
     }
 
-
-
     window.readSearchData = async function () {
-
       if (typeof fuseIndex !== "undefined" && fuseIndex !== undefined) {
-
         return fuseIndex;
-
       }
-
-
 
       var fuse = new window.Fuse([], kFuseIndexOptions);
 
-
-
       var hydrate = function (docs) {
-
         hydrateFuseFromDocs(fuse, docs);
-
         return fuseIndex;
-
       };
 
-
-
       try {
-
         var response = await fetch(searchUrl, { cache: "no-store" });
-
         if (response && (response.ok || response.status === 0)) {
-
           var docs = await response.json();
-
           return hydrate(docs);
-
         }
-
       } catch (err) {
-
         // Continuamos con el fallback
-
       }
-
-
 
       return loadJsonWithXHR(searchUrl, fuse);
-
     };
-
-
 
     if (typeof shownWarning !== "undefined") {
-
       shownWarning = false;
-
     }
 
-
-
     var originalAlert = window.alert;
-
     window.alert = function () {
-
       if (
-
         arguments.length > 0 &&
-
         typeof arguments[0] === "string" &&
-
         arguments[0].indexOf("Search requires JavaScript features disabled when running in file://") === 0
-
       ) {
-
         return;
-
       }
-
       return originalAlert.apply(window, arguments);
-
     };
 
-
-
     window.__quartoSearchFilePatched = true;
-
     return true;
-
   }
-
-
 
   if (!patchSearch()) {
-
     document.addEventListener("DOMContentLoaded", function () {
-
       var attempts = 0;
-
       var timer = window.setInterval(function () {
-
         attempts += 1;
-
         if (patchSearch() || attempts > 40) {
-
           window.clearInterval(timer);
-
         }
-
       }, 100);
-
     });
-
   }
-
 })();
-
 </script>
-
 
 
 <link rel="stylesheet" href="styles.css">
