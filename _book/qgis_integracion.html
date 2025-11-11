@@ -77,7 +77,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-1169b975fe29c19e3a05db0255c518b2.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-bd37c45bf7ab68de5f0118974e0cc06b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -107,128 +107,251 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 <script>
+
 (function () {
+
   if (typeof window === "undefined") {
+
     return;
+
   }
+
+
 
   function hydrateFuseFromDocs(fuse, docs) {
+
     docs.forEach(function (doc) {
+
       fuse.add(doc);
+
     });
+
     if (typeof fuseIndex !== "undefined") {
+
       fuseIndex = fuse;
+
     }
+
     return fuse;
+
   }
+
+
 
   function loadJsonWithXHR(url, fuse) {
+
     return new Promise(function (resolve, reject) {
+
       try {
+
         var xhr = new XMLHttpRequest();
+
         xhr.open("GET", url, true);
+
         xhr.overrideMimeType("application/json");
+
         xhr.onreadystatechange = function () {
+
           if (xhr.readyState === XMLHttpRequest.DONE) {
+
             if (xhr.status === 200 || xhr.status === 0) {
+
               try {
+
                 var docs = JSON.parse(xhr.responseText);
+
                 resolve(hydrateFuseFromDocs(fuse, docs));
+
               } catch (err) {
+
                 reject(err);
+
               }
+
             } else {
+
               reject(new Error("No se pudo cargar " + url));
+
             }
+
           }
+
         };
+
         xhr.onerror = function () {
+
           reject(new Error("No se pudo cargar " + url));
+
         };
+
         xhr.send();
+
       } catch (err) {
+
         reject(err);
+
       }
+
     });
+
   }
 
+
+
   function patchSearch() {
+
     if (typeof window.readSearchData !== "function") {
+
       return false;
+
     }
+
     if (typeof window.Fuse === "undefined") {
+
       return false;
+
     }
+
     if (typeof kFuseIndexOptions === "undefined") {
+
       return false;
+
     }
+
     if (window.__quartoSearchFilePatched) {
+
       return true;
+
     }
+
+
 
     var searchUrl = "search.json";
+
     if (typeof offsetURL === "function") {
+
       searchUrl = offsetURL("search.json");
+
     }
 
+
+
     window.readSearchData = async function () {
+
       if (typeof fuseIndex !== "undefined" && fuseIndex !== undefined) {
+
         return fuseIndex;
+
       }
+
+
 
       var fuse = new window.Fuse([], kFuseIndexOptions);
 
+
+
       var hydrate = function (docs) {
+
         hydrateFuseFromDocs(fuse, docs);
+
         return fuseIndex;
+
       };
 
+
+
       try {
+
         var response = await fetch(searchUrl, { cache: "no-store" });
+
         if (response && (response.ok || response.status === 0)) {
+
           var docs = await response.json();
+
           return hydrate(docs);
+
         }
+
       } catch (err) {
+
         // Continuamos con el fallback
+
       }
+
+
 
       return loadJsonWithXHR(searchUrl, fuse);
+
     };
+
+
 
     if (typeof shownWarning !== "undefined") {
+
       shownWarning = false;
+
     }
 
+
+
     var originalAlert = window.alert;
+
     window.alert = function () {
+
       if (
+
         arguments.length > 0 &&
+
         typeof arguments[0] === "string" &&
+
         arguments[0].indexOf("Search requires JavaScript features disabled when running in file://") === 0
+
       ) {
+
         return;
+
       }
+
       return originalAlert.apply(window, arguments);
+
     };
 
+
+
     window.__quartoSearchFilePatched = true;
+
     return true;
+
   }
 
+
+
   if (!patchSearch()) {
+
     document.addEventListener("DOMContentLoaded", function () {
+
       var attempts = 0;
+
       var timer = window.setInterval(function () {
+
         attempts += 1;
+
         if (patchSearch() || attempts > 40) {
+
           window.clearInterval(timer);
+
         }
+
       }, 100);
+
     });
+
   }
+
 })();
+
 </script>
+
 
 
 <link rel="stylesheet" href="styles.css">
@@ -375,7 +498,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Debe contar con la carpeta denominada <em>1keys</em> y dentro de esta se encuentran los archivos correspondientes a las llaves de su usuario (id_ed_usuario); script_conexion (creación de la conexión al túnel), y script_permisos (para poder leer la llave de acceso al servidor) y el ícono (es un script de conexión para abrir el túnel y al abrirlo solicita la contraseña de acceso al servidor, que es diferente del acceso a la base de datos). En la carpeta dejar única y exclusivamente los archivos del usuario que está configurando.</p>
 <p><img src="assets/Carpeta_keys.png" class="img-fluid"></p></li>
 <li><p>La carpeta 1keys se debe copiar en uno de los discos del equipo, reconocer cuál es y renombrarlo en los scripts en caso de ser necesario.</p></li>
-<li><p>En <em>ícono</em> click derecho &gt; Propiedades &gt; Acceso directo, en el apartado de destino aparecerá la dirección de ???, valide el nombre del disco y cámbielo en caso de ser necesario (-File “Disco\1keys).</p>
+<li><p>En <em>ícono</em> click derecho &gt; Propiedades &gt; Acceso directo, en el apartado de destino aparecerá la dirección en la que se encuentran ubicadas las carpetas de la cofiguración a la base de datos, valide el nombre del disco y cámbielo en caso de ser necesario (-File “Disco\1keys).</p>
 <p><img src="assets/Propiedades_icono.png" class="img-fluid"></p></li>
 <li><p>Validar el nombre de usuario de windows y el disco en el script_permisos y script_conexion. Click derecho sobre el archivo dentro de cada una de las carpetas según corresponda &gt; editar en blog de notas &gt; Guardar después de las modificaciones.</p>
 <p>Asimismo, verificar el puerto de conexión. Normalmente es el 5432, pero en caso de tener instalado PostgreSQL en la computadora, se debe cambiar por 15432 en el archivo .conf, en el script_conexion (-L) y en los pasos posteriores en QGIS. No olvide guardar los cambios realizados.</p></li>
@@ -567,14 +690,227 @@ sslmode=prefer - Conexión. </code></pre></li>
 <section id="consultas-desde-qgis-sql" class="level2">
 <h2 class="anchored" data-anchor-id="consultas-desde-qgis-sql">Consultas desde QGIS SQL</h2>
 <ol type="1">
-<li><p>xc</p></li>
-<li><p>xc</p></li>
-<li><p>x</p></li>
-<li><p>c</p></li>
-<li><p>x</p>
-<h3 id="section" class="anchored"></h3></li>
-<li><p>Añada <code>stg.veredas_norm</code> y defina simbología graduada por <code>area_ha</code>.</p></li>
-<li><p>Cree mapas temáticos combinando veredas con capas raster (NDVI, precipitación).</p></li>
+<li><p>Consulta de lotes “00000”en la base de datos:</p>
+<pre><code>SELECT
+      l.lote_id,
+      l.cofinca,
+      l.secuencia_lote,
+      l.lote_codigo,
+      l.municipio_principal,
+      m.mpio_cnmbr AS municipio_nombre,
+      l.area_ha,
+      l.geom
+  FROM gis.lotes AS l
+  LEFT JOIN gis.municipios AS m
+    ON m.mpio_cdpmp = l.municipio_principal
+  WHERE l.cofinca = '00000';</code></pre></li>
+<li><p>Top municipios con más lotes</p>
+<pre><code>SELECT
+  l.municipio_principal AS mpio_codigo,   -- Código del municipio tomado desde la tabla de lotes
+  m.mpio_cnmbr         AS mpio_nombre,    -- Nombre del municipio desde gis.municipios
+  COUNT(*)             AS total_lotes,    -- Número de lotes en ese municipio
+  SUM(l.area_ha)       AS area_total_ha   -- Suma de áreas (ha) de los lotes en ese municipio
+FROM gis.lotes AS l
+LEFT JOIN gis.municipios AS m
+  ON m.mpio_cdpmp = l.municipio_principal -- Une por código: si no hay match, el nombre queda NULL (LEFT JOIN)
+GROUP BY
+  l.municipio_principal,                  -- Agrupa por el código del municipio
+  m.mpio_cnmbr                            -- y por el nombre (para tener una fila por municipio)
+ORDER BY
+  total_lotes   DESC,                     -- Ordena primero por mayor cantidad de lotes
+  area_total_ha DESC                      -- y como desempate, por mayor área total
+LIMIT 5;</code></pre></li>
+<li><p>Muncipios con menor cantidad de lotes por UPA</p>
+<pre><code>/* Los municipios con menor razón entre lotes y UPAs (con al menos 100 lotes) */
+WITH stats AS (
+      SELECT municipio_principal, COUNT(DISTINCT upa_id) AS total_upas
+      FROM gis.upas
+      GROUP BY municipio_principal
+  ),
+  ratios AS (
+      SELECT
+          s.municipio_principal,
+          s.total_upas,
+          l.total_lotes,
+          CASE WHEN s.total_upas &gt; 0
+               THEN l.total_lotes::numeric / s.total_upas
+          END AS razon
+      FROM stats s
+      JOIN (
+          SELECT municipio_principal, COUNT(*) AS total_lotes
+          FROM gis.lotes
+          GROUP BY municipio_principal
+      ) l ON l.municipio_principal = s.municipio_principal
+  )
+  SELECT r.municipio_principal AS mpio_cdpmp,
+         m.mpio_cnmbr,
+         m.dpto_cnmbr,
+         r.total_upas,
+         r.total_lotes,
+         r.razon
+  FROM ratios r
+  JOIN gis.municipios m
+    ON m.mpio_cdpmp = r.municipio_principal
+  WHERE r.total_upas &gt; 0
+    AND r.total_lotes &gt; 100
+  ORDER BY r.razon ASC
+  LIMIT 5;</code></pre></li>
+<li><p>Municipios con mayor cantidad de lotes por UPA</p>
+<pre><code>/* Los municipios con menor cantidad delotes por UPA (con al menos 100 lotes) */
+WITH stats AS (
+      SELECT municipio_principal, COUNT(DISTINCT upa_id) AS total_upas
+      FROM gis.upas
+      GROUP BY municipio_principal
+  ),
+  ratios AS (
+      SELECT
+          s.municipio_principal,
+          s.total_upas,
+          l.total_lotes,
+          CASE WHEN s.total_upas &gt; 0
+               THEN l.total_lotes::numeric / s.total_upas
+          END AS razon
+      FROM stats s
+      JOIN (
+          SELECT municipio_principal, COUNT(*) AS total_lotes
+          FROM gis.lotes
+          GROUP BY municipio_principal
+      ) l ON l.municipio_principal = s.municipio_principal
+  )
+  SELECT r.municipio_principal AS mpio_cdpmp,
+         m.mpio_cnmbr,
+         m.dpto_cnmbr,
+         r.total_upas,
+         r.total_lotes,
+         r.razon
+  FROM ratios r
+  JOIN gis.municipios m
+    ON m.mpio_cdpmp = r.municipio_principal
+  WHERE r.total_upas &gt; 0
+    AND r.total_lotes &gt; 100
+  ORDER BY r.razon DESC
+  LIMIT 5;</code></pre></li>
+<li><p>Concentración espacial - lotes más cercanos</p>
+<pre><code>WITH lotes_centroides AS (                           -- CTE 1: punto representativo interior por lote
+  SELECT
+    lote_id,                                         -- Identificador del lote
+    municipio_principal,                             -- Código de municipio del lote
+    CASE
+      WHEN ST_Covers(geom, ST_Centroid(geom))        -- ¿El centroide está dentro o en el borde?
+        THEN ST_Centroid(geom)                       -- Sí: usa el centroide “real”
+      ELSE ST_PointOnSurface(geom)                   -- No: usa un punto garantizado dentro del polígono
+    END AS centro
+  FROM gis.lotes
+),
+nn_por_lote AS (                                     -- CTE 2: distancia al vecino más cercano por lote
+  SELECT
+    c1.municipio_principal,                          -- Trabajamos por municipio (mismo código)
+    c1.lote_id,                                      -- Lote de referencia
+    MIN(ST_Distance(c1.centro, c2.centro))           -- Distancia mínima a otro punto del mismo municipio
+      AS distancia_vecino_m
+  FROM lotes_centroides c1
+  JOIN lotes_centroides c2
+    ON c1.municipio_principal = c2.municipio_principal  -- Solo compara dentro del mismo municipio
+   AND c1.lote_id &lt;&gt; c2.lote_id                         -- Evita compararse consigo mismo
+  GROUP BY c1.municipio_principal, c1.lote_id           -- Una fila por lote con su distancia mínima
+)
+SELECT
+  n.municipio_principal       AS mpio_codigo,        -- Código del municipio
+  m.mpio_cnmbr                AS mpio_nombre,        -- Nombre del municipio
+  COUNT(*)                    AS total_lotes,        -- Cuántos lotes se evaluaron en el municipio
+  AVG(distancia_vecino_m)     AS distancia_media_m,  -- Distancia media al vecino más cercano
+  MIN(distancia_vecino_m)     AS distancia_min_m,    -- Distancia mínima (entre todos los lotes)
+  MAX(distancia_vecino_m)     AS distancia_max_m     -- Distancia máxima (entre todos los lotes)
+FROM nn_por_lote n
+LEFT JOIN gis.municipios m
+  ON m.mpio_cdpmp = n.municipio_principal            -- Trae el nombre (LEFT para no perder municipios)
+GROUP BY n.municipio_principal, m.mpio_cnmbr         -- Agrega métricas a nivel de municipio
+ORDER BY
+  distancia_media_m ASC,                             -- Municipios con lotes más “cercanos” primero
+  total_lotes DESC                                   -- Desempate: mayor número de lotes
+LIMIT 10;</code></pre></li>
+<li><p>Añada <code>stg.veredas_norm</code> y defina simbología graduada por <code>area_ha</code>.</p>
+<pre><code>WITH lotes_pts AS (                                -- Punto interior por lote (en 32618)
+  SELECT
+    lote_id,
+    municipio_principal,
+    CASE
+      WHEN ST_Covers(geom, ST_Centroid(geom))      -- Si el centroide cae dentro (o borde)…
+        THEN ST_Centroid(geom)                     -- … se usa
+      ELSE ST_PointOnSurface(geom)                 -- …si no, usa un punto garantizado dentro
+    END AS p
+  FROM gis.lotes
+),
+nn AS (                                            -- Vecino más cercano por lote (KNN + DISTINCT ON)
+  SELECT DISTINCT ON (a.lote_id)
+    a.municipio_principal,
+    a.lote_id,
+    ST_Distance(a.p, b.p) AS distancia_vecino_m    -- Metros (geom en 32618)
+  FROM lotes_pts a
+  JOIN lotes_pts b
+    ON a.municipio_principal = b.municipio_principal
+   AND a.lote_id &lt;&gt; b.lote_id
+  ORDER BY a.lote_id, a.p &lt;-&gt; b.p                  -- KNN: primero el más cercano
+),
+agg AS (                                           -- Agregación por municipio (filtra &gt; 100 lotes)
+  SELECT
+    municipio_principal,
+    COUNT(*)                AS total_lotes,        -- N° de lotes con vecino (≈ N° de lotes si N&gt;1)
+    AVG(distancia_vecino_m) AS distancia_media_m,  -- Dispersión media
+    MIN(distancia_vecino_m) AS distancia_min_m,
+    MAX(distancia_vecino_m) AS distancia_max_m
+  FROM nn
+  GROUP BY municipio_principal
+  HAVING COUNT(*) &gt; 100                            -- Solo municipios con &gt; 100 lotes
+)
+SELECT
+  a.municipio_principal AS mpio_codigo,
+  m.mpio_cnmbr          AS mpio_nombre,
+  a.total_lotes,
+  a.distancia_media_m,
+  a.distancia_min_m,
+  a.distancia_max_m
+FROM agg a
+LEFT JOIN gis.municipios m
+  ON m.mpio_cdpmp = a.municipio_principal
+ORDER BY a.distancia_media_m DESC, a.total_lotes DESC
+LIMIT 10;                                          -- Ajusta o quita el LIMIT según necesite</code></pre></li>
+<li><p>Molino más lejano al lote</p>
+<pre><code>WITH lotes_nearest AS (
+     SELECT
+         l.lote_id,
+         l.municipio_principal,
+         l.departamento_principal,
+         nearest.molino_id,
+         ST_Distance(l.geom, nearest.geom) AS dist_m
+     FROM gis.lotes l
+     CROSS JOIN LATERAL (
+         SELECT mo.molino_id, mo.geom
+         FROM gis.molinos mo
+         ORDER BY l.geom &lt;-&gt; mo.geom
+         LIMIT 1
+     ) AS nearest
+   )
+   SELECT
+       ln.municipio_principal AS mpio_cdpmp,
+       m.mpio_cnmbr,
+       m.dpto_cnmbr,
+       AVG(dist_m)/1000 AS promedio_km,
+       MAX(dist_m)/1000 AS max_km,
+       COUNT(*) AS lotes
+   FROM lotes_nearest ln
+   JOIN gis.municipios m ON m.mpio_cdpmp = ln.municipio_principal
+   GROUP BY ln.municipio_principal, m.mpio_cnmbr, m.dpto_cnmbr
+   ORDER BY promedio_km DESC
+   LIMIT 10;</code></pre></li>
+<li><p>Asociar nombre de departamentos a la tabla de lotes</p>
+<pre><code>SELECT l.*, d.dpto_ccdgo
+FROM gis.lotes l
+LEFT JOIN gis.departamentos d 
+    ON l.departamento_principal = d.dpto_ccdgo;</code></pre></li>
+<li><p>5</p></li>
+<li><p>5</p></li>
+<li></li>
 </ol>
 </section>
 <section id="consultas-desde-qgis-sql-1" class="level2">
@@ -583,26 +919,26 @@ sslmode=prefer - Conexión. </code></pre></li>
 <li>Dato compartido para poder hacer las uniones y diferentes anaálisis.</li>
 </ol>
 <p>Utilice el panel <strong>DB Manager</strong> para ejecutar SQL y crear vistas materiales.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">MATERIALIZED</span> <span class="kw">VIEW</span> carto.v_veredas_fuente_hidrica <span class="kw">AS</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> fuentes <span class="kw">AS</span> (</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> geom</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> <span class="fu">ref</span>.hidrografia_principal</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>),</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>simplificado <span class="kw">AS</span> (</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> vereda_codigo,</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>         vereda_nombre,</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>         municipio,</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>         ST_SimplifyPreserveTopology(geom, <span class="dv">5</span>) <span class="kw">AS</span> geom</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> stg.veredas_norm</span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> s.<span class="op">*</span>, ST_Distance(s.geom, f.geom) <span class="kw">AS</span> distancia_m</span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> simplificado s</span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="kw">CROSS</span> <span class="kw">JOIN</span> LATERAL (</span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> geom</span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> fuentes</span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ORDER</span> <span class="kw">BY</span> s.geom <span class="op">&lt;-&gt;</span> geom</span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>  <span class="kw">LIMIT</span> <span class="dv">1</span></span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>) <span class="kw">AS</span> f;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">MATERIALIZED</span> <span class="kw">VIEW</span> carto.v_veredas_fuente_hidrica <span class="kw">AS</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> fuentes <span class="kw">AS</span> (</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> geom</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> <span class="fu">ref</span>.hidrografia_principal</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>),</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>simplificado <span class="kw">AS</span> (</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> vereda_codigo,</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>         vereda_nombre,</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>         municipio,</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>         ST_SimplifyPreserveTopology(geom, <span class="dv">5</span>) <span class="kw">AS</span> geom</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> stg.veredas_norm</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> s.<span class="op">*</span>, ST_Distance(s.geom, f.geom) <span class="kw">AS</span> distancia_m</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> simplificado s</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="kw">CROSS</span> <span class="kw">JOIN</span> LATERAL (</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> geom</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> fuentes</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ORDER</span> <span class="kw">BY</span> s.geom <span class="op">&lt;-&gt;</span> geom</span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>  <span class="kw">LIMIT</span> <span class="dv">1</span></span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>) <span class="kw">AS</span> f;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Recargue la vista en QGIS y configure actualizaciones automáticas tras <code>REFRESH MATERIALIZED VIEW</code>.</p>
 </section>
 <section id="salidas-cartográficas" class="level2">
@@ -616,7 +952,7 @@ sslmode=prefer - Conexión. </code></pre></li>
 <section id="integración-con-quarto" class="level2">
 <h2 class="anchored" data-anchor-id="integración-con-quarto">Integración con Quarto</h2>
 <p>Inserte mapas renderizados como imágenes o <code>iframe</code> cuando se publique el libro.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="al">![](reportes_cartografia/20250315_mapa_veredas_tolima.png)</span>{fig-align="center"}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="al">![](reportes_cartografia/20250315_mapa_veredas_tolima.png)</span>{fig-align="center"}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Mantenga activos los enlaces relativos para que GitHub Pages genere el sitio correctamente.</p>
 
 

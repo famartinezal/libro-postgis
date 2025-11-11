@@ -16,7 +16,7 @@ title: "Integración con QGIS"
 
     -   La carpeta 1keys se debe copiar en uno de los discos del equipo, reconocer cuál es y renombrarlo en los scripts en caso de ser necesario.
 
-    -   En *ícono* click derecho \> Propiedades \> Acceso directo, en el apartado de destino aparecerá la dirección de ???, valide el nombre del disco y cámbielo en caso de ser necesario (-File "Disco\\1keys).
+    -   En *ícono* click derecho \> Propiedades \> Acceso directo, en el apartado de destino aparecerá la dirección en la que se encuentran ubicadas las carpetas de la cofiguración a la base de datos, valide el nombre del disco y cámbielo en caso de ser necesario (-File "Disco\\1keys).
 
         ![](assets/Propiedades_icono.png)
 
@@ -358,21 +358,261 @@ Se abrirá la ventana *Exportar a archivo vectorial*. En *formato*, seleccione e
 
 ## Consultas desde QGIS SQL
 
-1.  xc
+1.  Consulta de lotes "00000"en la base de datos:
 
-2.  xc
+    ```         
+    SELECT
+          l.lote_id,
+          l.cofinca,
+          l.secuencia_lote,
+          l.lote_codigo,
+          l.municipio_principal,
+          m.mpio_cnmbr AS municipio_nombre,
+          l.area_ha,
+          l.geom
+      FROM gis.lotes AS l
+      LEFT JOIN gis.municipios AS m
+        ON m.mpio_cdpmp = l.municipio_principal
+      WHERE l.cofinca = '00000';
+    ```
 
-3.  x
+2.  Top municipios con más lotes
 
-4.  c
+    ```         
+    SELECT
+      l.municipio_principal AS mpio_codigo,   -- Código del municipio tomado desde la tabla de lotes
+      m.mpio_cnmbr         AS mpio_nombre,    -- Nombre del municipio desde gis.municipios
+      COUNT(*)             AS total_lotes,    -- Número de lotes en ese municipio
+      SUM(l.area_ha)       AS area_total_ha   -- Suma de áreas (ha) de los lotes en ese municipio
+    FROM gis.lotes AS l
+    LEFT JOIN gis.municipios AS m
+      ON m.mpio_cdpmp = l.municipio_principal -- Une por código: si no hay match, el nombre queda NULL (LEFT JOIN)
+    GROUP BY
+      l.municipio_principal,                  -- Agrupa por el código del municipio
+      m.mpio_cnmbr                            -- y por el nombre (para tener una fila por municipio)
+    ORDER BY
+      total_lotes   DESC,                     -- Ordena primero por mayor cantidad de lotes
+      area_total_ha DESC                      -- y como desempate, por mayor área total
+    LIMIT 5;
+    ```
 
-5.  x
+3.  Muncipios con menor cantidad de lotes por UPA
 
-    ### 
+    ```         
+    /* Los municipios con menor razón entre lotes y UPAs (con al menos 100 lotes) */
+    WITH stats AS (
+          SELECT municipio_principal, COUNT(DISTINCT upa_id) AS total_upas
+          FROM gis.upas
+          GROUP BY municipio_principal
+      ),
+      ratios AS (
+          SELECT
+              s.municipio_principal,
+              s.total_upas,
+              l.total_lotes,
+              CASE WHEN s.total_upas > 0
+                   THEN l.total_lotes::numeric / s.total_upas
+              END AS razon
+          FROM stats s
+          JOIN (
+              SELECT municipio_principal, COUNT(*) AS total_lotes
+              FROM gis.lotes
+              GROUP BY municipio_principal
+          ) l ON l.municipio_principal = s.municipio_principal
+      )
+      SELECT r.municipio_principal AS mpio_cdpmp,
+             m.mpio_cnmbr,
+             m.dpto_cnmbr,
+             r.total_upas,
+             r.total_lotes,
+             r.razon
+      FROM ratios r
+      JOIN gis.municipios m
+        ON m.mpio_cdpmp = r.municipio_principal
+      WHERE r.total_upas > 0
+        AND r.total_lotes > 100
+      ORDER BY r.razon ASC
+      LIMIT 5;
+    ```
+
+4.  Municipios con mayor cantidad de lotes por UPA
+
+    ```         
+    /* Los municipios con menor cantidad delotes por UPA (con al menos 100 lotes) */
+    WITH stats AS (
+          SELECT municipio_principal, COUNT(DISTINCT upa_id) AS total_upas
+          FROM gis.upas
+          GROUP BY municipio_principal
+      ),
+      ratios AS (
+          SELECT
+              s.municipio_principal,
+              s.total_upas,
+              l.total_lotes,
+              CASE WHEN s.total_upas > 0
+                   THEN l.total_lotes::numeric / s.total_upas
+              END AS razon
+          FROM stats s
+          JOIN (
+              SELECT municipio_principal, COUNT(*) AS total_lotes
+              FROM gis.lotes
+              GROUP BY municipio_principal
+          ) l ON l.municipio_principal = s.municipio_principal
+      )
+      SELECT r.municipio_principal AS mpio_cdpmp,
+             m.mpio_cnmbr,
+             m.dpto_cnmbr,
+             r.total_upas,
+             r.total_lotes,
+             r.razon
+      FROM ratios r
+      JOIN gis.municipios m
+        ON m.mpio_cdpmp = r.municipio_principal
+      WHERE r.total_upas > 0
+        AND r.total_lotes > 100
+      ORDER BY r.razon DESC
+      LIMIT 5;
+    ```
+
+5.  Concentración espacial - lotes más cercanos
+
+    ```         
+    WITH lotes_centroides AS (                           -- CTE 1: punto representativo interior por lote
+      SELECT
+        lote_id,                                         -- Identificador del lote
+        municipio_principal,                             -- Código de municipio del lote
+        CASE
+          WHEN ST_Covers(geom, ST_Centroid(geom))        -- ¿El centroide está dentro o en el borde?
+            THEN ST_Centroid(geom)                       -- Sí: usa el centroide “real”
+          ELSE ST_PointOnSurface(geom)                   -- No: usa un punto garantizado dentro del polígono
+        END AS centro
+      FROM gis.lotes
+    ),
+    nn_por_lote AS (                                     -- CTE 2: distancia al vecino más cercano por lote
+      SELECT
+        c1.municipio_principal,                          -- Trabajamos por municipio (mismo código)
+        c1.lote_id,                                      -- Lote de referencia
+        MIN(ST_Distance(c1.centro, c2.centro))           -- Distancia mínima a otro punto del mismo municipio
+          AS distancia_vecino_m
+      FROM lotes_centroides c1
+      JOIN lotes_centroides c2
+        ON c1.municipio_principal = c2.municipio_principal  -- Solo compara dentro del mismo municipio
+       AND c1.lote_id <> c2.lote_id                         -- Evita compararse consigo mismo
+      GROUP BY c1.municipio_principal, c1.lote_id           -- Una fila por lote con su distancia mínima
+    )
+    SELECT
+      n.municipio_principal       AS mpio_codigo,        -- Código del municipio
+      m.mpio_cnmbr                AS mpio_nombre,        -- Nombre del municipio
+      COUNT(*)                    AS total_lotes,        -- Cuántos lotes se evaluaron en el municipio
+      AVG(distancia_vecino_m)     AS distancia_media_m,  -- Distancia media al vecino más cercano
+      MIN(distancia_vecino_m)     AS distancia_min_m,    -- Distancia mínima (entre todos los lotes)
+      MAX(distancia_vecino_m)     AS distancia_max_m     -- Distancia máxima (entre todos los lotes)
+    FROM nn_por_lote n
+    LEFT JOIN gis.municipios m
+      ON m.mpio_cdpmp = n.municipio_principal            -- Trae el nombre (LEFT para no perder municipios)
+    GROUP BY n.municipio_principal, m.mpio_cnmbr         -- Agrega métricas a nivel de municipio
+    ORDER BY
+      distancia_media_m ASC,                             -- Municipios con lotes más “cercanos” primero
+      total_lotes DESC                                   -- Desempate: mayor número de lotes
+    LIMIT 10;
+    ```
 
 6.  Añada `stg.veredas_norm` y defina simbología graduada por `area_ha`.
 
-7.  Cree mapas temáticos combinando veredas con capas raster (NDVI, precipitación).
+    ```         
+    WITH lotes_pts AS (                                -- Punto interior por lote (en 32618)
+      SELECT
+        lote_id,
+        municipio_principal,
+        CASE
+          WHEN ST_Covers(geom, ST_Centroid(geom))      -- Si el centroide cae dentro (o borde)…
+            THEN ST_Centroid(geom)                     -- … se usa
+          ELSE ST_PointOnSurface(geom)                 -- …si no, usa un punto garantizado dentro
+        END AS p
+      FROM gis.lotes
+    ),
+    nn AS (                                            -- Vecino más cercano por lote (KNN + DISTINCT ON)
+      SELECT DISTINCT ON (a.lote_id)
+        a.municipio_principal,
+        a.lote_id,
+        ST_Distance(a.p, b.p) AS distancia_vecino_m    -- Metros (geom en 32618)
+      FROM lotes_pts a
+      JOIN lotes_pts b
+        ON a.municipio_principal = b.municipio_principal
+       AND a.lote_id <> b.lote_id
+      ORDER BY a.lote_id, a.p <-> b.p                  -- KNN: primero el más cercano
+    ),
+    agg AS (                                           -- Agregación por municipio (filtra > 100 lotes)
+      SELECT
+        municipio_principal,
+        COUNT(*)                AS total_lotes,        -- N° de lotes con vecino (≈ N° de lotes si N>1)
+        AVG(distancia_vecino_m) AS distancia_media_m,  -- Dispersión media
+        MIN(distancia_vecino_m) AS distancia_min_m,
+        MAX(distancia_vecino_m) AS distancia_max_m
+      FROM nn
+      GROUP BY municipio_principal
+      HAVING COUNT(*) > 100                            -- Solo municipios con > 100 lotes
+    )
+    SELECT
+      a.municipio_principal AS mpio_codigo,
+      m.mpio_cnmbr          AS mpio_nombre,
+      a.total_lotes,
+      a.distancia_media_m,
+      a.distancia_min_m,
+      a.distancia_max_m
+    FROM agg a
+    LEFT JOIN gis.municipios m
+      ON m.mpio_cdpmp = a.municipio_principal
+    ORDER BY a.distancia_media_m DESC, a.total_lotes DESC
+    LIMIT 10;                                          -- Ajusta o quita el LIMIT según necesite
+    ```
+
+7.  Molino más lejano al lote
+
+    ```         
+    WITH lotes_nearest AS (
+         SELECT
+             l.lote_id,
+             l.municipio_principal,
+             l.departamento_principal,
+             nearest.molino_id,
+             ST_Distance(l.geom, nearest.geom) AS dist_m
+         FROM gis.lotes l
+         CROSS JOIN LATERAL (
+             SELECT mo.molino_id, mo.geom
+             FROM gis.molinos mo
+             ORDER BY l.geom <-> mo.geom
+             LIMIT 1
+         ) AS nearest
+       )
+       SELECT
+           ln.municipio_principal AS mpio_cdpmp,
+           m.mpio_cnmbr,
+           m.dpto_cnmbr,
+           AVG(dist_m)/1000 AS promedio_km,
+           MAX(dist_m)/1000 AS max_km,
+           COUNT(*) AS lotes
+       FROM lotes_nearest ln
+       JOIN gis.municipios m ON m.mpio_cdpmp = ln.municipio_principal
+       GROUP BY ln.municipio_principal, m.mpio_cnmbr, m.dpto_cnmbr
+       ORDER BY promedio_km DESC
+       LIMIT 10;
+    ```
+
+8.  Asociar nombre de departamentos a la tabla de lotes
+
+    ```         
+    SELECT l.*, d.dpto_ccdgo
+    FROM gis.lotes l
+    LEFT JOIN gis.departamentos d 
+    	ON l.departamento_principal = d.dpto_ccdgo;
+    ```
+
+9.  5
+
+10. 5
+
+11. 
 
 ## Consultas desde QGIS SQL
 
