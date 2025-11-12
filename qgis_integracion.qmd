@@ -10,7 +10,7 @@ title: "Integración con QGIS"
 
 3.  **Preparaciones previas para establecer el túnel de conexión:** La base de datos se encuentra almacenada en un servidor de la empresa, por este motivo se debe crear el túnel y poder acceder a este cada vez que vaya a entrar a la base de datos:
 
-    -   Debe contar con la carpeta denominada *1keys* y dentro de esta se encuentran los archivos correspondientes a las llaves de su usuario (id_ed_usuario); script_conexion (creación de la conexión al túnel), y script_permisos (para poder leer la llave de acceso al servidor) y el ícono (es un script de conexión para abrir el túnel y al abrirlo solicita la contraseña de acceso al servidor, que es diferente del acceso a la base de datos). En la carpeta dejar única y exclusivamente los archivos del usuario que está configurando.
+    -   Debe contar con la carpeta denominada *1keys*, dentro de esta se encuentran los archivos correspondientes a las llaves de su usuario (id_ed_usuario); script_conexion (creación de la conexión al túnel), y script_permisos (para poder leer la llave de acceso al servidor) y el ícono (es un script de conexión para abrir el túnel y al abrirlo solicita la contraseña de acceso al servidor, que es diferente del acceso a la base de datos). En la carpeta dejar única y exclusivamente los archivos del usuario que está configurando.
 
         ![](assets/Carpeta_keys.png)
 
@@ -20,41 +20,44 @@ title: "Integración con QGIS"
 
         ![](assets/Propiedades_icono.png)
 
-    -   Validar el nombre de usuario de windows y el disco en el script_permisos y script_conexion. Click derecho sobre el archivo dentro de cada una de las carpetas según corresponda \> editar en blog de notas \> Guardar después de las modificaciones.
+    -   Validar el nombre de usuario de windows y el disco en el script_permisos y script_conexion. Click derecho sobre el archivo dentro de cada una de las carpetas según corresponda \> editar en blog de notas \> Guardar después de las modificaciones. Asimismo, verificar el puerto de conexión. Normalmente es el 5432, pero en caso de tener instalado PostgreSQL en la computadora, se debe cambiar por 15432 en el archivo .conf, en el script_conexion (-L) y en los pasos posteriores en QGIS. No olvide guardar los cambios realizados.
 
-        Asimismo, verificar el puerto de conexión. Normalmente es el 5432, pero en caso de tener instalado PostgreSQL en la computadora, se debe cambiar por 15432 en el archivo .conf, en el script_conexion (-L) y en los pasos posteriores en QGIS. No olvide guardar los cambios realizados.
+    -   Ejecutar el archivo de *script_permisos* para que restrinja el acceso de otros usuarios a la base de datos, si no es exitoso, no podrá continuar con el siguiente paso. Diríjase a la carpeta *script_permisos* \> click derecho sobre el archivo que se encuentra dentro de ella \> ejecutar en PowerShell.
 
-    -   Ejecutar el archivo de *script_permisos* para que restrinja el acceso de otros usuarios a la base de datos. Diríjase a la carpeta *script_permisos* \> click derecho sobre el archivo que se encuentra dentro de ella \> ejecutar en PowerShell. Si es exitoso, vaya a la llave del usuario (id_ed_usuario) \> click derecho \> Propiedades. Se abrirá una nueva ventana, en la pestaña *Seguridad*, en el apartado *Nombres de grupos o usuarios*, debe aparecer únicamente el que le corresponde al usuario de la base de datos, si aparecen otros, la ejecución del script de permisos no fue exitosa.
+        ![](images/paste-13.png)
+
+        Si es exitoso, vaya a la llave del usuario (id_ed_usuario) \> click derecho \> Propiedades. Se abrirá una nueva ventana, en la pestaña *Seguridad*, en el apartado *Nombres de grupos o usuarios*, debe aparecer únicamente el que le corresponde al usuario de la base de datos, si aparecen otros, la ejecución del script de permisos no fue exitosa.
 
         ![](assets/Permisos_exitoso.png)
 
-        El error puede ser porque Windows, por defecto, restringe la ejecución de scripts para su protección ante archivos maliciosos. Por este motivo, esta configuración debe ser modificada temporalmente mediante la línea Set-ExecutionPolicy para que se pueda ejecutar el archivo de permisos y el del ícono para poder entrar a la base de datos.
+        El error se debe a que Windows, por defecto, restringe la ejecución de scripts ".ps1" para su protección ante la ejecución de archivos maliciosos, debido a que los scripts de PowerShell puden ejecutar acciones como creación de archivos, modificación de configuraciones, entre otras. Por este motivo, esta configuración debe ser modificada temporalmente (*-Scope Process*) mediante la línea *Set-ExecutionPolicy*, con el fin de ejecutar el archivo de permisos y el ícono para el ingreso a la base de datos.
 
-        Abrir Windows PowerShell como administrador y ejecutar la línea:
+        Abrir *Windows PowerShell* como administrador y ejecutar la siguiente línea que se encuentra en el archivo de script_conexion:
 
         ```         
         Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
         ```
 
-        Luego, escribir S para aceptar el cambio de la directiva de ejecución.
+        Aparecerá un mensaje de advertencia de seguridad, en el que solicitita la autorización para la ejecución de Scripts. Luego, escribir S para aceptar el cambio de la directiva de ejecución.
 
         ![](assets/Setpoli.png)
 
-    -   Ejecutar en PowerShell el archivo de script_permisos, si sale un error, no han quedado libre de restricciones para la ejecución del script, entonces se deben quitar manualmente como se explica a continuación.
+        Ejecute nuevamente en Windows PowerShell el archivo que se encuentra en la carpeta de *script_permisos* y revise la seguridad en las propiedades del ícono que abre el túnel para la conexión. Si fue exitoso, siga al paso 4, en caso contrario, continúe con el siguiente paso de esta sección.
 
-        Abra Windows PowerShell como administrador y digitar:
+        Ejecute el archivo script_permisos manualmente desde la consola de *Windows PowerShell* como administrador:
 
         ```         
-        # Hace referencia al disco donde se guardó la carpeta 1keys. 
+        # Disco donde se guardó la carpeta 1keys que contiene los archivos de conexión a la base de datos. 
         d:
         ```
 
         ```         
+        # Cambio de directorio (Change Directory), especificando la carpeta a la cual desea ingresar. 
         cd 1keys
         ```
 
         ```         
-        # Para listar los objetos que se encuentran dentro de esa carpeta
+        # Para listar los archivos que se encuentran dentro de la carpeta seleccionada para corroborar su existencia y validar el nombre asignado. 
         ls
         ```
 
@@ -63,10 +66,13 @@ title: "Integración con QGIS"
         ```
 
         ```         
-        .\usuario_nombre de usuario.ps1
+        # Ejecutar el archivo mencionado en el directorio actual. 
+        .\usuario_nombre_de_usuario.ps1
         ```
 
     Ahora, vuelva a revisar en la pestaña de seguridad en las propiedades de la llave con los parámetros anteriormente mencionados.
+
+    Si el error persiste, ...
 
 4.  **Establecimiento del túnel de acceso al servidor:**
 
@@ -92,19 +98,11 @@ title: "Integración con QGIS"
 
         ![](assets/Error_conexión_2.png)
 
-    -   Permisos de red a usuarios remotos. Este mensaje de advertencia puede aparecer por
+    -   Permisos de red a usuarios remotos, lo que indica que el equipo desde el que se está intentando establecer la conexión no puede establecer conexión con la dirección IP ni con el puerto indicados. La línea *Connection timed out* indica que se intentó la conexión pero no hubo respuesta, ya sea porque no existe el servidor o porque está bloqueado por un firewall.
 
         ![](assets/Error_conexión_3.png)
 
-    -   s
-
-    -   ss
-
-    g
-
-    g
-
-    g
+        En este caso, la base de datos se encuentra en un servidor, el cual tiene una IP asignada la cual existe dentro de una red privada (corporativa), por lo que la conexión a esa IP solo servirá si está conectado a esa red. Si se encuentra desde una red diferente, conéctese a la VPN (Virtual Private Network) a través de *Forti Client*, que es como una llave que permite crear un "túnel" invisible hasta el servidor de la empresa de una forma segura. A continuación, vuelva a intentar establecer la conexión.
 
 5.  **Verificación de acceso a la red:** Para comprobar la conectividad al servidor o al puerto (IP del computador) donde se encuentra la base de datos PostgreSQL.
 

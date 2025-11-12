@@ -495,31 +495,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><strong>Verificación Windows</strong>: Verifique el nombre del disco y el usuario de Windows del computador en el que va a establecer la conexión a la base de datos, para realizar las respectivas modificaciones en los scripts de permisos y conexión. Asimismo, compruebe si tiene PostgreSQL instalado en el equipo.</p></li>
 <li><p><strong>Preparaciones previas para establecer el túnel de conexión:</strong> La base de datos se encuentra almacenada en un servidor de la empresa, por este motivo se debe crear el túnel y poder acceder a este cada vez que vaya a entrar a la base de datos:</p>
 <ul>
-<li><p>Debe contar con la carpeta denominada <em>1keys</em> y dentro de esta se encuentran los archivos correspondientes a las llaves de su usuario (id_ed_usuario); script_conexion (creación de la conexión al túnel), y script_permisos (para poder leer la llave de acceso al servidor) y el ícono (es un script de conexión para abrir el túnel y al abrirlo solicita la contraseña de acceso al servidor, que es diferente del acceso a la base de datos). En la carpeta dejar única y exclusivamente los archivos del usuario que está configurando.</p>
+<li><p>Debe contar con la carpeta denominada <em>1keys</em>, dentro de esta se encuentran los archivos correspondientes a las llaves de su usuario (id_ed_usuario); script_conexion (creación de la conexión al túnel), y script_permisos (para poder leer la llave de acceso al servidor) y el ícono (es un script de conexión para abrir el túnel y al abrirlo solicita la contraseña de acceso al servidor, que es diferente del acceso a la base de datos). En la carpeta dejar única y exclusivamente los archivos del usuario que está configurando.</p>
 <p><img src="assets/Carpeta_keys.png" class="img-fluid"></p></li>
 <li><p>La carpeta 1keys se debe copiar en uno de los discos del equipo, reconocer cuál es y renombrarlo en los scripts en caso de ser necesario.</p></li>
 <li><p>En <em>ícono</em> click derecho &gt; Propiedades &gt; Acceso directo, en el apartado de destino aparecerá la dirección en la que se encuentran ubicadas las carpetas de la cofiguración a la base de datos, valide el nombre del disco y cámbielo en caso de ser necesario (-File “Disco\1keys).</p>
 <p><img src="assets/Propiedades_icono.png" class="img-fluid"></p></li>
-<li><p>Validar el nombre de usuario de windows y el disco en el script_permisos y script_conexion. Click derecho sobre el archivo dentro de cada una de las carpetas según corresponda &gt; editar en blog de notas &gt; Guardar después de las modificaciones.</p>
-<p>Asimismo, verificar el puerto de conexión. Normalmente es el 5432, pero en caso de tener instalado PostgreSQL en la computadora, se debe cambiar por 15432 en el archivo .conf, en el script_conexion (-L) y en los pasos posteriores en QGIS. No olvide guardar los cambios realizados.</p></li>
-<li><p>Ejecutar el archivo de <em>script_permisos</em> para que restrinja el acceso de otros usuarios a la base de datos. Diríjase a la carpeta <em>script_permisos</em> &gt; click derecho sobre el archivo que se encuentra dentro de ella &gt; ejecutar en PowerShell. Si es exitoso, vaya a la llave del usuario (id_ed_usuario) &gt; click derecho &gt; Propiedades. Se abrirá una nueva ventana, en la pestaña <em>Seguridad</em>, en el apartado <em>Nombres de grupos o usuarios</em>, debe aparecer únicamente el que le corresponde al usuario de la base de datos, si aparecen otros, la ejecución del script de permisos no fue exitosa.</p>
+<li><p>Validar el nombre de usuario de windows y el disco en el script_permisos y script_conexion. Click derecho sobre el archivo dentro de cada una de las carpetas según corresponda &gt; editar en blog de notas &gt; Guardar después de las modificaciones. Asimismo, verificar el puerto de conexión. Normalmente es el 5432, pero en caso de tener instalado PostgreSQL en la computadora, se debe cambiar por 15432 en el archivo .conf, en el script_conexion (-L) y en los pasos posteriores en QGIS. No olvide guardar los cambios realizados.</p></li>
+<li><p>Ejecutar el archivo de <em>script_permisos</em> para que restrinja el acceso de otros usuarios a la base de datos, si no es exitoso, no podrá continuar con el siguiente paso. Diríjase a la carpeta <em>script_permisos</em> &gt; click derecho sobre el archivo que se encuentra dentro de ella &gt; ejecutar en PowerShell.</p>
+<p><img src="images/paste-13.png" class="img-fluid"></p>
+<p>Si es exitoso, vaya a la llave del usuario (id_ed_usuario) &gt; click derecho &gt; Propiedades. Se abrirá una nueva ventana, en la pestaña <em>Seguridad</em>, en el apartado <em>Nombres de grupos o usuarios</em>, debe aparecer únicamente el que le corresponde al usuario de la base de datos, si aparecen otros, la ejecución del script de permisos no fue exitosa.</p>
 <p><img src="assets/Permisos_exitoso.png" class="img-fluid"></p>
-<p>El error puede ser porque Windows, por defecto, restringe la ejecución de scripts para su protección ante archivos maliciosos. Por este motivo, esta configuración debe ser modificada temporalmente mediante la línea Set-ExecutionPolicy para que se pueda ejecutar el archivo de permisos y el del ícono para poder entrar a la base de datos.</p>
-<p>Abrir Windows PowerShell como administrador y ejecutar la línea:</p>
+<p>El error se debe a que Windows, por defecto, restringe la ejecución de scripts “.ps1” para su protección ante la ejecución de archivos maliciosos, debido a que los scripts de PowerShell puden ejecutar acciones como creación de archivos, modificación de configuraciones, entre otras. Por este motivo, esta configuración debe ser modificada temporalmente (<em>-Scope Process</em>) mediante la línea <em>Set-ExecutionPolicy</em>, con el fin de ejecutar el archivo de permisos y el ícono para el ingreso a la base de datos.</p>
+<p>Abrir <em>Windows PowerShell</em> como administrador y ejecutar la siguiente línea que se encuentra en el archivo de script_conexion:</p>
 <pre><code>Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass</code></pre>
-<p>Luego, escribir S para aceptar el cambio de la directiva de ejecución.</p>
-<p><img src="assets/Setpoli.png" class="img-fluid"></p></li>
-<li><p>Ejecutar en PowerShell el archivo de script_permisos, si sale un error, no han quedado libre de restricciones para la ejecución del script, entonces se deben quitar manualmente como se explica a continuación.</p>
-<p>Abra Windows PowerShell como administrador y digitar:</p>
-<pre><code># Hace referencia al disco donde se guardó la carpeta 1keys. 
+<p>Aparecerá un mensaje de advertencia de seguridad, en el que solicitita la autorización para la ejecución de Scripts. Luego, escribir S para aceptar el cambio de la directiva de ejecución.</p>
+<p><img src="assets/Setpoli.png" class="img-fluid"></p>
+<p>Ejecute nuevamente en Windows PowerShell el archivo que se encuentra en la carpeta de <em>script_permisos</em> y revise la seguridad en las propiedades del ícono que abre el túnel para la conexión. Si fue exitoso, siga al paso 4, en caso contrario, continúe con el siguiente paso de esta sección.</p>
+<p>Ejecute el archivo script_permisos manualmente desde la consola de <em>Windows PowerShell</em> como administrador:</p>
+<pre><code># Disco donde se guardó la carpeta 1keys que contiene los archivos de conexión a la base de datos. 
 d:</code></pre>
-<pre><code>cd 1keys</code></pre>
-<pre><code># Para listar los objetos que se encuentran dentro de esa carpeta
+<pre><code># Cambio de directorio (Change Directory), especificando la carpeta a la cual desea ingresar. 
+cd 1keys</code></pre>
+<pre><code># Para listar los archivos que se encuentran dentro de la carpeta seleccionada para corroborar su existencia y validar el nombre asignado. 
 ls</code></pre>
 <pre><code>cd script_permisos</code></pre>
-<pre><code>.\usuario_nombre de usuario.ps1</code></pre></li>
+<pre><code># Ejecutar el archivo mencionado en el directorio actual. 
+.\usuario_nombre_de_usuario.ps1</code></pre></li>
 </ul>
-<p>Ahora, vuelva a revisar en la pestaña de seguridad en las propiedades de la llave con los parámetros anteriormente mencionados.</p></li>
+<p>Ahora, vuelva a revisar en la pestaña de seguridad en las propiedades de la llave con los parámetros anteriormente mencionados.</p>
+<p>Si el error persiste, …</p></li>
 <li><p><strong>Establecimiento del túnel de acceso al servidor:</strong></p>
 <p>Al abrir el íncono del usuario creado en la carpeta, se desplegará una ventana en Windows PowerShell en la que le solicitará la contraseña para el acceso al servidor, digítela aún si no es posible verla en la pantalla y oprima la tecla <em>Enter.</em></p>
 <p><img src="assets/Ingreso_contraseña_servidor.png" class="img-fluid"></p>
@@ -533,14 +537,10 @@ ls</code></pre>
 <p><img src="assets/Error_conexión_1.png" class="img-fluid"></p></li>
 <li><p>Permisos denegados porque no se ha ejecutado el archivo <em>script_permisos</em></p>
 <p><img src="assets/Error_conexión_2.png" class="img-fluid"></p></li>
-<li><p>Permisos de red a usuarios remotos. Este mensaje de advertencia puede aparecer por</p>
-<p><img src="assets/Error_conexión_3.png" class="img-fluid"></p></li>
-<li><p>s</p></li>
-<li><p>ss</p></li>
-</ul>
-<p>g</p>
-<p>g</p>
-<p>g</p></li>
+<li><p>Permisos de red a usuarios remotos, lo que indica que el equipo desde el que se está intentando establecer la conexión no puede establecer conexión con la dirección IP ni con el puerto indicados. La línea <em>Connection timed out</em> indica que se intentó la conexión pero no hubo respuesta, ya sea porque no existe el servidor o porque está bloqueado por un firewall.</p>
+<p><img src="assets/Error_conexión_3.png" class="img-fluid"></p>
+<p>En este caso, la base de datos se encuentra en un servidor, el cual tiene una IP asignada la cual existe dentro de una red privada (corporativa), por lo que la conexión a esa IP solo servirá si está conectado a esa red. Si se encuentra desde una red diferente, conéctese a la VPN (Virtual Private Network) a través de <em>Forti Client</em>, que es como una llave que permite crear un “túnel” invisible hasta el servidor de la empresa de una forma segura. A continuación, vuelva a intentar establecer la conexión.</p></li>
+</ul></li>
 <li><p><strong>Verificación de acceso a la red:</strong> Para comprobar la conectividad al servidor o al puerto (IP del computador) donde se encuentra la base de datos PostgreSQL.</p>
 <ul>
 <li><p>Abra <strong>PowerShell de Windows</strong> desde el buscador o desde el ejecutador de programas (tecla de Windows+R).<br>
