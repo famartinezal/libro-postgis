@@ -54,6 +54,7 @@ title: "Integración con QGIS"
         ```
 
         ```         
+        # Para listar los objetos que se encuentran dentro de esa carpeta
         ls
         ```
 
@@ -63,14 +64,6 @@ title: "Integración con QGIS"
 
         ```         
         .\usuario_nombre de usuario.ps1
-        ```
-
-        ```         
-        ping
-        ```
-
-        ```         
-        ipconfig
         ```
 
     Ahora, vuelva a revisar en la pestaña de seguridad en las propiedades de la llave con los parámetros anteriormente mencionados.
@@ -85,15 +78,27 @@ title: "Integración con QGIS"
 
     ![](assets/Autorización_ingreso_contraseñas.png)
 
-    Ingreso aprobado al servidor:
+    Ingreso exitoso al servidor cuando aparece el enunciado "*Have a lot of fun...*":
 
     ![](assets/Ingreso_aprobado_al_servidor.png)
 
-    Es posible que aparezcan una serie de errores como los siguientes:
+    Si la conexión no fue exitosa, es posible que aparezcan una serie de mensajes de advertencia como los siguientes:
 
-    -   
+    -   Error en la ruta de ejecución del archivo script_conexion. Puede aparecer porque no se modificó el nombre del disco en la *ruta de destino* en *Propiedades* del íncono de conexión. Cierre esa ventana, valide la información, cambie lo necesario y vuelva a intentar establecer la conexión.
 
-    g
+        ![](assets/Error_conexión_1.png)
+
+    -   Permisos denegados porque no se ha ejecutado el archivo *script_permisos*
+
+        ![](assets/Error_conexión_2.png)
+
+    -   Permisos de red a usuarios remotos. Este mensaje de advertencia puede aparecer por
+
+        ![](assets/Error_conexión_3.png)
+
+    -   s
+
+    -   ss
 
     g
 
@@ -605,14 +610,17 @@ Se abrirá la ventana *Exportar a archivo vectorial*. En *formato*, seleccione e
     SELECT l.*, d.dpto_ccdgo
     FROM gis.lotes l
     LEFT JOIN gis.departamentos d 
-    	ON l.departamento_principal = d.dpto_ccdgo;
+        ON l.departamento_principal = d.dpto_ccdgo;
     ```
 
-9.  5
+9.  Consulta de un cofinca por zona
 
-10. 5
-
-11. 
+    ```         
+    SELECT l.*
+    FROM gis.lotes l
+    -- Se modifica el cofinca y la zona que se desea consultar
+    WHERE cofinca = '99999' AND zona_codigo = 4;
+    ```
 
 ## Consultas desde QGIS SQL
 

@@ -514,11 +514,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># Hace referencia al disco donde se guardó la carpeta 1keys. 
 d:</code></pre>
 <pre><code>cd 1keys</code></pre>
-<pre><code>ls</code></pre>
+<pre><code># Para listar los objetos que se encuentran dentro de esa carpeta
+ls</code></pre>
 <pre><code>cd script_permisos</code></pre>
-<pre><code>.\usuario_nombre de usuario.ps1</code></pre>
-<pre><code>ping</code></pre>
-<pre><code>ipconfig</code></pre></li>
+<pre><code>.\usuario_nombre de usuario.ps1</code></pre></li>
 </ul>
 <p>Ahora, vuelva a revisar en la pestaña de seguridad en las propiedades de la llave con los parámetros anteriormente mencionados.</p></li>
 <li><p><strong>Establecimiento del túnel de acceso al servidor:</strong></p>
@@ -526,13 +525,19 @@ d:</code></pre>
 <p><img src="assets/Ingreso_contraseña_servidor.png" class="img-fluid"></p>
 <p>Si es la primera vez, es posible que le salga un mensaje de advertencia, escriba <em>yes</em>, oprima la tecla <em>Enter</em> y digite la contraseña.</p>
 <p><img src="assets/Autorización_ingreso_contraseñas.png" class="img-fluid"></p>
-<p>Ingreso aprobado al servidor:</p>
+<p>Ingreso exitoso al servidor cuando aparece el enunciado “<em>Have a lot of fun…</em>”:</p>
 <p><img src="assets/Ingreso_aprobado_al_servidor.png" class="img-fluid"></p>
-<p>Es posible que aparezcan una serie de errores como los siguientes:</p>
+<p>Si la conexión no fue exitosa, es posible que aparezcan una serie de mensajes de advertencia como los siguientes:</p>
 <ul>
-<li></li>
+<li><p>Error en la ruta de ejecución del archivo script_conexion. Puede aparecer porque no se modificó el nombre del disco en la <em>ruta de destino</em> en <em>Propiedades</em> del íncono de conexión. Cierre esa ventana, valide la información, cambie lo necesario y vuelva a intentar establecer la conexión.</p>
+<p><img src="assets/Error_conexión_1.png" class="img-fluid"></p></li>
+<li><p>Permisos denegados porque no se ha ejecutado el archivo <em>script_permisos</em></p>
+<p><img src="assets/Error_conexión_2.png" class="img-fluid"></p></li>
+<li><p>Permisos de red a usuarios remotos. Este mensaje de advertencia puede aparecer por</p>
+<p><img src="assets/Error_conexión_3.png" class="img-fluid"></p></li>
+<li><p>s</p></li>
+<li><p>ss</p></li>
 </ul>
-<p>g</p>
 <p>g</p>
 <p>g</p>
 <p>g</p></li>
@@ -908,9 +913,11 @@ LIMIT 10;                                          -- Ajusta o quita el LIMIT se
 FROM gis.lotes l
 LEFT JOIN gis.departamentos d 
     ON l.departamento_principal = d.dpto_ccdgo;</code></pre></li>
-<li><p>5</p></li>
-<li><p>5</p></li>
-<li></li>
+<li><p>Consulta de un cofinca por zona</p>
+<pre><code>SELECT l.*
+FROM gis.lotes l
+-- Se modifica el cofinca y la zona que se desea consultar
+WHERE cofinca = '99999' AND zona_codigo = 4;</code></pre></li>
 </ol>
 </section>
 <section id="consultas-desde-qgis-sql-1" class="level2">
@@ -919,26 +926,26 @@ LEFT JOIN gis.departamentos d
 <li>Dato compartido para poder hacer las uniones y diferentes anaálisis.</li>
 </ol>
 <p>Utilice el panel <strong>DB Manager</strong> para ejecutar SQL y crear vistas materiales.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">MATERIALIZED</span> <span class="kw">VIEW</span> carto.v_veredas_fuente_hidrica <span class="kw">AS</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> fuentes <span class="kw">AS</span> (</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> geom</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> <span class="fu">ref</span>.hidrografia_principal</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>),</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>simplificado <span class="kw">AS</span> (</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> vereda_codigo,</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>         vereda_nombre,</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>         municipio,</span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>         ST_SimplifyPreserveTopology(geom, <span class="dv">5</span>) <span class="kw">AS</span> geom</span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> stg.veredas_norm</span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> s.<span class="op">*</span>, ST_Distance(s.geom, f.geom) <span class="kw">AS</span> distancia_m</span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> simplificado s</span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="kw">CROSS</span> <span class="kw">JOIN</span> LATERAL (</span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> geom</span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> fuentes</span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ORDER</span> <span class="kw">BY</span> s.geom <span class="op">&lt;-&gt;</span> geom</span>
-<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>  <span class="kw">LIMIT</span> <span class="dv">1</span></span>
-<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>) <span class="kw">AS</span> f;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">MATERIALIZED</span> <span class="kw">VIEW</span> carto.v_veredas_fuente_hidrica <span class="kw">AS</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> fuentes <span class="kw">AS</span> (</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> geom</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> <span class="fu">ref</span>.hidrografia_principal</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>),</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>simplificado <span class="kw">AS</span> (</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> vereda_codigo,</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>         vereda_nombre,</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>         municipio,</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>         ST_SimplifyPreserveTopology(geom, <span class="dv">5</span>) <span class="kw">AS</span> geom</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> stg.veredas_norm</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> s.<span class="op">*</span>, ST_Distance(s.geom, f.geom) <span class="kw">AS</span> distancia_m</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> simplificado s</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="kw">CROSS</span> <span class="kw">JOIN</span> LATERAL (</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> geom</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> fuentes</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ORDER</span> <span class="kw">BY</span> s.geom <span class="op">&lt;-&gt;</span> geom</span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>  <span class="kw">LIMIT</span> <span class="dv">1</span></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>) <span class="kw">AS</span> f;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Recargue la vista en QGIS y configure actualizaciones automáticas tras <code>REFRESH MATERIALIZED VIEW</code>.</p>
 </section>
 <section id="salidas-cartográficas" class="level2">
@@ -952,7 +959,7 @@ LEFT JOIN gis.departamentos d
 <section id="integración-con-quarto" class="level2">
 <h2 class="anchored" data-anchor-id="integración-con-quarto">Integración con Quarto</h2>
 <p>Inserte mapas renderizados como imágenes o <code>iframe</code> cuando se publique el libro.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="al">![](reportes_cartografia/20250315_mapa_veredas_tolima.png)</span>{fig-align="center"}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="al">![](reportes_cartografia/20250315_mapa_veredas_tolima.png)</span>{fig-align="center"}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Mantenga activos los enlaces relativos para que GitHub Pages genere el sitio correctamente.</p>
 
 
